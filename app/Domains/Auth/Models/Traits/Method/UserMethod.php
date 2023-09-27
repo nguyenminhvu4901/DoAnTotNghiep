@@ -25,6 +25,16 @@ trait UserMethod
         return $this->type === self::TYPE_ADMIN;
     }
 
+    public function isCurrentRoleStaff(): bool
+    {
+        return $this->current_role === self::ROLE_STAFF;
+    }
+
+    public function isCurrentRoleCustomer(): bool
+    {
+        return $this->current_role === self::ROLE_CUSTOMER;
+    }
+
     /**
      * @return mixed
      */
@@ -99,5 +109,13 @@ trait UserMethod
     public function getAvatar($size = null)
     {
         return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size).'&d=mp';
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->language;
     }
 }

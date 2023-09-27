@@ -101,4 +101,9 @@ class RoleService extends BaseService
 
         throw new GeneralException(__('There was a problem deleting the role.'));
     }
+
+    public function isExistByName(string $name)
+    {
+        return $this->model->where('name', $name)->first();
+    }
 }
