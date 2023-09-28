@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ appName() }} | @yield('title')</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@yield('title') | {{ appName() }}</title>
     <meta name="description" content="@yield('meta_description', appName())">
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/brand/logo.png')}}">
     @yield('meta')
 
     @stack('before-styles')
@@ -22,12 +24,25 @@
     @include('includes.partials.announcements')
 
     <div id="app">
-        @include('frontend.includes.nav')
-        @include('includes.partials.messages')
-
-        <main>
-            @yield('content')
-        </main>
+        @guest
+            <main>
+                @yield('content')
+            </main>
+        @else
+            <div class="wrapper">
+                @include('frontend.includes.sidebar')
+                <!-- Page Content  -->
+                <div id="content-container" class="wrapper-content">
+                    <div id="content">
+                        @include('frontend.includes.nav')
+                        @stack('page-messages')
+                        <main class="pb-3">
+                            @yield('content')
+                        </main>
+                    </div>
+                </div>
+            </div>
+        @endguest
     </div><!--app-->
 
     @stack('before-scripts')

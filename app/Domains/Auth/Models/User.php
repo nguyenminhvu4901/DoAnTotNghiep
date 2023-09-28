@@ -42,6 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail, TwoFactorAuthenti
     public const TYPE_ADMIN = 'admin';
     public const TYPE_USER = 'user';
 
+    public const ROLE_STAFF = 'Staff';
+    public const ROLE_ADMIN = 'Administrator';
+    public const ROLE_CUSTOMER = 'Customer';
+    
+
     /**
      * The attributes that are mass assignable.
      *

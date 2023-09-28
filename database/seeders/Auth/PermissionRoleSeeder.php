@@ -5,6 +5,8 @@ namespace Database\Seeders\Auth;
 use App\Domains\Auth\Models\Permission;
 use App\Domains\Auth\Models\Role;
 use App\Domains\Auth\Models\User;
+use App\Domains\Auth\Services\PermissionService;
+use App\Domains\Auth\Services\RoleService;
 use Database\Seeders\Traits\DisableForeignKeys;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +17,14 @@ class PermissionRoleSeeder extends Seeder
 {
     use DisableForeignKeys;
 
+    protected RoleService $roleService;
+    protected PermissionService $permissionService;
+
+    public function __construct(RoleService $roleService, PermissionService $permissionService)
+    {
+        $this->roleService = $roleService;
+        $this->permissionService = $permissionService;
+    }
     /**
      * Run the database seed.
      */
@@ -23,11 +33,31 @@ class PermissionRoleSeeder extends Seeder
         $this->disableForeignKeys();
 
         // Create Roles
-        Role::create([
-            'id' => 1,
-            'type' => User::TYPE_ADMIN,
-            'name' => 'Administrator',
-        ]);
+        $roleData = [
+            [
+                'id' => 1,
+                'type' => User::TYPE_ADMIN,
+                'name' => User::ROLE_ADMIN,
+            ],
+            [
+                'id' => 2,
+                'type' => User::TYPE_USER,
+                'name' => User::ROLE_STAFF,
+            ],
+            [
+                'id' => 3,
+                'type' => User::TYPE_ADMIN,
+                'name' => User::ROLE_CUSTOMER,
+            ]
+        ];
+
+        foreach($roleData as $eachRole)
+        {
+            if(!$this->roleService->isExistByName($eachRole['name']))
+            {
+                Role::create($eachRole);
+            }
+        }
 
         // Non Grouped Permissions
         //
