@@ -16,4 +16,20 @@ trait UserRelationship
     {
         return $this->morphMany(PasswordHistory::class, 'model');
     }
+
+    /**
+     * @return hasOne
+     */
+    public function staffInfo()
+    {
+        return $this->hasOne(PasswordHistory::class);
+    }
+
+    /**
+     * @return hasOne
+     */
+    public function customerInfo()
+    {
+        return $this->hasOne(PasswordHistory::class);
+    }
 }

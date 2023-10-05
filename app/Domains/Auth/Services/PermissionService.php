@@ -39,4 +39,14 @@ class PermissionService extends BaseService
             ->orderBy('sort', 'asc')
             ->get();
     }
+
+    /**
+     * @param string $name
+     * @param string $type
+     * @return mixed
+     */
+    public function findByNameAndType(string $name, string $type): mixed
+    {
+        return $this->model->where('name', $name)->where('type', $type)->first();
+    }
 }
