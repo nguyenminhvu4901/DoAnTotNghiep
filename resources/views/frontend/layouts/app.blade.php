@@ -30,7 +30,7 @@
             </main>
         @else
             <div class="wrapper">
-                @include('frontend.includes.sidebar')
+                {{-- @include('frontend.includes.sidebar') --}}
                 <!-- Page Content  -->
                 <div id="content-container" class="wrapper-content">
                     <div id="content">
