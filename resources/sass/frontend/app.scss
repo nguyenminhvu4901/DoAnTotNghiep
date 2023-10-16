@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~jquery-ui/themes/base/all.css';
+
+@import './assets';
+
+@import './pages/login';
+@import './layouts/app';
+@import './pages/footer';

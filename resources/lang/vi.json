@@ -187,5 +187,13 @@
     "You can not set a password that you have previously used within the last 3 times.": "Bạn không thể đặt một mật khẩu mà trước đây bạn đã sử dụng trong vòng 3 lần trước.",
     "These credentials do not match our records.": "Những thông tin không phù hợp với hồ sơ của chúng tôi.",
     "Editing :role": "Sửa :role",
-    "Home": "Trang chủ"
+    "Home": "Trang chủ",
+    "Bracelet": "Vòng đeo tay",
+    "Ring": "Nhẫn",
+    "Necklace": "Vòng cổ",
+    "Earrings": "Khuyên tai",
+    "Anklet": "Lắc chân",
+    "Watch": "Đồng hồ đeo tay",
+    "Free Pickup and Delivery Available": "Có sẵn nhận và giao hàng miễn phí",
+    "Quality jewelry": "Trang sức chất lượng"
 }

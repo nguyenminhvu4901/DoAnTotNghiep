@@ -3,9 +3,18 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import $ from 'jquery';
+window.$ = window.jQuery = $;
 
 require('../bootstrap');
+require('./assets');
 require('../plugins');
+require('../index');
+require('./layouts');
+
+$('#datepicker').datepicker();
+
+import 'jquery-ui/ui/widgets/datepicker.js';
 
 import Vue from 'vue';
 
@@ -31,3 +40,12 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ * pdfjs: https://github.com/mozilla/pdf.js/issues/10838#issuecomment-522634611
+ */
+
+

@@ -15,6 +15,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ mix('css/assets/index.scss') }}">
     <livewire:styles />
     @stack('after-styles')
 </head>
@@ -30,7 +31,6 @@
             </main>
         @else
             <div class="wrapper">
-                @include('frontend.includes.sidebar')
                 <!-- Page Content  -->
                 <div id="content-container" class="wrapper-content">
                     <div id="content">
@@ -42,6 +42,9 @@
                     </div>
                 </div>
             </div>
+            <div class="footer">
+                @include('frontend.includes.footer')
+            </div>
         @endguest
     </div><!--app-->
 
@@ -49,6 +52,7 @@
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/frontend.js') }}"></script>
+    <script src="{{ mix('js/assets/index.js') }}"></script>
     <livewire:scripts />
     @stack('after-scripts')
 </body>
