@@ -23,7 +23,6 @@
                                                     maxlength="100" required autofocus autocomplete="name" />
                                             </div>
                                         </div><!--form-group-->
-
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="email" name="email" id="email" class="form-control"
@@ -31,7 +30,6 @@
                                                     maxlength="255" required autocomplete="email" />
                                             </div>
                                         </div><!--form-group-->
-
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="password" name="password" id="password" class="form-control"
@@ -39,7 +37,6 @@
                                                     autocomplete="new-password" />
                                             </div>
                                         </div><!--form-group-->
-
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="password" name="password_confirmation"
@@ -48,7 +45,6 @@
                                                     autocomplete="new-password" />
                                             </div>
                                         </div><!--form-group-->
-
                                         <div class="form-check d-flex justify-content-center mb-5">
                                             <div class="form-check">
                                                 <input type="checkbox" name="terms" value="1" id="terms"
@@ -60,8 +56,10 @@
                                             </div>
                                         </div><!--form-group-->
                                         <div class="d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-primary btn-lg mx-4">@lang('Register')</button>
-                                            <a href="{{ route('frontend.auth.login') }}" class="btn btn-danger btn-lg" type="button">@lang('Back')</a>
+                                            <button type="submit"
+                                                class="btn btn-primary btn-lg mx-4">@lang('Register')</button>
+                                            <a href="{{ route('frontend.auth.login') }}" class="btn btn-danger btn-lg"
+                                                type="button">@lang('Back')</a>
                                         </div>
                                     </form>
                                 </div>
@@ -76,4 +74,5 @@
             </div>
         </div>
     </section>
+
 @endsection

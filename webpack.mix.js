@@ -18,6 +18,13 @@ mix.setPublicPath('public')
     .sass('resources/sass/backend/app.scss', 'css/backend.css')
     .js('resources/js/frontend/app.js', 'js/frontend.js')
     .js('resources/js/backend/app.js', 'js/backend.js')
+    .copyDirectory('resources/js/frontend/pages', 'public/js/pages')
+    .copyDirectory('resources/js/frontend/assets', 'public/js/assets')
+    .copyDirectory('resources/js/frontend/layouts', 'public/js/layouts')
+    .copyDirectory('resources/sass/frontend/pages', 'public/css/pages')
+    .copyDirectory('resources/sass/frontend/assets', 'public/css/assets')
+    .copyDirectory('resources/sass/frontend/layouts', 'public/css/layouts')
+    .copyDirectory('resources/assets/fonts', 'public/fonts')
     .extract([
         'alpinejs',
         'jquery',

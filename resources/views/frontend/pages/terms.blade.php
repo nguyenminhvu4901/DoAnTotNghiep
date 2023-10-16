@@ -13,7 +13,6 @@
 
                     <x-slot name="body">
                         <p>I visited a beautiful jewelry store downtown and was amazed by their stunning collection of rings and necklaces.</p>
-
                     </x-slot>
                 </x-frontend.card>
             </div><!--col-md-10-->
