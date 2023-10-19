@@ -27,6 +27,7 @@
         "rappasoft/lockout": "^3.0",
         "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-permission": "^3.11",
+        "spatie/laravel-sluggable": "^3.5",
         "tabuna/breadcrumbs": "^2.2"
     },
     "require-dev": {
@@ -47,7 +48,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/Global/AppHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
