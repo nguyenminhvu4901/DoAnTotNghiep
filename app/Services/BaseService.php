@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class BaseRepository.
  *
@@ -322,7 +324,7 @@ abstract class BaseService
             $this->query->orderBy($orders['column'], $orders['direction']);
         }
 
-        if (isset($this->take) and ! is_null($this->take)) {
+        if (isset($this->take) and !is_null($this->take)) {
             $this->query->take($this->take);
         }
 
@@ -356,5 +358,36 @@ abstract class BaseService
         $this->take = null;
 
         return $this;
+    }
+
+    /**
+     * @param $str
+     * @return array|string|string[]
+     */
+    public function escapeSpecialCharacter($str): array|string
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $str);
+    }
+
+    /**
+     * Get the specified model record including trash record from the database.
+     *
+     * @param $id
+     * @return Model
+     */
+    public function getByIdWithTrash($id): Model
+    {
+        $this->unsetClauses();
+        $this->newQuery()->eagerLoad();
+        return $this->query->withTrashed()->findOrFail($id);
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    public function getBySlug($slug): mixed
+    {
+        return $this->model->findBySlug($slug);
     }
 }

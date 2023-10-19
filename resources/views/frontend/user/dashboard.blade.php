@@ -32,7 +32,7 @@
                             <li><a href="./contact.html">@lang('Contact')</a></li>
                             <li><a href="#">@lang('Managers')</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">@lang('Categories')</a></li>
+                                    <li><a href="{{ route('frontend.categories.index') }}">@lang('Categories')</a></li>
                                     <li><a href="./shoping-cart.html">@lang('Products')</a></li>
                                     <li><a href="./checkout.html">@lang('Coupons')</a></li>
                                     <li><a href="./blog-details.html">@lang('Orders')</a></li>
