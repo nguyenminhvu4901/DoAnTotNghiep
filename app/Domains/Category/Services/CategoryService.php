@@ -36,6 +36,14 @@ class CategoryService extends BaseService
             ->paginate(config('constants.paginate'));
     }
 
+    public function searchWithTrash(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->latest('id')
+            ->onlyTrashed()
+            ->paginate(config('constants.paginate'));
+    }
+
     public function getAllCategories()
     {
         return $this->model->all();
@@ -88,6 +96,38 @@ class CategoryService extends BaseService
         DB::beginTransaction();
         try {
             $category->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem update course. Please try again.'));
+        }
+
+        return $category;
+    }
+
+    public function restore(Category $category): Category
+    {
+        DB::beginTransaction();
+        try {
+            $category->restore();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem update course. Please try again.'));
+        }
+
+        return $category;
+    }
+
+    public function forceDelete(Category $category): Category
+    {
+        DB::beginTransaction();
+        try {
+            $category->forceDelete();
 
             DB::commit();
         } catch (Exception $e) {

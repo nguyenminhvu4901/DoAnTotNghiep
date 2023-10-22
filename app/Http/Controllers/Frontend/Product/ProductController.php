@@ -29,6 +29,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        
+        $categories = $this->categoryService->getAllCategories();
+        return view('frontend.pages.products.create', ['categories'=> $categories]);
     }
 }

@@ -44,6 +44,9 @@
                                 @lang('Product')
                             </th>
                             <th class="text-center">
+                                @lang('Category')
+                            </th>
+                            <th class="text-center">
                                 @lang('Size')
                             </th>
                             <th class="text-center">
@@ -79,6 +82,9 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $product->name }}
+                                </td>
+                                <td class="text-center align-middle">
+                                    {{ $product->categories->name }}
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $product->productDetails->size }}
@@ -120,7 +126,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center">@lang('Not found data')</td>
+                                <td colspan="12" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

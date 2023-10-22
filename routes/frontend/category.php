@@ -34,4 +34,15 @@ Route::group(['as' => 'categories.', 'prefix' => 'categories',], function () {
     Route::put('{slug}/update', [CategoryController::class, 'update'])->name('update');
 
     Route::delete('{categorySlug}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+
+    Route::get('trash', [CategoryController::class, 'getAllCategoryInTrash'])->name('trash')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Category management'), route('frontend.categories.index'))
+                ->push(__('Achieve Category management'));
+        });
+
+    Route::get('{id}/restore', [CategoryController::class, 'restoreCategory'])->name('restore');
+
+    Route::get('{id}/force-delete', [CategoryController::class, 'forceDeleteCategory'])->name('forceDelete');
 });

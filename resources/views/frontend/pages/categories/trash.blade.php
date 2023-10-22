@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('Category management')
+                @lang('Category management in trash')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -25,12 +25,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-primary rounded-10"
-                    href="{{ route('frontend.categories.create') }}">@lang('Create new category')</a>
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.categories.trash') }}">@lang('Category archive')</a>
             </div>
         </div>
         <div class="px-3 pb-3 pt-0">
@@ -49,7 +43,10 @@
                                 @lang('Created date')
                             </th>
                             <th class="text-center">
-                                @lang('Update')
+                                @lang('Deleted date')
+                            </th>
+                            <th class="text-center">
+                                @lang('Restore')
                             </th>
                             <th class="text-center">
                                 @lang('Delete')
@@ -71,22 +68,30 @@
                                     {{ $category->formatted_created_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.categories.edit', ['categorySlug' => $category->slug]) }}">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                    {{ $category->formatted_deleted_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <form
-                                        action="{{ route('frontend.categories.destroy', ['categorySlug' => $category->slug]) }}"
-                                        method="POST">
+                                    <form action="{{ route('frontend.categories.restore', ['id' => $category->id]) }}"
+                                        method="GET">
                                         @csrf
-                                        @method('DELETE')
+                                        <button type="button" class="btn btn-link" href="#modalRestore" class="trigger-btn"
+                                            data-toggle="modal">
+                                            <i class="fas fa-trash-restore"></i>
+                                        </button>
+                                        @include('frontend.includes.modal.modal-restore')
+                                    </form>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <form action="{{ route('frontend.categories.forceDelete', ['id' => $category->id]) }}"
+                                        method="GET">
+                                        @csrf
                                         <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
                                         @include('frontend.includes.modal.modal-delete')
                                     </form>
+
                                 </td>
                             </tr>
                         @empty

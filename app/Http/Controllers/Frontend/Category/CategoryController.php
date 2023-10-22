@@ -62,4 +62,30 @@ class CategoryController extends Controller
 
         return redirect()->route('frontend.categories.index')->withFlashSuccess(__('Successfully deleted.'));
     }
+
+    public function getAllCategoryInTrash(Request $request)
+    {
+        $categories = $this->categoryService->searchWithTrash($request->all());
+        return view('frontend.pages.categories.trash', compact('categories'));
+    }
+
+    public function restoreCategory($id)
+    {
+        $category = $this->categoryService->getByIdWithTrash($id);
+        abort_if(!$category, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->categoryService->restore($category);
+
+        return redirect()->route('frontend.categories.index')->withFlashSuccess(__('Successfully restored.'));
+    }
+
+    public function forceDeleteCategory($id)
+    {
+        $category = $this->categoryService->getByIdWithTrash($id);
+        abort_if(!$category, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->categoryService->forceDelete($category);
+
+        return redirect()->route('frontend.categories.trash')->withFlashSuccess(__('Successfully deleted.'));
+    }
 }

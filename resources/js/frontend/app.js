@@ -11,6 +11,7 @@ require('./assets');
 require('../plugins');
 require('../index');
 require('./layouts');
+require('bootstrap-show-password');
 
 $('#datepicker').datepicker();
 

@@ -5,7 +5,7 @@
             @lang('Category')
         </label>
         <div class="pl-3 w-75">
-            <select data-selected="{{ json_encode(request('status')) }}" multiple name="categories[]"
+            <select multiple name="categories[]"
                     data-placeholder="@lang('Category')" class="form-control w-100 filter-select">
                 @foreach ($categories as $category)
                     <option value="{{ $category->slug }}">

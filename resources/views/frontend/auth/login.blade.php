@@ -3,7 +3,7 @@
 @section('title', __('Login'))
 
 @section('content')
-    <div class="wrapper">
+    <div>
         <section class="vh-100">
             <div class="container-fluid h-custom">
                 <div class="row d-flex justify-content-center align-items-center vh-100">
@@ -28,7 +28,7 @@
                             <div class="form-outline mb-3">
                                 <input type="password" name="password" id="password" class="form-control"
                                     placeholder="{{ __('Password') }}" maxlength="100" required
-                                    autocomplete="current-password" />
+                                    autocomplete="current-password" data-toggle="password"/>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center">
