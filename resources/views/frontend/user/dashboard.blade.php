@@ -3,20 +3,13 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
     <!-- Header Section Begin -->
     <header class="header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="header__logo">
-                        <img src="{{ asset('img/logo/logo-bg.png') }}" alt="" width="80px">
-                    </div>
+                <div class="col-lg-2">
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.html">@lang('Home')</a></li>
@@ -44,7 +37,6 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                             <li><a href="#"><i class="fas fa-shopping-cart"></i> <span>3</span></a></li>
                         </ul>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
@@ -62,24 +54,8 @@
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>@lang('All categories')</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">@lang('Bracelet')</a></li>
-                            <li><a href="#">@lang('Ring')</a></li>
-                            <li><a href="#">@lang('Necklace')</a></li>
-                            <li><a href="#">@lang('Earrings')</a></li>
-                            <li><a href="#">@lang('Anklet')</a></li>
-                            <li><a href="#">@lang('Watch')</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__item set-bg" data-setbg="{{ asset('img/header/jewelry.png')}}">
+                <div class="col-lg-12">
+                    <div class="hero__item set-bg" data-setbg="{{ asset('img/header/jewelry.png') }}">
                         <div class="hero__text">
                             <h2>@lang('Quality jewelry')</h2>
                             <h5>@lang('Free Pickup and Delivery Available')</h5>

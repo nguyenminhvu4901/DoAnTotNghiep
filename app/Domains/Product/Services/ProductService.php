@@ -1,27 +1,33 @@
 <?php
 
-namespace App\Domains\Category\Services;
+namespace App\Domains\Product\Services;
 
 use Exception;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
+use App\Domains\Product\Models\Product;
 use App\Domains\Category\Models\Category;
 
 /**
  * Class CategoryService.
  */
-class CategoryService extends BaseService
+class ProductService extends BaseService
 {
+    protected Category $category;
+
     /**
      * CategoryService constructor.
      *
      * @param Category $category
+     * @param Product $product
      */
     public function __construct(
-        Category $category,
+        Product $product,
+        Category $category
     ) {
-        $this->model = $category;
+        $this->model = $product;
+        $this->category = $category;
     }
 
     public function getLatestCategory()
@@ -34,11 +40,6 @@ class CategoryService extends BaseService
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
             ->latest('id')
             ->paginate(config('constants.paginate'));
-    }
-
-    public function getAllCategories()
-    {
-        return $this->model->all();
     }
 
     public function store(array $data = []): Category

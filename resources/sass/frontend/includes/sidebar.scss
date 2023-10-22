@@ -1,0 +1,186 @@
+:root {
+    --width-checkbox: 13px;
+    --height-checkbox: 13px
+}
+
+/* ---------------------------------------------------
+      SIDEBAR STYLE
+  ----------------------------------------------------- */
+
+#sidebarContainerCollapse {
+    display: none;
+}
+
+#sidebar-container {
+    width: 20%;
+    position: sticky;
+    top: calc(2.5vh + 20px);
+    align-self: flex-start;
+    margin-left: 20px;
+    transition: all 0.3s;
+}
+
+#sidebar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#sidebar {
+    scrollbar-width: none;
+    border-radius: 30px;
+    background: var(--white);
+    height: 90%;
+
+    #sidebar-nix-logo {
+        width: min(15vh, 15vw);
+        height: min(15vh, 15vw);
+    }
+
+    #sidebar-avatar {
+        width: min(12vh, 12vw);
+        height: min(12vh, 12vw);
+    }
+
+    #sidebar-name {
+        color: var(--core-black);
+        text-align: center;
+        font-size: min(1.8vh, 1.8vw);
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    #sidebar-role {
+        font-size: min(1.5vw, 1.5vh);
+        color: var(--route-grey);
+        text-align: center;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+    }
+
+    .sidebar-route-svg {
+        width: min(2.5vh, 2.5vw);
+        height: min(2.5vh, 2.5vw);
+    }
+
+    .sidebar-icon {
+        width: min(2.5vh, 2.5vw);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sidebar-route-normal {
+        color: var(--route-grey);
+        font-style: normal;
+        font-size: min(1.8vh, 1.8vw);
+        font-weight: 400;
+        line-height: normal;
+        padding: 5px;
+    }
+
+    /**
+    https://codepen.io/sosuke/pen/Pjoqqp <-- filter calculator,
+    prepends brightness(0) saturate(100%) to prepare black based color
+     */
+    .sidebar-route-selected {
+        color: var(--route-blue);
+        font-size: min(1.8vh, 1.8vw);
+        font-weight: 500;
+        line-height: normal;
+        padding: 5px;
+
+        img {
+            filter: brightness(0) saturate(100%) invert(22%) sepia(60%) saturate(2693%) hue-rotate(192deg) brightness(103%) contrast(89%);
+        }
+    }
+
+}
+
+#sidebar-container.active {
+    margin-left: -20%;
+}
+
+.hidden-scroll-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-setting {
+    width: 360px !important;
+    transition: width 0.5s ease;
+}
+
+.sidebar-item {
+    height: 45vh
+}
+
+/**
+    SIDEBAR & NAVBAR STUDENT
+   */
+
+.course-content {
+    font-size: 1rem;
+    color: var(--deep-blue);
+}
+
+.sidebar-list-lesson {
+    height: 65vh;
+}
+
+.btn-student-sidebar-expand {
+    top: 50vh;
+}
+
+.text-sidebar {
+    font-size: 14px;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    line-height: 24px;
+    word-wrap: break-word
+}
+
+.text-lesson-sidebar {
+    font-size: 14px;
+    line-height: 21px;
+    word-wrap: break-word;
+    color: var(--core-black);
+}
+
+.checkbox-lesson {
+    width: var(--width-checkbox);
+    height: var(--height-checkbox);
+}
+
+.nav-text-user {
+    color: var(--route-blue);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    word-wrap: break-word
+}
+
+.nav-text-role {
+    color: var(--logout-color);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    word-wrap: break-word
+}
+
+.text-breadcrumbs {
+    font-weight: 500;
+    line-height: 12px;
+    letter-spacing: 0.50px;
+    word-wrap: break-word
+}
+
+.duration-lesson {
+    margin-left: var(--width-checkbox);
+}
+
+.toggle-lesson:hover,
+.toggle-activity:hover,
+.toggle-section:hover {
+    background-color: var(--comment-color);
+}

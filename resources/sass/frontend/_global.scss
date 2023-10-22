@@ -1,7 +1,430 @@
 #breadcrumbs {
-    background-color: #e9ecef;
+    background-color: var(--breadcrumb);
 }
 
 .alert.header-message {
     border-radius: 0 !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+th {
+    font-weight: 500;
+    line-height: 21px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+// Restyle for select2
+
+.select2-container {
+    width: 100% !important;
+}
+
+// end Restyle for select2
+
+/**
+    Because elements in figma looks
+    rounder than rounded class in Bootstrap
+ */
+.custom-rounded {
+    border-radius: 8px !important;
+}
+
+.rounded-10 {
+    border-radius: 10px !important;
+}
+
+.rounded-10-right {
+    border-bottom-right-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+}
+
+.rounded-10-left {
+    border-bottom-left-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+}
+
+.rounded-16 {
+    border-radius: 16px !important;
+}
+
+/**
+  Custom gray color
+  for a wide variety of boxes, forms
+ */
+.custom-bg-gray {
+    background-color: var(--white-f9);
+}
+
+.text-gray-reader {
+    color: var(--gray-reader);
+}
+
+.text-gray {
+    color: var(--logout-color);
+}
+
+.bg-gray-f3 {
+    background-color: var(--white-f3);
+}
+
+.bg-gray-d9 {
+    background-color: var(--grey-box);
+}
+
+/**
+    Styled for append input buttons
+ */
+.input-group .input-group-append button {
+    border: 1px solid var(--border-input);
+}
+
+.custom-bg-blue {
+    background-color: var(--route-blue);
+}
+
+.custom-faint-blue {
+    color: var(--faint-blue);
+}
+
+.custom-faint-blue-force {
+    color: var(--faint-blue) !important;
+}
+
+.custom-opacity-50 {
+    opacity: 0.5;
+}
+
+/**
+    Increase Z-index for dropdown
+ */
+.dropdown-menu {
+    z-index: 2000 !important;
+}
+
+.custom-hidden {
+    display: none !important;
+}
+
+.custom-red-border {
+    border-color: red;
+    border-width: 2px;
+    border-style: dotted;
+}
+
+/**
+    Menu dropdown styles
+ */
+.menu-parent i {
+    transition: all 0.3s;
+}
+
+.menu-parent.active i:not(:first-child) {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.col-spacing {
+    .col {
+        padding: 4px;
+    }
+}
+
+.required {
+    color: var(--danger)
+}
+
+.gray-box {
+    background-color: var(--white-f9);
+    border-radius: 8px;
+}
+
+.custom-friar-grey {
+    color: var(--friar-grey);
+}
+
+.custom-vh-50 {
+    height: 50vh;
+}
+
+.custom-max-vh-50 {
+    max-height: 50vh;
+}
+
+.custom-vh-55 {
+    height: 55vh;
+}
+
+.custom-vh-75 {
+    height: 75vh;
+}
+
+.max-vh-75 {
+    max-height: 75vh;
+}
+
+.custom-extra-round {
+    border-radius: 15px !important;
+}
+
+.dotted-black-border-1px {
+    border-style: dotted;
+    border-color: black;
+    border-width: 1px;
+}
+
+.nice-input-border {
+    border: 1px solid var(--border-input);
+}
+
+/**
+  Not display:none as in bootstrap's hidden
+ */
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.custom-error-box {
+    border: 1px red solid !important;
+}
+
+.max-content {
+    width: max-content;
+}
+
+.custom-ckeditor {
+    .ck-editor__editable_inline {
+        min-height: 200px !important;
+    }
+}
+
+.d-flex-not-important {
+    display: flex;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.h-90 {
+    height: 90%;
+}
+
+.w-95 {
+    width: 95%;
+}
+
+.color-endeavour-blue {
+    color: var(--endeavour-blue);
+}
+
+.bg-white-wannabe-grey {
+    background-color: var(--white-wannabe-grey);
+}
+
+.border-2px-solid-blue {
+    border: 2px solid var(--endeavour-blue);
+}
+
+.border-1px-solid-gray-5A {
+    border: 2px solid var(--gray-5A);
+}
+
+.color-red-pink {
+    color: var(--red-pink);
+}
+
+.border-2px-solid-red {
+    border: 2px solid var(--red-pink);
+}
+
+.border-bottom-2px-white {
+    border-bottom: 2px solid var(--white);
+}
+
+.border-bottom-2px-light-gray {
+    border-bottom: 2px solid var(--white-wannabe-grey);
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+.thin-scrollbar-lg::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.thin-scrollbar-thumb-white::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: var(--white);
+}
+
+.thin-scrollbar-thumb-light-gray::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: lightgray;
+}
+
+.thin-scrollbar-thumb-route-gray::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: var(--route-grey);
+}
+
+.thin-scrollbar {
+    scrollbar-width: thin;
+}
+
+.max-width-100 {
+    max-width: 100% !important;
+}
+
+.form-check-green {
+    accent-color: rgb(91, 162, 91, 1) !important;
+}
+
+.student-table {
+    width: 100%;
+    margin-bottom: 1rem;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        thead {
+            border-bottom: 1px solid var(--light-grey);
+        }
+        th, td {
+            padding: 10px 20px 10px 20px;
+            .description {
+                color: var(--gray);
+            }
+        }
+        th {
+            color: var(--grey-b5);
+        }
+    }
+}
+
+.pointer-event-none {
+    pointer-events: none !important;
+}
+
+.font-weight-400 {
+    font-weight: 400;
+}
+
+.cursor-grabbing {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.shape-rectangle {
+    border-radius: 8px;
+}
+
+.shape-asym {
+    border-radius: 20px 80px 80px 20px;
+}
+
+.shape-asym-2 {
+    border-radius: 30px 5px 30px 5px;
+}
+
+.shape-asym-3 {
+    border-radius: 30px 30px 5px 5px;
+}
+
+.shape-pill {
+    border-radius: 80px;
+}
+
+.shape-asym, .shape-asym-2, .shape-asym-3, .shape-pill, .shape-rectangle {
+    border: 1px solid var(--border-input);
+    min-width: 70px;
+    min-height: 30px;
+    max-width: 140px;
+    word-break: break-word;
+    padding: 10px;
+}
+
+.min-h-fix-200px {
+    min-height: 200px;
+}
+.h-fix-200px {
+    height: 200px;
+}
+.max-h-fix-750 {
+    max-height: 750px;
+}
+.max-h-50vh {
+    max-height: 50vh;
+}
+.h-fix-750 {
+    height: 750px;
+}
+
+.min-h-fix-50 {
+    min-height: 50px;
+}
+
+.quiz-text-box-answer, .quiz-text-box, .quiz-text-box-filled {
+    min-height: 30px;
+    min-width: 50px;
+}
+
+.quiz-text-box-filled, .quiz-text-box {
+    position: relative;
+    display: inline-block;
+}
+
+.quiz-text-box {
+    top: 10px;
+    border: 1px solid var(--border-input);
+}
+
+.cursor-all-scroll {
+    cursor: all-scroll;
+}
+
+.font-weight-700 {
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700 !important;
+}
+
+.font-weight-600 {
+    -webkit-font-smoothing: antialiased;
+    font-weight: 600 !important;
+}
+
+/**
+ MODAL
+*/
+
+.custom-modal-header {
+    background-color: var(--logo-color);
+}
+
+.btn-footer-modal {
+    min-width: 5rem !important;
+}
+
+.smooth-scrolling {
+    scroll-behavior:smooth
+}
+
+.btn-status {
+    min-width: 110px;
+}
+
+.width-fit-content {
+    width: fit-content;
 }

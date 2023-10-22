@@ -1,32 +1,34 @@
 <?php
 
-namespace App\Domains\Category\Models;
+namespace App\Domains\Product\Models;
 
-use App\Domains\Category\Models\Traits\Attribute\CategoryAttribute;
-use App\Domains\Category\Models\Traits\Relationship\CategoryRelationship;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Domains\Category\Models\Traits\Scope\CategoryScope;
+use App\Domains\Product\Models\Traits\Scope\ProductScope;
+use App\Domains\Product\Models\Traits\Attribute\ProductAttribute;
+use App\Domains\Product\Models\Traits\Relationship\ProductRelationship;
 
 /**
  * Class Announcement.
  */
-class Category extends Model
+class Product extends Model
 {
-    use HasFactory, 
-    HasSlug,
-    SoftDeletes,
-    CategoryScope,
-    CategoryAttribute,
-    CategoryRelationship;
+    use HasFactory,
+        HasSlug,
+        SoftDeletes,
+        ProductAttribute,
+        ProductRelationship,
+        ProductScope;
 
-    protected $table = "categories";
+    protected $table = "products";
+
     protected $fillable = [
         'name',
         'slug',
+        'description',
         'creator_id',
     ];
 
