@@ -4,11 +4,12 @@ namespace App\Domains\Product\Models\Traits\Relationship;
 
 use App\Domains\Auth\Models\User;
 use App\Domains\Category\Models\Category;
+use App\Domains\ProductImage\Models\ProductImage;
+use App\Domains\ProductDetail\Models\ProductDetal;
+use App\Domains\ProductDetail\Models\ProductDetail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Domains\CategoryProduct\Models\CategoryProduct;
-use App\Domains\ProductDetail\Models\ProductDetal;
-use App\Domains\ProductImage\Models\ProductImage;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait ProductRelationship
@@ -26,9 +27,9 @@ trait ProductRelationship
         return $this->belongsToMany(Category::class, CategoryProduct::class);
     }
 
-    public function productDetails(): HasMany
+    public function productDetail(): HasMany
     {
-        return $this->hasMany(ProductDetal::class,'product_id','id');
+        return $this->hasMany(ProductDetail::class);
     }
 
     public function productImages(): HasMany
@@ -46,7 +47,7 @@ trait ProductRelationship
         $this->categories()->detach($categories);
     }
 
-    public function syncCategories(array $categories): void
+    public function syncCategories($categories): void
     {
         $this->categories()->sync($categories);
     }

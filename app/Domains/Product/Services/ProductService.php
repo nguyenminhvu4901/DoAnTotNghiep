@@ -17,10 +17,9 @@ class ProductService extends BaseService
     protected Category $category;
 
     /**
-     * CategoryService constructor.
-     *
-     * @param Category $category
+     * ProductService constructor.
      * @param Product $product
+     * @param Category $category
      */
     public function __construct(
         Product $product,
@@ -38,15 +37,18 @@ class ProductService extends BaseService
     public function search(array $data = [])
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->with('categories', 'productDetail')
             ->latest('id')
             ->paginate(config('constants.paginate'));
     }
 
-    public function store(array $data = []): Category
+    public function store(array $data = []): Product
     {
         DB::beginTransaction();
         try {
-            $category = $this->createCategory($data);
+            $product = $this->createProduct($data);
+
+            $product->syncCategories($data['category'] ?? []);
 
             DB::commit();
         } catch (Exception $e) {
@@ -55,7 +57,7 @@ class ProductService extends BaseService
             throw new GeneralException(__('There was a problem creating category. Please try again.'));
         }
 
-        return $category;
+        return $product;
     }
 
     public function update(Category $category, array $data = []): Category
@@ -76,10 +78,11 @@ class ProductService extends BaseService
         return $category;
     }
 
-    protected function createCategory(array $data = []): Category
+    protected function createProduct(array $data = []): Product
     {
         return $this->model->create([
             'name' => $data['name'],
+            'description' => $data['description'],
             'creator_id' => auth()->user()->id,
         ]);
     }

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Domains\ProductDetail\Models\Traits\Relationship\ProductDetailRelationship;
 
 /**
- * Class Announcement.
+ * Class ProductDetail.
  */
-class ProductDetal extends Model
+class ProductDetail extends Model
 {
     use HasFactory,
         SoftDeletes,

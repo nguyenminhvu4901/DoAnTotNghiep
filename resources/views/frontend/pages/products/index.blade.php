@@ -47,25 +47,13 @@
                                 @lang('Category')
                             </th>
                             <th class="text-center">
-                                @lang('Size')
-                            </th>
-                            <th class="text-center">
-                                @lang('Color')
-                            </th>
-                            <th class="text-center">
-                                @lang('Quantity')
-                            </th>
-                            <th class="text-center">
-                                @lang('Price')
-                            </th>
-                            <th class="text-center">
-                                @lang('Sale')
-                            </th>
-                            <th class="text-center">
                                 @lang('Created by')
                             </th>
                             <th class="text-center">
                                 @lang('Created date')
+                            </th>
+                            <th class="text-center">
+                                @lang('Option')
                             </th>
                             <th class="text-center">
                                 @lang('Update')
@@ -78,28 +66,13 @@
                     <tbody>
                         @forelse($products as $product)
                             <tr>
-                                <td class="text-center align-middle">{{ $loop->iteration + $product->firstItem() - 1 }}
+                                <td class="text-center align-middle">{{ $loop->iteration + $products->firstItem() - 1 }}
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $product->name }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $product->categories->name }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $product->productDetails->size }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $product->productDetails->color }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $product->productDetails->quantity }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $product->productDetails->price }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $product->productDetails->sale }}
+                                    {{ optional($product->categories()->pluck('name'))->first() ?? __('There are no categories') }}
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $product->created_by }}
@@ -108,25 +81,32 @@
                                     {{ $product->formatted_created_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.categories.edit', ['productSlug' => $product->slug]) }}">
+                                    <a href="{{ route('frontend.products.edit', ['slug' => $product->slug]) }}">
+                                        <i class="fas fa-plus" style="color: #02f232;"></i>
+                                    </a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href="{{ route('frontend.products.edit', ['slug' => $product->slug]) }}">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">
                                     <form
-                                        action="{{ route('frontend.categories.destroy', ['productSlug' => $product->slug]) }}"
+                                        action="{{ route('frontend.products.destroy', ['slug' => $product->slug]) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-link">
+                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
+                                            data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
+                                        @include('frontend.includes.modal.modal-delete')
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="12" class="text-center">@lang('Not found data')</td>
+                                <td colspan="7" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

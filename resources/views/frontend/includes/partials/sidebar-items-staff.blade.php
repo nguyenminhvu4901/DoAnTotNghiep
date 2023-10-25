@@ -162,7 +162,13 @@
         </div>
     </a>
 </div> --}}
-
+<a class="d-flex mb-3 menu-parent @if (isCurrentRouteInRoutes('frontend.user.dashboard')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+    href="{{ route('frontend.user.dashboard') }}">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-columns  fa-lg sidebar-icon"></i>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Dashboard')</div>
+    </div>
+</a>
 <a class="d-flex mb-3 @if (isCurrentRouteInRoutes('frontend.categories.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
     href="{{ route('frontend.categories.index') }}">
     <div class="d-flex align-items-center">
@@ -178,10 +184,11 @@
         <i class="ml-2 fa fa-angle-down " aria-hidden="true"></i>
     </div>
 </a>
-<div id="course-management-items" class="sidebar-items-collapse collapse pl-4">
-    <a class="d-flex mb-3 sidebar-route-normal  text-lg" href="{{ route('frontend.products.index') }}">
+<div id="course-management-items" class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.products.*')) show @endif text-lg">
+    <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.products.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+        href="{{ route('frontend.products.index') }}">
         <div class="d-flex align-items-center">
-            <i class="far fa-folder fa-lg sidebar-icon"></i>
+            <i class="fas fa-box fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('All Products')</div>
         </div>
     </a>
