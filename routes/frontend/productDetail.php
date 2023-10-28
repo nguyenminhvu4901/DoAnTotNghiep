@@ -2,36 +2,48 @@
 
 use Tabuna\Breadcrumbs\Trail;
 use App\Http\Controllers\Frontend\Product\ProductController;
+use App\Http\Controllers\Frontend\ProductDetail\ProductDetailController;
 
 /*
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'.
  */
 
-Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['auth']], function () {
-    Route::get('index', [ProductController::class, 'index'])->name('index')
+Route::group(['as' => 'productDetails.', 'prefix' => 'product-details', 'middleware' => ['auth']], function () {
+    Route::get('index', [ProductDetailController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product management'), route('frontend.products.index'));
+                ->push(__('Product detail management'), route('frontend.productDetails.index'));
         });
 
-    Route::get('create', [ProductController::class, 'create'])->name('create')
+    Route::get('{slug}/create', [ProductDetailController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product management'), route('frontend.products.index'))
-                ->push(__('Create new Product'));
+                ->push(__('Product detail management'), route('frontend.productDetails.index'))
+                ->push(__('Create new Option Product'));
         });
 
-    Route::post('store', [ProductController::class, 'store'])->name('store');
+    Route::post('{id}/store', [ProductDetailController::class, 'store'])->name('store');
 
-    Route::get('{slug}/edit', [ProductController::class, 'edit'])->name('edit')
+    Route::get('{slug}/{id}/edit', [ProductDetailController::class, 'edit'])->name('edit')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product management'), route('frontend.products.index'))
-                ->push(__('Update Product'));
+                ->push(__('Product detail management'), route('frontend.productDetails.index'))
+                ->push(__('Update Option Product'));
         });
 
-    Route::put('{slug}/update', [ProductController::class, 'update'])->name('update');
+    Route::put('{productId}/{productDetailId}/update', [ProductDetailController::class, 'update'])->name('update');
 
-    Route::delete('{slug}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+    Route::delete('{id}/destroy', [ProductDetailController::class, 'destroy'])->name('destroy');
+
+    Route::get('trash', [ProductDetailController::class, 'getAllProductDetailInTrash'])->name('trash')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Product detail management'), route('frontend.productDetails.index'))
+                ->push(__('Achieve Product Management'));
+        });
+
+    Route::get('{id}/restore', [ProductDetailController::class, 'restoreProductDetail'])->name('restore');
+
+    Route::get('{id}/force-delete', [ProductDetailController::class, 'forceDeleteProductDetail'])->name('forceDelete');
 });

@@ -21,7 +21,7 @@ class CreateProductDetailTable extends Migration
             $table->integer('quantity');
             $table->double('price');
             $table->double('sale')->nullable();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Create new category'))
+@section('title', __('Create new product'))
 
 @section('content')
     <div class="mt-4 p-3 container">

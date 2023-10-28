@@ -34,6 +34,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^40.0.0",
         "bootstrap-show-password": "^1.2.1",
         "owl.carousel": "^2.3.4"
     }

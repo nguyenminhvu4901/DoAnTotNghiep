@@ -1,11 +1,11 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Update category'))
+@section('title', __('EDIT CATEGORY'))
 
 @section('content')
     <div class="mt-4 p-3 container">
         <div class="p-3 pl-2 font-weight-bold">
-            <h3><strong>@lang('Update category')</strong></h3>
+            <h3><strong>@lang('EDIT CATEGORY')</strong></h3>
         </div><!--row-->
 
         <div class="container p-3">

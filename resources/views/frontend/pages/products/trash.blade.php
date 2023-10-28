@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('PRODUCT MANAGEMENT'))
+@section('title', __('product management'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('PRODUCT MANAGEMENT')
+                @lang('product management')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -26,12 +26,6 @@
                         @include('frontend.pages.products.partials.show-modal-filter')
                     </form>
                 </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-primary rounded-10"
-                    href="{{ route('frontend.products.create') }}">@lang('Create New Product')</a>
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.products.trash') }}">@lang('Product Archive')</a>
             </div>
         </div>
         @include('frontend.pages.products.partials.show-tag-filter')
@@ -54,10 +48,7 @@
                                 @lang('Created date')
                             </th>
                             <th class="text-center">
-                                @lang('Option')
-                            </th>
-                            <th class="text-center">
-                                @lang('Update')
+                                @lang('Restore')
                             </th>
                             <th class="text-center">
                                 @lang('Delete')
@@ -82,21 +73,20 @@
                                     {{ $product->formatted_created_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.productDetails.create', ['slug' => $product->slug]) }}">
-                                        <i class="fas fa-plus" style="color: #02f232;"></i>
-                                    </a>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.products.edit', ['slug' => $product->slug]) }}">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <form
-                                        action="{{ route('frontend.products.destroy', ['slug' => $product->slug]) }}"
-                                        method="POST">
+                                    <form action="{{ route('frontend.products.restore', ['id' => $product->id]) }}"
+                                        method="GET">
                                         @csrf
-                                        @method('DELETE')
+                                        <button type="button" class="btn btn-link" href="#modalRestore" class="trigger-btn"
+                                            data-toggle="modal">
+                                            <i class="fas fa-trash-restore"></i>
+                                        </button>
+                                        @include('frontend.includes.modal.modal-restore')
+                                    </form>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <form action="{{ route('frontend.products.forceDelete', ['id' => $product->id]) }}"
+                                        method="GET">
+                                        @csrf
                                         <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
@@ -107,7 +97,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">@lang('Not found data')</td>
+                                <td colspan="7" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

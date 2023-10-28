@@ -4,7 +4,9 @@ namespace App\Domains\ProductDetail\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Domains\ProductDetail\Models\Traits\Scope\ProductDetailScope;
 use App\Domains\ProductDetail\Models\Traits\Relationship\ProductDetailRelationship;
 
 /**
@@ -13,8 +15,10 @@ use App\Domains\ProductDetail\Models\Traits\Relationship\ProductDetailRelationsh
 class ProductDetail extends Model
 {
     use HasFactory,
+        HasRelationships,
         SoftDeletes,
-        ProductDetailRelationship;
+        ProductDetailRelationship,
+        ProductDetailScope;
 
     protected $table = "product_detail";
 

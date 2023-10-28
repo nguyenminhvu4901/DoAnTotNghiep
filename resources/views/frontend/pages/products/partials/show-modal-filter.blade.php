@@ -5,10 +5,10 @@
             @lang('Category')
         </label>
         <div class="pl-3 w-75">
-            <select multiple name="categories[]"
+            <select data-selected="{{ json_encode(request('category')) }}" multiple name="categories[]"
                     data-placeholder="@lang('Category')" class="form-control w-100 filter-select">
                 @foreach ($categories as $category)
-                    <option value="{{ $category->slug }}">
+                    <option value="{{ $category->slug }}" @if (in_array($category->slug, request('categories') ?? [])) selected @endif>
                         {{ __($category->name) }}
                     </option>
                 @endforeach
@@ -16,3 +16,5 @@
         </div>
     </div>
 @endsection
+
+

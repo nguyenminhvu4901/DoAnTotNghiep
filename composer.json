@@ -28,6 +28,7 @@
         "spatie/laravel-activitylog": "^3.14",
         "spatie/laravel-permission": "^3.11",
         "spatie/laravel-sluggable": "^3.5",
+        "staudenmeir/eloquent-has-many-deep": "^1.7",
         "tabuna/breadcrumbs": "^2.2"
     },
     "require-dev": {

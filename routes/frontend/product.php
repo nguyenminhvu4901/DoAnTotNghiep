@@ -34,4 +34,15 @@ Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['aut
     Route::put('{slug}/update', [ProductController::class, 'update'])->name('update');
 
     Route::delete('{slug}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+
+    Route::get('trash', [ProductController::class, 'getAllProductInTrash'])->name('trash')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Product management'), route('frontend.products.index'))
+                ->push(__('Achieve Product Management'));
+        });
+
+    Route::get('{id}/restore', [ProductController::class, 'restoreProduct'])->name('restore');
+
+    Route::get('{id}/force-delete', [ProductController::class, 'forceDeleteProduct'])->name('forceDelete');
 });

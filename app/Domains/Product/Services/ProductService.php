@@ -15,7 +15,6 @@ use App\Domains\Category\Models\Category;
 class ProductService extends BaseService
 {
     protected Category $category;
-
     /**
      * ProductService constructor.
      * @param Product $product
@@ -37,7 +36,22 @@ class ProductService extends BaseService
     public function search(array $data = [])
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
             ->with('categories', 'productDetail')
+            ->latest('id')
+            ->paginate(config('constants.paginate'));
+    }
+
+    public function searchWithTrash(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
+            ->with('categories', 'productDetail')
+            ->onlyTrashed()
             ->latest('id')
             ->paginate(config('constants.paginate'));
     }
@@ -54,28 +68,29 @@ class ProductService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating category. Please try again.'));
+            throw new GeneralException(__('There was a problem creating product. Please try again.'));
         }
 
         return $product;
     }
 
-    public function update(Category $category, array $data = []): Category
+    public function update(Product $product, array $data = []): Product
     {
         DB::beginTransaction();
         try {
-            $category->update([
+            $product->update([
                 'name' => $data['name'],
+                'description' => $data['description']
             ]);
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem update product. Please try again.'));
         }
 
-        return $category;
+        return $product;
     }
 
     protected function createProduct(array $data = []): Product
@@ -87,11 +102,27 @@ class ProductService extends BaseService
         ]);
     }
 
-    public function delete(Category $category): Category
+    public function delete(Product $product): Product
     {
         DB::beginTransaction();
         try {
-            $category->delete();
+            $product->delete();
+            $product->syncCategories([]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem delete product. Please try again.'));
+        }
+
+        return $product;
+    }
+
+    public function restore(Product $product): Product
+    {
+        DB::beginTransaction();
+        try {
+            $product->restore();
 
             DB::commit();
         } catch (Exception $e) {
@@ -100,6 +131,27 @@ class ProductService extends BaseService
             throw new GeneralException(__('There was a problem update course. Please try again.'));
         }
 
-        return $category;
+        return $product;
+    }
+
+    public function forceDelete(Product $product): Product
+    {
+        DB::beginTransaction();
+        try {
+            $product->forceDelete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem update course. Please try again.'));
+        }
+
+        return $product;
+    }
+
+    public function getAllProducts()
+    {
+        return $this->model->all();
     }
 }

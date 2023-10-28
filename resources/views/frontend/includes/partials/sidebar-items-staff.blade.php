@@ -184,7 +184,8 @@
         <i class="ml-2 fa fa-angle-down " aria-hidden="true"></i>
     </div>
 </a>
-<div id="course-management-items" class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.products.*')) show @endif text-lg">
+<div id="course-management-items"
+    class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.products.*')) show @endif text-lg">
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.products.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
         href="{{ route('frontend.products.index') }}">
         <div class="d-flex align-items-center">
@@ -192,29 +193,29 @@
             <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('All Products')</div>
         </div>
     </a>
-    <a class="d-flex mb-3 text-lg sidebar-route-normal
-            " href="">
+    <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.productDetails.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+        href="{{ route('frontend.productDetails.index') }}">
         <div class="d-flex align-items-center">
-            <i class="fa-regular fa-newspaper fa-lg sidebar-icon"></i>
-            <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('Lesson management')</div>
+            <i class="fas fa-info fa-lg sidebar-icon"></i>
+            <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('All Product Details')</div>
         </div>
     </a>
 </div>
 <a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
-        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Product')</div>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Cart')</div>
     </div>
 </a>
 <a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
-        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Product')</div>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Coupon')</div>
     </div>
 </a>
 <a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
-        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Product')</div>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Order')</div>
     </div>
 </a>

@@ -20,7 +20,7 @@ class CreateProductImageTable extends Migration
             $table->text('image_path');
             $table->integer('order');
             $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->softDeletes();
         });
     }

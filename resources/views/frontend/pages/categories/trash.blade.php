@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Category management'))
+@section('title', __('CATEGORY MANAGEMENT IN TRASH'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('Category management in trash')
+                @lang('CATEGORY MANAGEMENT IN TRASH')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">

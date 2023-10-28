@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Category management'))
+@section('title', __('CATEGORY MANAGEMENT'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('Category management')
+                @lang('CATEGORY MANAGEMENT')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -28,9 +28,9 @@
             </div>
             <div class="d-flex align-items-center justify-content-md-end">
                 <a class="btn-footer-modal btn btn-primary rounded-10"
-                    href="{{ route('frontend.categories.create') }}">@lang('Create new category')</a>
+                    href="{{ route('frontend.categories.create') }}">@lang('Create New Category')</a>
                 <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.categories.trash') }}">@lang('Category archive')</a>
+                    href="{{ route('frontend.categories.trash') }}">@lang('Category Archive')</a>
             </div>
         </div>
         <div class="px-3 pb-3 pt-0">

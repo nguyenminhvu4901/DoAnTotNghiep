@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('PRODUCT MANAGEMENT'))
+@section('title', __('PRODUCT DETAIL MANAGEMENT'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('PRODUCT MANAGEMENT')
+                @lang('PRODUCT DETAIL MANAGEMENT')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -23,18 +23,12 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        @include('frontend.pages.products.partials.show-modal-filter')
+                        @include('frontend.pages.product-detail.partials.show-modal-filter')
                     </form>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-primary rounded-10"
-                    href="{{ route('frontend.products.create') }}">@lang('Create New Product')</a>
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.products.trash') }}">@lang('Product Archive')</a>
-            </div>
         </div>
-        @include('frontend.pages.products.partials.show-tag-filter')
+        @include('frontend.pages.product-detail.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
             <div class="table-responsive rounded">
                 <table class="table table-hover table-striped border rounded" id="categories-table">
@@ -48,16 +42,22 @@
                                 @lang('Category')
                             </th>
                             <th class="text-center">
-                                @lang('Created by')
+                                @lang('Size')
                             </th>
                             <th class="text-center">
-                                @lang('Created date')
+                                @lang('Color')
                             </th>
                             <th class="text-center">
-                                @lang('Option')
+                                @lang('Quantity')
                             </th>
                             <th class="text-center">
-                                @lang('Update')
+                                @lang('Price')
+                            </th>
+                            <th class="text-center">
+                                @lang('Sale')
+                            </th>
+                            <th class="text-center">
+                                @lang('Restore')
                             </th>
                             <th class="text-center">
                                 @lang('Delete')
@@ -65,38 +65,47 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($products as $product)
+                        @forelse($productDetails as $productDetail)
                             <tr>
-                                <td class="text-center align-middle">{{ $loop->iteration + $products->firstItem() - 1 }}
+                                <td class="text-center align-middle">
+                                    {{ $loop->iteration + $productDetails->firstItem() - 1 }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $product->name }}
+                                    {{ $productDetail->product->name }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ optional($product->categories()->pluck('name'))->first() ?? __('There are no categories') }}
+                                    {{ optional($productDetail->categories())->first()->name ?? __('There are no categories') }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $product->created_by }}
+                                    {{ $productDetail->size }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $product->formatted_created_at }}
+                                    {{ $productDetail->color }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.productDetails.create', ['slug' => $product->slug]) }}">
-                                        <i class="fas fa-plus" style="color: #02f232;"></i>
-                                    </a>
+                                    {{ $productDetail->quantity }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.products.edit', ['slug' => $product->slug]) }}">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                    {{ $productDetail->price }} $
                                 </td>
                                 <td class="text-center align-middle">
-                                    <form
-                                        action="{{ route('frontend.products.destroy', ['slug' => $product->slug]) }}"
-                                        method="POST">
+                                    {{ $productDetail->sale ?? __('This product is not discounted') }}
+                                </td>
+                                <td class="text-center align-middle">
+                                    <form action="{{ route('frontend.productDetails.restore', ['id' => $productDetail->id]) }}"
+                                        method="GET">
                                         @csrf
-                                        @method('DELETE')
+                                        <button type="button" class="btn btn-link" href="#modalRestore" class="trigger-btn"
+                                            data-toggle="modal">
+                                            <i class="fas fa-trash-restore"></i>
+                                        </button>
+                                        @include('frontend.includes.modal.modal-restore')
+                                    </form>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <form action="{{ route('frontend.productDetails.forceDelete', ['id' => $productDetail->id]) }}"
+                                        method="GET">
+                                        @csrf
                                         <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
@@ -107,14 +116,14 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">@lang('Not found data')</td>
+                                <td colspan="11" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $products->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $productDetails->onEachSide(1)->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>
