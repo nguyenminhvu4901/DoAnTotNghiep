@@ -200,6 +200,13 @@
             <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('All Product Details')</div>
         </div>
     </a>
+    <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.productImages.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+        href="{{ route('frontend.productImages.index') }}">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-images fa-lg sidebar-icon"></i>
+            <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('All Product Images')</div>
+        </div>
+    </a>
 </div>
 <a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
     <div class="d-flex align-items-center">

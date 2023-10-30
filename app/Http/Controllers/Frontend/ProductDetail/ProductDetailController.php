@@ -39,7 +39,7 @@ class ProductDetailController extends Controller
     {
         $product = $this->productService->getBySlug($slug);
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
-
+        
         return view('frontend.pages.product-detail.create', ['product' => $product]);
     }
 

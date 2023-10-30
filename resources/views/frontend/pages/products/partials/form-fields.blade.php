@@ -5,7 +5,7 @@
     </label>
     <div class="col-sm-5">
         <input type="text" class="form-control rounded {{ checkDisplayError($errors, 'name') }}" id="input_name"
-            name="name" placeholder="@lang('Name')"
+            placeholder="@lang('Name')"
             value="{{ old('name') ?? (isset($product) ? $product->name : '') }}">
         <small id="error_name" class="error text-danger">{{ $errors->first('name') }}</small>
     </div>
