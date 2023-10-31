@@ -115,11 +115,11 @@
                                     <form action="{{ route('frontend.productDetails.destroy', ['id' => $productDetail->id])}}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
+                                        <button type="button" class="btn btn-link" href="#modalDelete-{{ $productDetail->id }}" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-delete')
+                                        @include('frontend.pages.product-detail.partials.show-modal-delete', ['productDetailId' => $productDetail->id])
                                     </form>
                                 </td>
                             </tr>
@@ -132,7 +132,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $productDetails->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $productDetails->onEachSide(1)->appends(request()->only('search','categories', 'products'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

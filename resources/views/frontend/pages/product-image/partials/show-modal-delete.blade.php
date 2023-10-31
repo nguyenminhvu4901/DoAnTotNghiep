@@ -1,4 +1,4 @@
-<div id="modalDelete" class="modal fade">
+<div id="modalDelete-{{ $productImageId }}" class="modal fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <p>@lang('Do you really want to delete record? This process cannot
-                                                                                            be undone.')</p>
+                                                                                                            be undone.')</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

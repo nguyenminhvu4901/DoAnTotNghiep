@@ -10,6 +10,7 @@ use App\Domains\Product\Models\Traits\Attribute\ProductAttribute;
 use App\Domains\ProductImage\Models\Traits\Method\ProductImageMethod;
 use App\Domains\ProductImage\Models\Traits\Attribute\ProductImageAttribute;
 use App\Domains\ProductImage\Models\Traits\Relationship\ProductImageRelationship;
+use App\Domains\ProductImage\Models\Traits\Scope\ProductImageScope;
 
 /**
  * Class Announcement.
@@ -20,7 +21,8 @@ class ProductImage extends Model
         HasRelationships,
         SoftDeletes,
         ProductImageRelationship,
-        ProductImageAttribute;
+        ProductImageAttribute,
+        ProductImageScope;
 
     protected $table = "product_image";
 

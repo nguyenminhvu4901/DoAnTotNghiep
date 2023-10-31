@@ -4,8 +4,7 @@
         @lang('Product name')
     </label>
     <div class="col-sm-5">
-        <input type="text" disabled class="form-control rounded {{ checkDisplayError($errors, 'name') }}"
-            id="input_name" placeholder="@lang('Name')" value="{{ isset($product) ? $product->name : '' }}">
+        <input type="text" disabled class="form-control rounded" value="{{ isset($product) ? $product->name : '' }}">
     </div>
 </div>
 

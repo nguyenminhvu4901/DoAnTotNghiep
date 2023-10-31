@@ -25,12 +25,12 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:product_image,name', 'string'],
-            'image_path' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10000'],
+            'name' => ['required', 'string', Rule::unique('product_image', 'name')->ignore($this->productImageId, 'id')],
+            'image_path' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10000'],
             'order' => [
                 'required', 'integer', Rule::unique('product_image')->where(function ($query) {
-                    return $query->where('product_id', $this->id);
-                }),
+                    return $query->where('product_id', $this->productId);
+                })->ignore($this->productImageId, 'id'),
             ],
         ];
     }

@@ -58,7 +58,7 @@ class ProductImageController extends Controller
     {
         $product = $this->productService->getBySlug($slug);
 
-        $productImage= $this->productImageService->getById($id);
+        $productImage = $this->productImageService->getById($id);
         abort_if(!$product && !$productImage, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         return view('frontend.pages.product-image.edit', ['product' => $product, 'productImage' => $productImage]);
@@ -71,8 +71,47 @@ class ProductImageController extends Controller
         $productImage = $this->productImageService->getById($productImageId);
         abort_if(!$product && !$productImage, Response::HTTP_INTERNAL_SERVER_ERROR);
 
-        $this->productImageService->update($request->all(), $productId, $productImage);
+        $this->productImageService->update($request, $productId, $productImage);
 
         return redirect(route('frontend.productImages.index'))->withFlashSuccess(__('Successfully updated.'));
+    }
+
+    public function destroy(int $id)
+    {
+        $productImage = $this->productImageService->getById($id);
+        abort_if(!$productImage, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->productImageService->delete($productImage);
+
+        return redirect(route('frontend.productImages.index'))->withFlashSuccess(__('Successfully deleted.'));
+    }
+
+    public function getAllProductImageInTrash(Request $request)
+    {
+        $productImages = $this->productImageService->searchWithTrash($request->all());
+        $categories = $this->categoryService->getAllCategories();
+        $products = $this->productService->getAllProducts();
+
+        return view('frontend.pages.product-image.trash', ['products' => $products, 'categories' => $categories, 'productImages' => $productImages]);
+    }
+
+    public function restoreProductImage(int $id)
+    {
+        $productDetail = $this->productImageService->getByIdWithTrash($id);
+        abort_if(!$productDetail, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->productImageService->restore($productDetail);
+
+        return redirect()->route('frontend.productImages.index')->withFlashSuccess(__('Successfully restored.'));
+    }
+
+    public function forceDeleteProductImage(int $id)
+    {
+        $productDetail = $this->productImageService->getByIdWithTrash($id);
+        abort_if(!$productDetail, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->productImageService->forceDelete($productDetail);
+
+        return redirect()->route('frontend.productImages.trash')->withFlashSuccess(__('Successfully deleted.'));
     }
 }

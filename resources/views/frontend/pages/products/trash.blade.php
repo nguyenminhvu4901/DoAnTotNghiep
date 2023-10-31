@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('product management'))
+@section('title', __('PRODUCT MANAGERMENT IN TRASH'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('product management')
+                @lang('PRODUCT MANAGERMENT IN TRASH')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -76,35 +76,44 @@
                                     <form action="{{ route('frontend.products.restore', ['id' => $product->id]) }}"
                                         method="GET">
                                         @csrf
-                                        <button type="button" class="btn btn-link" href="#modalRestore" class="trigger-btn"
-                                            data-toggle="modal">
+                                        <button type="button" class="btn btn-link" href="#modalRestore-{{ $product->id }}"
+                                            class="trigger-btn" data-toggle="modal">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-restore')
+                                        @include('frontend.pages.products.partials.show-modal-restore', [
+                                            'productId' => $product->id,
+                                        ])
                                     </form>
                                 </td>
                                 <td class="text-center align-middle">
                                     <form action="{{ route('frontend.products.forceDelete', ['id' => $product->id]) }}"
                                         method="GET">
                                         @csrf
-                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
+                                        @method('GET')
+                                        <button type="button" class="btn btn-link"
+                                            href="#modalDelete-{{ $product->id }}" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-delete')
+                                        @include(
+                                            'frontend.pages.products.partials.show-modal-delete',
+                                            [
+                                                'productId' => $product->id,
+                                            ]
+                                        )
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">@lang('Not found data')</td>
+                                <td colspan="10" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $products->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $products->onEachSide(1)->appends(request()->only('search', 'categories'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

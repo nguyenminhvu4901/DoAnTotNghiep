@@ -185,7 +185,9 @@
     </div>
 </a>
 <div id="course-management-items"
-    class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.products.*')) show @endif text-lg">
+    class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.products.*') ||
+            isCurrentRouteInRoutes('frontend.productDetails.*') ||
+            isCurrentRouteInRoutes('frontend.productImages.*')) show @endif text-lg">
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.products.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
         href="{{ route('frontend.products.index') }}">
         <div class="d-flex align-items-center">

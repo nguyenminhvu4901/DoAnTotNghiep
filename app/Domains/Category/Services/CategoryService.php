@@ -49,6 +49,11 @@ class CategoryService extends BaseService
         return $this->model->all();
     }
 
+    public function getAllCategoriesInTrash()
+{
+    return $this->model->onlyTrashed()->get();
+}
+
     public function store(array $data = []): Category
     {
         DB::beginTransaction();

@@ -33,7 +33,7 @@ Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['aut
 
     Route::put('{slug}/update', [ProductController::class, 'update'])->name('update');
 
-    Route::delete('{slug}/destroy', [ProductController::class, 'destroy'])->name('destroy');
+    Route::delete('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');
 
     Route::get('trash', [ProductController::class, 'getAllProductInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {

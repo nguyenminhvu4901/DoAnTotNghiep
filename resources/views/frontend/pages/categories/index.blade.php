@@ -77,15 +77,15 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     <form
-                                        action="{{ route('frontend.categories.destroy', ['categorySlug' => $category->slug]) }}"
+                                        action="{{ route('frontend.categories.destroy', ['id' => $category->id]) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
+                                        <button type="button" class="btn btn-link" href="#modalDelete-{{ $category->id }}" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-delete')
+                                        @include('frontend.pages.categories.partials.show-modal-delete', ['categoryId' => $category->id])
                                     </form>
                                 </td>
                             </tr>
@@ -98,7 +98,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $categories->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $categories->onEachSide(1)->appends(request()->only('search','categories', 'products'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

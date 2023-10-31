@@ -34,16 +34,16 @@ Route::group(['as' => 'productImages.', 'prefix' => 'product-images', 'middlewar
 
     Route::put('{productId}/{productImageId}/update', [ProductImageController::class, 'update'])->name('update');
 
-    Route::delete('{id}/destroy', [ProductImageController::class, 'destroy'])->name('destroy');
+    Route::delete('{productImageId}/destroy', [ProductImageController::class, 'destroy'])->name('destroy');
 
-    Route::get('trash', [ProductImageController::class, 'getAllProductimageInTrash'])->name('trash')
+    Route::get('trash', [ProductImageController::class, 'getAllProductImageInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Product image management'), route('frontend.productImages.index'))
                 ->push(__('Achieve Product Management'));
         });
 
-    Route::get('{id}/restore', [ProductImageController::class, 'restoreProductimage'])->name('restore');
+    Route::get('{id}/restore', [ProductImageController::class, 'restoreProductImage'])->name('restore');
 
-    Route::get('{id}/force-delete', [ProductImageController::class, 'forceDeleteProductimage'])->name('forceDelete');
+    Route::get('{id}/force-delete', [ProductImageController::class, 'forceDeleteProductImage'])->name('forceDelete');
 });

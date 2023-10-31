@@ -33,6 +33,9 @@ class ProductImageService extends BaseService
                 $query->filterByCategories($data['categories']);
             })
             ->latest('id')
+            ->whereHas('product', function ($query) {
+                $query->whereNotNull('product_id');
+            })
             ->paginate(config('constants.paginate'));
     }
 
@@ -45,6 +48,9 @@ class ProductImageService extends BaseService
                 $query->filterByProduct($data['products']);
             })->when(isset($data['categories']), function ($query) use ($data) {
                 $query->filterByCategories($data['categories']);
+            })
+            ->whereHas('product', function ($query) {
+                $query->whereNotNull('product_id');
             })
             ->latest('id')
             ->onlyTrashed()
@@ -70,7 +76,7 @@ class ProductImageService extends BaseService
     protected function createproductImage(Request $request, $productId): ProductImage
     {
         $data = $request->all();
-        $imageProduct = $this->storeImageProduct($request, 'image_path');
+        $imageProduct = $this->saveImage($request, 'image_path');
 
         if ($data['order'] == 0) {
             $data['order'] =  $this->maxProductImageOrder($productId) + 1;
@@ -84,17 +90,22 @@ class ProductImageService extends BaseService
         ]);
     }
 
-    public function update(array $data, int $productId, ProductImage $productImage): ProductImage
+    public function update(Request $request, int $productId, ProductImage $productImage): ProductImage
     {
         DB::beginTransaction();
         try {
+            $data = $request->all();
+            $imageProduct = $this->updateImage($request, 'image_path');
+
+            if ($data['order'] == 0) {
+                $data['order'] =  $this->maxProductImageOrder($productId) + 1;
+            }
+
             $productImage->update([
                 'product_id' => $productId,
-                'size' => $data['size'],
-                'color' => $data['color'],
-                'quantity' => $data['quantity'],
-                'price' => $data['price'],
-                'sale' => $data['sale'] ?? null,
+                'name' => $data['name'],
+                'order' => $data['order'],
+                'image_path' => $imageProduct
             ]);
 
             DB::commit();

@@ -29,6 +29,9 @@ class ProductDetailService extends BaseService
                 $query->filterByCategories($data['categories']);
             })
             ->latest('id')
+            ->whereHas('product', function ($query) {
+                $query->whereNotNull('product_id');
+            })
             ->paginate(config('constants.paginate'));
     }
 
@@ -43,6 +46,9 @@ class ProductDetailService extends BaseService
                 $query->filterByCategories($data['categories']);
             })
             ->latest('id')
+            ->whereHas('product', function ($query) {
+                $query->whereNotNull('product_id');
+            })
             ->onlyTrashed()
             ->paginate(config('constants.paginate'));
     }

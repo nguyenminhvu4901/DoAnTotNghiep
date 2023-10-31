@@ -63,9 +63,9 @@ class ProductController extends Controller
         return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully updated.'));
     }
 
-    public function destroy($slug)
+    public function destroy($id)
     {
-        $product = $this->productService->getBySlug($slug);
+        $product = $this->productService->getById($id);
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
         $this->productService->delete($product);
 

@@ -4,8 +4,8 @@
         @lang('Product name') <span class="text-danger">*</span>
     </label>
     <div class="col-sm-5">
-        <input type="text" class="form-control rounded {{ checkDisplayError($errors, 'name') }}" id="input_name"
-            placeholder="@lang('Name')"
+        <input type="text" name="name" class="form-control rounded {{ checkDisplayError($errors, 'name') }}"
+            id="input_name" placeholder="@lang('Name')"
             value="{{ old('name') ?? (isset($product) ? $product->name : '') }}">
         <small id="error_name" class="error text-danger">{{ $errors->first('name') }}</small>
     </div>
@@ -32,7 +32,9 @@
             <option value="">@lang('Category')</option>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}"
-                    @if (isset($product) && $product->categories->first()->id == $category->id) selected @endif>
+                    @if (isset($product) && $product->categories->first()) @if ($product->categories->first()->id == $category->id) 
+                        selected @endif
+                    @endif>
                     {{ __($category->name) }}
                 </option>
             @endforeach

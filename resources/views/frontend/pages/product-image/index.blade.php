@@ -29,7 +29,7 @@
             </div>
             <div class="d-flex align-items-center justify-content-md-end">
                 <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.productDetails.trash') }}">@lang('Product Image Archive')
+                    href="{{ route('frontend.productImages.trash') }}">@lang('Product Image Archive')
                 </a>
             </div>
         </div>
@@ -100,14 +100,20 @@
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <form action="{{ route('frontend.productImages.destroy', ['id' => $productImage->id])}}" method="POST">
+                                    <form
+                                        action="{{ route('frontend.productImages.destroy', ['productImageId' => $productImage->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
+                                        <button type="button" class="btn btn-link"
+                                            href="#modalDelete-{{ $productImage->id }}" class="trigger-btn"
                                             data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-delete')
+                                        @include(
+                                            'frontend.pages.product-image.partials.show-modal-delete',
+                                            ['productImageId' => $productImage->id]
+                                        )
                                     </form>
                                 </td>
                             </tr>
@@ -120,7 +126,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $productImages->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $productImages->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

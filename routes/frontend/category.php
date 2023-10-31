@@ -33,7 +33,7 @@ Route::group(['as' => 'categories.', 'prefix' => 'categories', 'middleware' => [
 
     Route::put('{slug}/update', [CategoryController::class, 'update'])->name('update');
 
-    Route::delete('{categorySlug}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+    Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 
     Route::get('trash', [CategoryController::class, 'getAllCategoryInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {

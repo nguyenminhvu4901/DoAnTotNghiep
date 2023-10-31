@@ -53,9 +53,9 @@ class CategoryController extends Controller
         return redirect()->route('frontend.categories.index')->withFlashSuccess(__('Successfully updated.'));
     }
 
-    public function destroy(string $slug)
+    public function destroy(int $id)
     {
-        $category = $this->categoryService->getBySlug($slug);
+        $category = $this->categoryService->getById($id);
         abort_if(!$category, Response::HTTP_INTERNAL_SERVER_ERROR);
         
         $this->categoryService->delete($category);

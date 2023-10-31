@@ -74,24 +74,27 @@
                                     <form action="{{ route('frontend.categories.restore', ['id' => $category->id]) }}"
                                         method="GET">
                                         @csrf
-                                        <button type="button" class="btn btn-link" href="#modalRestore" class="trigger-btn"
-                                            data-toggle="modal">
+                                        <button type="button" class="btn btn-link" href="#modalRestore-{{ $category->id }}"
+                                            class="trigger-btn" data-toggle="modal">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-restore')
+                                        @include('frontend.pages.categories.partials.show-modal-restore', [
+                                            'categoryId' => $category->id,
+                                        ])
                                     </form>
                                 </td>
                                 <td class="text-center align-middle">
                                     <form action="{{ route('frontend.categories.forceDelete', ['id' => $category->id]) }}"
                                         method="GET">
                                         @csrf
-                                        <button type="button" class="btn btn-link" href="#modalDelete" class="trigger-btn"
-                                            data-toggle="modal">
+                                        <button type="button" class="btn btn-link" href="#modalDelete-{{ $category->id }}"
+                                            class="trigger-btn" data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include('frontend.includes.modal.modal-delete')
+                                        @include('frontend.pages.categories.partials.show-modal-delete', [
+                                            'categoryId' => $category->id,
+                                        ])
                                     </form>
-
                                 </td>
                             </tr>
                         @empty
@@ -103,7 +106,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $categories->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $categories->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>
