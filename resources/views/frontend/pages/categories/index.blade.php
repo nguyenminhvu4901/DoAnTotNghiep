@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Category management'))
+@section('title', __('CATEGORY MANAGEMENT'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('Category management')
+                @lang('CATEGORY MANAGEMENT')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -28,9 +28,9 @@
             </div>
             <div class="d-flex align-items-center justify-content-md-end">
                 <a class="btn-footer-modal btn btn-primary rounded-10"
-                    href="{{ route('frontend.categories.create') }}">@lang('Create new category')</a>
+                    href="{{ route('frontend.categories.create') }}">@lang('Create New Category')</a>
                 <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.categories.create') }}">@lang('Category archive')</a>
+                    href="{{ route('frontend.categories.trash') }}">@lang('Category Archive')</a>
             </div>
         </div>
         <div class="px-3 pb-3 pt-0">
@@ -76,12 +76,16 @@
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <form action="{{ route('frontend.categories.destroy', ['categorySlug' => $category->slug]) }}" method="POST">
+                                    <form
+                                        action="{{ route('frontend.categories.destroy', ['id' => $category->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-link">
+                                        <button type="button" class="btn btn-link" href="#modalDelete-{{ $category->id }}" class="trigger-btn"
+                                            data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
+                                        @include('frontend.pages.categories.partials.show-modal-delete', ['categoryId' => $category->id])
                                     </form>
                                 </td>
                             </tr>
@@ -94,7 +98,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $categories->onEachSide(1)->links('frontend.includes.custom-pagination') }}
+                {{ $categories->onEachSide(1)->appends(request()->only('search','categories', 'products'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

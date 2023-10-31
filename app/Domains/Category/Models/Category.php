@@ -23,6 +23,7 @@ class Category extends Model
     CategoryAttribute,
     CategoryRelationship;
 
+    protected $table = "categories";
     protected $fillable = [
         'name',
         'slug',

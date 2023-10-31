@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('creator_id')->references('id')->on('users');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

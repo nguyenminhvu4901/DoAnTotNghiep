@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ htmlLang() }}" @langrtl dir="rtl" @endlangrtl>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,7 @@
     <title>@yield('title') | {{ appName() }}</title>
     <meta name="description" content="@yield('meta_description', appName())">
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/brand/logo.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/brand/logo.png') }}">
     @yield('meta')
 
     @stack('before-styles')
@@ -19,6 +20,7 @@
     <livewire:styles />
     @stack('after-styles')
 </head>
+
 <body>
     @include('includes.partials.read-only')
     @include('includes.partials.logged-in-as')
@@ -31,12 +33,16 @@
             </main>
         @else
             <div class="wrapper">
+                @include('frontend.includes.sidebar')
                 <!-- Page Content  -->
                 <div id="content-container" class="wrapper-content">
                     <div id="content">
                         @include('frontend.includes.nav')
                         @stack('page-messages')
-                        <main class="pb-3">
+                        <main id="main-content" class="pb-3">
+                            <div id="preloder">
+                                <div class="loader"></div>
+                            </div>
                             @yield('content')
                         </main>
                     </div>
@@ -53,7 +59,16 @@
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/frontend.js') }}"></script>
     <script src="{{ mix('js/assets/index.js') }}"></script>
+    <script src="{{ asset('js/assets/vendor/ckeditor5/build/ckeditor.js') }}"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#ckeditor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
     <livewire:scripts />
     @stack('after-scripts')
 </body>
+
 </html>

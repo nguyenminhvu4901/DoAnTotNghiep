@@ -29,6 +29,41 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+/* ---------------------------------------------------
+    WRAPPER FOR SIDEBAR & MAIN CONTENT
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+/* ---------------------------------------------------
+      MAIN CONTENT STYLE
+  ----------------------------------------------------- */
+
+#content-container {
+    width: 80%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    padding-bottom: 0;
+}
+
+#content {
+    margin-top: 2.5vh;
+}
+
+#main-content {
+    width: 100%;
+    padding-top: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    background-color: white;
+    border-radius: 30px;
+}
 
 html,
 body {
@@ -804,11 +839,6 @@ ol {
     background: #ffffff;
 }
 
-.categories__slider.owl-carousel .owl-nav button.owl-next {
-    left: auto;
-    right: -35px;
-}
-
 /*---------------------
   Featured
 -----------------------*/
@@ -1045,6 +1075,7 @@ ol {
     display: flex;
     align-items: center;
     padding: 45px 0 40px;
+    border-radius: 30px;
 }
 
 .breadcrumb__text h2 {
@@ -2962,10 +2993,6 @@ ol {
         left: -20px;
     }
 
-    .categories__slider.owl-carousel .owl-nav button.owl-next {
-        right: -20px;
-    }
-
     .filter__sort .nice-select {
         padding-left: 5px;
         padding-right: 28px;
@@ -3253,10 +3280,6 @@ ol {
         left: 0;
         top: 0;
         -webkit-transform: translateY(0);
-    }
-
-    .categories__slider.owl-carousel .owl-nav button.owl-next {
-        right: -10px;
     }
 
     .footer__copyright {

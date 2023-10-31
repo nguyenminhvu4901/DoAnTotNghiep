@@ -3,11 +3,11 @@
     <div id="sidebar" class="sidebar-with-divider bg-white sidebar-setting">
         <div class="w-100">
             <div class="d-flex justify-content-center">
-                <img id="sidebar-nix-logo" class="nix-logo" src="{{ asset('img/brand/logo.png') }}" alt="Logo">
+                <img id="sidebar-nix-logo" class="nix-logo" src="{{ asset('img/logo/logo-bg-white.png') }}" alt="Logo">
             </div>
             <div class="mb-3 d-flex justify-content-center">
                 <img id="sidebar-avatar" class="sidebar-avatar rounded-circle" src="{{ $logged_in_user->avatar }}"
-                     alt="avatar">
+                    alt="avatar">
             </div>
             <div class="mb-5 pb-3">
                 <div class="mb-1 d-flex justify-content-center">
@@ -18,14 +18,9 @@
                 </div>
             </div>
 
-
-            {{--  <div class="mb-5 px-xl-5 px-3 sidebar-show overflow-hidden sidebar-item">
-                @if ($logged_in_user->isRoleStudent() && $logged_in_user->isCurrentRoleStudent())
-                    @include('frontend.includes.partials.sidebar-items-student')
-                @else
-                    @include('frontend.includes.partials.sidebar-items-management')
-                @endif
-            </div>  --}}
+            <div class="mb-5 px-xl-5 px-3 sidebar-show overflow-hidden sidebar-item">
+                @include('frontend.includes.partials.sidebar-items-staff')
+            </div>
         </div>
     </div>
     <div class="show-icon-chevron-right d-none btn-student-sidebar-expand w-100 pl-4">
