@@ -173,4 +173,9 @@ class ProductImageService extends BaseService
     {
         return $this->model->where('product_id', $imageProduct)->max('order') ?? 0;
     }
+
+    public function getProductDetails(int $productId)
+    {
+        return $this->model->where('product_id', $productId)->get();
+    }
 }

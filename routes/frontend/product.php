@@ -31,6 +31,13 @@ Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['aut
                 ->push(__('Update Product'));
         });
 
+    Route::get('{id}/detail', [ProductController::class, 'detail'])->name('detail')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Product management'), route('frontend.products.index'))
+                ->push(__('Product Information'));
+        });
+
     Route::put('{slug}/update', [ProductController::class, 'update'])->name('update');
 
     Route::delete('{id}/destroy', [ProductController::class, 'destroy'])->name('destroy');

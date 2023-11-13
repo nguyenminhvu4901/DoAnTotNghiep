@@ -18,6 +18,8 @@
     <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('css/assets/index.scss') }}">
     <livewire:styles />
+    {{-- <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css"> --}}
     @stack('after-styles')
 </head>
 
@@ -60,12 +62,17 @@
     <script src="{{ mix('js/frontend.js') }}"></script>
     <script src="{{ mix('js/assets/index.js') }}"></script>
     <script src="{{ asset('js/assets/vendor/ckeditor5/build/ckeditor.js') }}"></script>
+    <script src="jquery.min.js"></script>
+    {{-- <script src="owlcarousel/owl.carousel.min.js"></script> --}}
     <script>
         ClassicEditor
             .create(document.querySelector('#ckeditor'))
             .catch(error => {
                 console.error(error);
             });
+        $(document).ready(function() {
+            $(".owl-carousel").owlCarousel();
+        });
     </script>
     <livewire:scripts />
     @stack('after-scripts')

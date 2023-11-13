@@ -83,6 +83,8 @@ class ProductService extends BaseService
                 'description' => $data['description']
             ]);
 
+            $product->syncCategories($data['category'] ?? []);
+
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
