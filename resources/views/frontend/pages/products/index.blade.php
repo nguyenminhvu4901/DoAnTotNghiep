@@ -60,6 +60,9 @@
                                 @lang('Add Image')
                             </th>
                             <th class="text-center">
+                                @lang('Product Information')
+                            </th>
+                            <th class="text-center">
                                 @lang('Update')
                             </th>
                             <th class="text-center">
@@ -92,6 +95,11 @@
                                 <td class="text-center align-middle">
                                     <a href="{{ route('frontend.productImages.create', ['slug' => $product->slug]) }}">
                                         <i class="far fa-image"></i>
+                                    </a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}">
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">

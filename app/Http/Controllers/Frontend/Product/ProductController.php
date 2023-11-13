@@ -10,6 +10,7 @@ use App\Domains\Category\Services\CategoryService;
 use App\Http\Requests\Frontend\Product\StoreRequest;
 use App\Http\Requests\Frontend\Product\UpdateRequest;
 use App\Domains\ProductDetail\Services\ProductDetailService;
+use App\Domains\ProductImage\Services\ProductImageService;
 
 class ProductController extends Controller
 {
@@ -45,7 +46,25 @@ class ProductController extends Controller
         return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully created.'));
     }
 
-    public function edit($slug)
+    public function detail(int $id)
+    {
+        $product = $this->productService->getById($id);
+        $categories = $this->categoryService->getAllCategories();
+        abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $productDetails = app()->make(ProductDetailService::class)->getProductDetails($product->id);
+        $productImages = app()->make(ProductImageService::class)->getProductDetails($product->id);
+        return view(
+            'frontend.pages.products.detail',
+            [
+                'product' => $product,
+                'categories' => $categories,
+                'productDetails' => $productDetails,
+                'productImages' => $productImages,
+            ]
+        );
+    }
+
+    public function edit(string $slug)
     {
         $product = $this->productService->getBySlug($slug);
         $categories = $this->categoryService->getAllCategories();

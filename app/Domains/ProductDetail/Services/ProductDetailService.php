@@ -151,4 +151,9 @@ class ProductDetailService extends BaseService
 
         return $productDetail;
     }
+
+    public function getProductDetails(int $productId)
+    {
+        return $this->model->where('product_id', $productId)->get();
+    }
 }
