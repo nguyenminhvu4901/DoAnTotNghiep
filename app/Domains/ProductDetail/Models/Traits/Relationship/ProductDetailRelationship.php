@@ -21,7 +21,7 @@ trait ProductDetailRelationship
             Category::class,
             [Product::class, CategoryProduct::class],
             ['id', 'product_id', 'id'],
-            ['product_id', 'id', 'id']
+            ['product_id', 'id', 'category_id']
         )->withPivot('name');
     }
 }

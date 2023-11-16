@@ -13,7 +13,7 @@ Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['aut
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Product management'), route('frontend.products.index'));
-        });
+        })->middleware('permission:user.product.view');
 
     Route::get('create', [ProductController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {

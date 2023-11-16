@@ -8,12 +8,12 @@ use App\Http\Controllers\Frontend\Category\CategoryController;
  * All route names are prefixed with 'frontend.'.
  */
 
-Route::group(['as' => 'categories.', 'prefix' => 'categories', 'middleware' => ['auth', 'is_user']], function () {
+Route::group(['as' => 'categories.', 'prefix' => 'categories', 'middleware' => ['auth']], function () {
     Route::get('index', [CategoryController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Category management'), route('frontend.categories.index'));
-        });
+        })->middleware('permission:user.category.view');
 
     Route::get('create', [CategoryController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {

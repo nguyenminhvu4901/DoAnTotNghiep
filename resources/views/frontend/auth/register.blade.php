@@ -34,7 +34,7 @@
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="password" name="password" id="password" class="form-control"
                                                     placeholder="{{ __('Password') }}" maxlength="100" required
-                                                    autocomplete="new-password" />
+                                                    autocomplete="new-password" data-toggle="password"/>
                                             </div>
                                         </div><!--form-group-->
                                         <div class="d-flex flex-row align-items-center mb-4">
@@ -42,7 +42,7 @@
                                                 <input type="password" name="password_confirmation"
                                                     id="password_confirmation" class="form-control"
                                                     placeholder="{{ __('Password Confirmation') }}" maxlength="100" required
-                                                    autocomplete="new-password" />
+                                                    autocomplete="new-password" data-toggle="password"/>
                                             </div>
                                         </div><!--form-group-->
                                         <div class="form-check d-flex justify-content-center mb-5">
