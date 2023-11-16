@@ -24,26 +24,9 @@ class CouponService extends BaseService
         $this->model = $coupon;
     }
 
-    public function getLatestCategory()
-    {
-        return $this->model::latest()->first();
-    }
-
     public function search(array $data = [])
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
-            ->latest('id')
-            ->paginate(config('constants.paginate'));
-    }
-
-    public function searchWithTrash(array $data = [])
-    {
-        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
-            ->when(isset($data['categories']), function ($query) use ($data) {
-                $query->filterByCategories($data['categories']);
-            })
-            ->with('categories', 'productDetail')
-            ->onlyTrashed()
             ->latest('id')
             ->paginate(config('constants.paginate'));
     }
@@ -109,10 +92,5 @@ class CouponService extends BaseService
         }
 
         return $coupon;
-    }
-
-    public function getAllProducts()
-    {
-        return $this->model->all();
     }
 }
