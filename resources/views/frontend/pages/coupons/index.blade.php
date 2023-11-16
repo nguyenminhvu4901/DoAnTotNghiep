@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('PRODUCT DETAIL MANAGEMENT'))
+@section('title', __('COUPON MANAGEMENT'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('PRODUCT DETAIL MANAGEMENT')
+                @lang('COUPON MANAGEMENT')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -23,46 +23,42 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        @include('frontend.pages.product-detail.partials.show-modal-filter')
                     </form>
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.productDetails.trash') }}">@lang('Product Detail Archive')
-                </a>
+                <a class="btn-footer-modal btn btn-primary rounded-10"
+                    href="{{ route('frontend.coupons.create') }}">@lang('Create New Coupon')</a>
             </div>
         </div>
-        @include('frontend.pages.product-detail.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
             <div class="table-responsive rounded">
                 <table class="table table-hover table-striped border rounded" id="categories-table">
                     <thead class="bg-header-table">
                         <tr>
-                            <th class="text-center">@lang('No.')</th>
                             <th class="text-center">
-                                @lang('Product')
+                                @lang('No.')
                             </th>
                             <th class="text-center">
-                                @lang('Category')
+                                @lang('Coupon')
                             </th>
                             <th class="text-center">
-                                @lang('Size')
+                                @lang('Type')
                             </th>
                             <th class="text-center">
-                                @lang('Color')
+                                @lang('Value')
+                            </th>
+                            <th class="text-center">
+                                @lang('Start Date')
+                            </th>
+                            <th class="text-center">
+                                @lang('Expiry Date')
                             </th>
                             <th class="text-center">
                                 @lang('Quantity')
                             </th>
                             <th class="text-center">
-                                @lang('Price')
-                            </th>
-                            <th class="text-center">
-                                @lang('Sale')
-                            </th>
-                            <th class="text-center">
-                                @lang('Add new Option')
+                                @lang('Detail')
                             </th>
                             <th class="text-center">
                                 @lang('Update')
@@ -73,72 +69,63 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($productDetails as $productDetail)
+                        @forelse($coupons as $coupon)
                             <tr>
-                                <td class="text-center align-middle">
-                                    {{ $loop->iteration + $productDetails->firstItem() - 1 }}
+                                <td class="text-center align-middle">{{ $loop->iteration + $coupons->firstItem() - 1 }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->product->name }}
+                                    {{ $coupon->name }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ optional($productDetail->categories())->first()->name ?? __('There are no categories') }}
+                                    {{ $coupon->formatted_type_coupon }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->size }}
+                                    {{ $coupon->value }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->color }}
+                                    {{ $coupon->formatted_start_date_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->quantity }}
+                                    {{ $coupon->formatted_expiry_date_at }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->price }} $
+                                    {{ $coupon->quantity }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->sale ?? __('This product is not discounted') }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    <a
-                                        href="{{ route('frontend.productDetails.create', ['slug' => $productDetail->product->slug]) }}">
-                                        <i class="fas fa-plus" style="color: #02f232;"></i>
+                                    <a href="{{ route('frontend.coupons.detail', ['slug' => $coupon->slug]) }}">
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a
-                                        href="{{ route('frontend.productDetails.edit', ['slug' => $productDetail->product->slug, 'id' => $productDetail->id]) }}">
+                                    <a href="{{ route('frontend.coupons.edit', ['slug' => $coupon->slug]) }}">
                                         <i class="fas fa-pen"></i>
                                     </a>
-                                </td>
+                                </td> 
                                 <td class="text-center align-middle">
-                                    <form
-                                        action="{{ route('frontend.productDetails.destroy', ['id' => $productDetail->id]) }}"
+                                    <form action="{{ route('frontend.coupons.destroy', ['slug' => $coupon->slug]) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-link"
-                                            href="#modalDelete-{{ $productDetail->id }}" class="trigger-btn"
-                                            data-toggle="modal">
+                                        <button type="button" class="btn btn-link" href="#modalDelete-{{ $coupon->id }}"
+                                            class="trigger-btn" data-toggle="modal">
                                             <i class="fas fa-trash" style="color: #ff0000;"></i>
                                         </button>
-                                        @include(
-                                            'frontend.pages.product-detail.partials.show-modal-delete',
-                                            ['productDetailId' => $productDetail->id]
-                                        )
+                                        @include('frontend.pages.coupons.partials.show-modal-delete', [
+                                            'couponId' => $coupon->id,
+                                        ])
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="11" class="text-center">@lang('Not found data')</td>
+                                <td colspan="8" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $productDetails->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
+                {{ $coupons->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

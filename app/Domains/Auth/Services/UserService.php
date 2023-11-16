@@ -56,6 +56,8 @@ class UserService extends BaseService
 
         try {
             $user = $this->createUser($data);
+            $user->assignRole(User::ROLE_CUSTOMER);
+            
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -326,7 +328,7 @@ class UserService extends BaseService
             'password' => $data['password'] ?? null,
             'provider' => $data['provider'] ?? null,
             'provider_id' => $data['provider_id'] ?? null,
-            'email_verified_at' => $data['email_verified_at'] ?? null,
+            'email_verified_at' => now(),
             'active' => $data['active'] ?? true,
         ]);
     }
