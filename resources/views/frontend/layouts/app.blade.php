@@ -11,16 +11,18 @@
     <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
     <link rel="icon" type="image/x-icon" href="{{ asset('img/brand/logo.png') }}">
     @yield('meta')
-
+    <script src="../../../js/app.js"></script>
     @stack('before-styles')
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('css/assets/index.scss') }}">
+
     <livewire:styles />
     {{-- <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
     <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css"> --}}
     @stack('after-styles')
+
 </head>
 
 <body>
@@ -55,7 +57,7 @@
             </div>
         @endguest
     </div><!--app-->
-
+    <div id="chat"></div>
     @stack('before-scripts')
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>

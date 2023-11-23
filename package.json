@@ -10,12 +10,14 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@babel/preset-react": "^7.23.3",
         "@coreui/coreui": "^3.0.0",
         "@coreui/icons": "^1.0.1",
         "@fortawesome/fontawesome-free": "^5.12.1",
         "@popperjs/core": "^2.5.1",
+        "@vitejs/plugin-react": "^4.2.0",
         "alpinejs": "^2.3.5",
-        "axios": "^0.21.1",
+        "axios": "^1.6.1",
         "bootstrap": "^4.5.0",
         "cross-env": "^7.0",
         "jquery": "^3.5.1",
@@ -25,6 +27,9 @@
         "perfect-scrollbar": "^1.5.0",
         "popper.js": "^1.16.1",
         "postcss": "^8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-refresh": "^0.14.0",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
@@ -35,7 +40,18 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@fontsource/roboto": "^5.0.8",
+        "@mui/icons-material": "^5.14.18",
+        "@mui/material": "^5.14.18",
+        "@mui/styled-engine-sc": "^6.0.0-alpha.6",
+        "@reduxjs/toolkit": "^1.9.7",
         "bootstrap-show-password": "^1.2.1",
-        "owl.carousel": "^2.3.4"
+        "owl.carousel": "^2.3.4",
+        "react-redux": "^8.1.3",
+        "react-router": "^6.19.0",
+        "react-router-dom": "^6.19.0",
+        "styled-components": "^6.1.1"
     }
 }
