@@ -17,7 +17,6 @@
                     <div id="sidebar-role">{{ $logged_in_user->current_role }}</div>
                 </div>
             </div>
-
             <div class="mb-5 px-xl-5 px-3 sidebar-show overflow-hidden sidebar-item">
                 @include('frontend.includes.partials.sidebar-items-staff')
             </div>

@@ -154,6 +154,8 @@
         ...options
       })
     }
+
+    
   
     modules.showLoading = function () {
       $('#loading-spinner').addClass('loading');

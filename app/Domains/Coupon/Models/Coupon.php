@@ -2,12 +2,13 @@
 
 namespace App\Domains\Coupon\Models;
 
-use App\Domains\Coupon\Models\Traits\Attribute\CouponAttribute;
-use App\Domains\Coupon\Models\Traits\Scope\CouponScope;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Domains\Coupon\Models\Traits\Scope\CouponScope;
+use App\Domains\Coupon\Models\Traits\Attribute\CouponAttribute;
+use App\Domains\Coupon\Models\Traits\Relationship\CouponRelationship;
 
 /**
  * Class Announcement.
@@ -17,7 +18,8 @@ class Coupon extends Model
     use HasFactory,
         HasSlug,
         CouponScope,
-        CouponAttribute;
+        CouponAttribute,
+        CouponRelationship;
 
     protected $table = "coupons";
 

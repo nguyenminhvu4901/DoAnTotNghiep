@@ -82,7 +82,7 @@ Route::group(['as' => 'auth.'], function () {
 
     Route::group(['middleware' => 'guest'], function () {
         // Authentication
-        Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::get('login', [LoginController::class, 'index'])->name('login');
         Route::post('login', [LoginController::class, 'login']);
 
         // Registration

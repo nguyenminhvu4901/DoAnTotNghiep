@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
+use App\Domains\Cart\Models\Cart;
 use Illuminate\Support\Collection;
+use Illuminate\Container\Container;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 if (!function_exists('isCurrentRouteInRoutes')) {
     /**
@@ -330,28 +331,6 @@ if (!function_exists('isSort')) {
     }
 }
 
-if (!function_exists('getEditActivityRoute')) {
-    /**
-     * @param Activity $activity
-     * @param string|null $lessonSlug
-     * @return string
-     */
-    function getEditActivityRoute(Activity $activity, string|null $lessonSlug = null): string
-    {
-        $activityTypeConstants = config('constants.activity_types');
-        $action = $activity->type == $activityTypeConstants['video'] ? 'video' :
-            ($activity->type == $activityTypeConstants['assignment'] ?
-                'assignment' : 'reading');
-        $routeParams = [
-            'action' => $action,
-            'activitySlug' => $activity->slug
-        ];
-        if ($lessonSlug !== null) {
-            $routeParams['lessonSlug'] = $lessonSlug;
-        }
-        return route('frontend.activities.edit', $routeParams);
-    }
-}
 if (!function_exists('commandClearLines')) {
     /**
      * Clear lines of artisan commands
@@ -372,5 +351,15 @@ if (!function_exists('commandClearLines')) {
                 $output->write($moveUp . $moveStartCharacter . $clearLine);
             }
         }
+    }
+}
+
+if (!function_exists('countProductInCart')) {
+    /**
+     * @return array
+     */
+    function countProductInCart()
+    {
+        return Cart::where('user_id', auth()->user()->id)->count();
     }
 }

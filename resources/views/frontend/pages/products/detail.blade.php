@@ -61,13 +61,6 @@
                                 </div>
                                 <div class="product__details__price">{{ $productDetails->first()->price ?? __('N/A') }} $
                                 </div>
-                                {{-- <div class="product__details__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </div>
-                                </div> --}}
                                 <a href="#modalCart-{{ $product->id }}" data-toggle="modal"
                                     class="primary-btn">ADD TO CARD
                                 </a>

@@ -24,8 +24,12 @@ trait ProductDetailScope
      */
     public function scopeFilterByProduct($query, array $product)
     {
+        // $a = $query->whereHas('product', function ($query) use ($product) {
+        //     $query->whereIn('slug', $product);
+        // })->first();
+        // dd($a);
         return $query->whereHas('product', function ($query) use ($product) {
-            $query->whereIn('products.slug', $product);
+            $query->whereIn('slug', $product);
         });
     }
 

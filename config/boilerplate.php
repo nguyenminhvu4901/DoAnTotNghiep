@@ -148,7 +148,6 @@ return [
          */
         'languages' => [
             'en' => ['name' => 'English', 'rtl' => false],
-            'ja' => ['name' => 'Japanese', 'rtl' => false],
             'vi' => ['name' => 'Vietnam', 'rtl' => false],
         ],
     ],
