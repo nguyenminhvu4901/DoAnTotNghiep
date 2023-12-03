@@ -157,10 +157,23 @@
                         <div class="shoping__checkout">
                             <h5>Cart Total</h5>
                             <ul>
-                                <li>Subtotal <span>{{ $priceAllProductInCart }} VND</span></li>
-                                {{-- <li>Ship <span>$454.98</span></li> --}}
-                                <li>Coupon <span>$454.98</span></li>
-                                <li style="color:red">@lang('Total') <span>$454.98</span></li>
+                                <li>@lang('Subtotal') <span>{{ $subPriceAllProductInCart }} VND</span></li>
+                                @if (session()->has('coupon_name'))
+                                    <li>@lang('Coupon')
+                                        @if (session('coupon_type') == config('constants.coupon.percent'))
+                                            (%)
+                                        @else
+                                            (VND)
+                                        @endif
+                                        <span>{{ session('coupon_value') }} @if (session('coupon_type') == config('constants.coupon.percent'))
+                                                %
+                                            @else
+                                                VND
+                                            @endif
+                                        </span>
+                                    </li>
+                                @endif
+                                <li style="color:red">@lang('Total') <span>{{ $priceAllProductInCart }} VND</span></li>
                             </ul>
                             <button type="submit" class="btn primary-btn right-align">@lang('PROCEED TO CHECKOUT')</button>
                         </div>

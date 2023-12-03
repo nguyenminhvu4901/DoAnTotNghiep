@@ -158,7 +158,7 @@ class CartService extends BaseService
             ->first();
     }
 
-    public function getPriceProductInCart()
+    public function getSubPriceProductInCart()
     {
         $productsInCart = $this->getProductInCartByUserId();
 
@@ -168,6 +168,35 @@ class CartService extends BaseService
 
             return $carry + ($quantity * $price);
         }, 0);
+    }
+
+    public function getPriceProductInCart()
+    {
+        $productsInCart = $this->getProductInCartByUserId();
+        $subtotal = $productsInCart->reduce(function ($carry, $product) {
+            $quantity = $product->product_quantity;
+            $price = $product->product_price;
+            return $carry + ($quantity * $price);
+        }, 0);
+
+        // Kiểm tra xem có session 'coupon' hay không
+        if (session()->has('coupon_value') && session()->has('coupon_type')) {
+            $couponType = session('coupon_type');
+            if ($couponType == config('constants.coupon.percent')) {
+                $PriceDecrease = $subtotal * (session('coupon_value') / 100);
+                $subtotal = $subtotal - $PriceDecrease;
+                if ($subtotal < 0) {
+                    $subtotal = 0;
+                }
+            } else if ($couponType == config('constants.coupon.number')) {
+                $subtotal =  $subtotal - session('coupon_value');
+                if ($subtotal < 0) {
+                    $subtotal = 0;
+                }
+            }
+        }
+
+        return $subtotal;
     }
 
     public function checkCouponUnusedUserAndStillExpiryDate(string|null $name)

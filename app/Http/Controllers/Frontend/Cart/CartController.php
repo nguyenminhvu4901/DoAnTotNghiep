@@ -24,10 +24,12 @@ class CartController extends Controller
     {
         $carts = $this->cartService->getProductInCartByUserId();
         $priceAllProductInCart = $this->cartService->getPriceProductInCart();
+        $subPriceProductInCart = $this->cartService->getSubPriceProductInCart();
 
         $data = [
             'carts' => $carts,
             'priceAllProductInCart' => $priceAllProductInCart,
+            'subPriceAllProductInCart' => $subPriceProductInCart
         ];
 
         return view('frontend.pages.carts.index', $data);
@@ -76,6 +78,7 @@ class CartController extends Controller
 
     public function applyCoupon(ApplyCouponRequest $request)
     {
+        //Add coupon when havent coupon
         if (isset($request->coupon_code) && $request->old_coupon_name == null) {
             $coupon = $this->cartService->checkCouponUnusedUserAndStillExpiryDate($request->coupon_code);
 
@@ -92,7 +95,8 @@ class CartController extends Controller
                 Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
                 return redirect()->route('frontend.carts.index')->withFlashDanger(__('The discount code does not exist or has expired.'));
             }
-        } else if (isset($request->old_coupon_name) && $request->coupon_code == null && isset($request->checkDelete) && $request->checkDelete) {
+        }//Click x to delete coupon from cart 
+        else if (isset($request->old_coupon_name) && $request->coupon_code == null && isset($request->checkDelete) && $request->checkDelete) {
             $coupon = $this->cartService->getCouponByName($request->old_coupon_name);
 
             if ($coupon instanceof Coupon) {
@@ -102,7 +106,8 @@ class CartController extends Controller
                 return redirect()->route('frontend.carts.index')
                     ->withFlashSuccess(__('Successfully deleted coupon code.'));
             }
-        } else if (isset($request->old_coupon_name) && isset($request->coupon_code) && $request->coupon_code != $request->old_coupon_name) {
+        } // Apply new coupon and delete old coupon from cart 
+        else if (isset($request->old_coupon_name) && isset($request->coupon_code) && $request->coupon_code != $request->old_coupon_name) {
             $couponToApply = $this->cartService->checkCouponUnusedUserAndStillExpiryDate($request->coupon_code);
 
             if ($couponToApply instanceof Coupon) {
@@ -122,7 +127,8 @@ class CartController extends Controller
             } else {
                 return redirect()->route('frontend.carts.index')->withFlashDanger(__('The discount code does not exist or has expired.'));
             }
-        } else if (isset($request->old_coupon_name) && isset($request->coupon_code) && $request->coupon_code == $request->old_coupon_name) {
+        } // Reapply existing coupon
+        else if (isset($request->old_coupon_name) && isset($request->coupon_code) && $request->coupon_code == $request->old_coupon_name) {
             return redirect()->route('frontend.carts.index')->withFlashWarning(__('The coupon is being used.'));
         } else {
             return redirect()->route('frontend.carts.index');

@@ -7,5 +7,10 @@ return [
 
     'save_image' => [
         'product' => 'app/public/images/products/'
+    ],
+
+    'coupon' => [
+        'percent' => 0,
+        'number' => 1,
     ]
 ];
