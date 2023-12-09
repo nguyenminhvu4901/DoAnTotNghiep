@@ -59,10 +59,11 @@
                                     <i class="fa fa-star-half-o"></i>
                                     <span>(18 reviews)</span>
                                 </div>
-                                <div class="product__details__price">{{ $productDetails->first()->price ?? __('N/A') }} $
+                                <div class="product__details__price">
+                                    {{ !$productDetails->isEmpty() ? round($productDetails->avg('price')) : __('N/A') }}
+                                    $
                                 </div>
-                                <a href="#modalCart-{{ $product->id }}" data-toggle="modal"
-                                    class="primary-btn">ADD TO CARD
+                                <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">ADD TO CARD
                                 </a>
                                 @include('frontend.pages.products.partials.show-modal-cart', [
                                     'productId' => $product->id,

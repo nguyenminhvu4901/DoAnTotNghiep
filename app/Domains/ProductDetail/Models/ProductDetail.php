@@ -28,7 +28,6 @@ class ProductDetail extends Model
         'color',
         'quantity',
         'price',
-        'sale'
     ];
 
     protected $dates = ['deleted_at'];

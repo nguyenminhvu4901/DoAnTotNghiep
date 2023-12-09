@@ -12,5 +12,10 @@ return [
     'coupon' => [
         'percent' => 0,
         'number' => 1,
+    ],
+    
+    'is_used' => [
+        'false' => 0,
+        'true' => 1,
     ]
 ];

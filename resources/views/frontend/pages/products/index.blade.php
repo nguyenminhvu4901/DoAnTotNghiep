@@ -54,7 +54,10 @@
                                 @lang('Created date')
                             </th>
                             <th class="text-center">
-                                @lang('Add Option')
+                                @lang('Add Option Product')
+                            </th>
+                            <th class="text-center">
+                                @lang('Add Discount')
                             </th>
                             <th class="text-center">
                                 @lang('Add Image')
@@ -89,7 +92,12 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('frontend.productDetails.create', ['slug' => $product->slug]) }}">
-                                        <i class="fas fa-plus" style="color: #02f232;"></i>
+                                        <i class="fas fa-plus"></i>
+                                    </a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href="{{ route('frontend.sales.create', ['productId' => $product->id, 'level' => 'parent']) }}">
+                                        <i class="fas fa-tag"></i>
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">

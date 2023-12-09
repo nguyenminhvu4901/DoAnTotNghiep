@@ -2,8 +2,10 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
+use App\Domains\CouponUser\Models\CouponUser;
 use App\Rules\Captcha;
 use Illuminate\Http\Request;
+use App\Domains\Coupon\Models\Coupon;
 use App\Domains\Auth\Events\User\UserLoggedIn;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -46,6 +48,34 @@ class LoginController
     public function showLoginForm()
     {
         return view('frontend.auth.login');
+    }
+
+    public function customLogout(Request $request)
+    {
+        $couponUsers = CouponUser::where('user_id', auth()->user()->id)
+            ->where('is_used', config('constants.is_used.false'))
+            ->get();
+
+        if (session()->has('coupon_name')) {
+            $coupon = Coupon::where('name', session('coupon_name'))->first();
+
+            $coupon->update([
+                'quantity' => (int) $coupon->quantity + 1
+            ]);
+            $coupon->detachUser(auth()->user()->id);
+        } else if (!$couponUsers->isEmpty()) {
+            foreach ($couponUsers as $couponUser) {
+                $coupon = Coupon::findOrFail($couponUser->coupon_id);
+
+                $coupon->update([
+                    'quantity' => (int) $coupon->quantity + 1
+                ]);
+
+                $coupon->detachUser(auth()->user()->id);
+            }
+        }
+
+        return $this->logout($request);
     }
 
     /**
@@ -97,10 +127,26 @@ class LoginController
     protected function attemptLogin(Request $request)
     {
         try {
-            return $this->guard()->attempt(
+            $login =  $this->guard()->attempt(
                 $this->credentials($request),
                 $request->filled('remember')
             );
+
+            $couponUsers = CouponUser::where('user_id', auth()->user()->id)
+                ->where('is_used', config('constants.is_used.false'))
+                ->get();
+
+            foreach ($couponUsers as $couponUser) {
+                $coupon = Coupon::findOrFail($couponUser->coupon_id);
+
+                $coupon->update([
+                    'quantity' => (int) $coupon->quantity + 1
+                ]);
+
+                $coupon->detachUser(auth()->user()->id);
+            }
+
+            return $login;
         } catch (HttpResponseException $exception) {
             $this->incrementLoginAttempts($request);
 
@@ -108,10 +154,10 @@ class LoginController
         }
     }
 
-   
+
     protected function authenticated(Request $request, $user)
     {
-        if (! $user->isActive()) {
+        if (!$user->isActive()) {
             auth()->logout();
             return redirect()->route('frontend.auth.login')->withFlashDanger(__('Your account has been deactivated.'));
         }

@@ -68,18 +68,13 @@ class CartController extends Controller
     {
         return response()->json([
             'status_code' => Response::HTTP_OK,
-            // 'html' => view('frontend.pages.carts.partials.show-product-in-cart')->with([
-            //     'carts' => $carts,
-            //     'priceAllProductInCart' => $maxPrice
-            // ]
-            // )->render()
         ]);
     }
 
     public function applyCoupon(ApplyCouponRequest $request)
     {
-        //Add coupon when havent coupon
         if (isset($request->coupon_code) && $request->old_coupon_name == null) {
+
             $coupon = $this->cartService->checkCouponUnusedUserAndStillExpiryDate($request->coupon_code);
 
             if ($coupon instanceof Coupon) {
@@ -95,7 +90,7 @@ class CartController extends Controller
                 Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
                 return redirect()->route('frontend.carts.index')->withFlashDanger(__('The discount code does not exist or has expired.'));
             }
-        }//Click x to delete coupon from cart 
+        } //Click x to delete coupon from cart 
         else if (isset($request->old_coupon_name) && $request->coupon_code == null && isset($request->checkDelete) && $request->checkDelete) {
             $coupon = $this->cartService->getCouponByName($request->old_coupon_name);
 

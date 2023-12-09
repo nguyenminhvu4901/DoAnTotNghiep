@@ -25,9 +25,6 @@ class AddToCartRequest extends FormRequest
     {
         return [
             'productId' => ['required', 'exists:products,id'],
-            'productDetail.*.color' => ['required', 'string'],
-            'productDetail.*.size' => ['required', 'string'],
-            'productDetail.*.price' => ['required', 'numeric'],
             'productDetail.*.productDetailId' => ['required', 'exists:product_detail,id'],
             'productDetail.*.quantity' => ['required', 'min:0'],
         ];

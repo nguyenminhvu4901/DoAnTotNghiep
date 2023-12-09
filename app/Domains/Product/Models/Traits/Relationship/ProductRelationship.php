@@ -3,9 +3,10 @@
 namespace App\Domains\Product\Models\Traits\Relationship;
 
 use App\Domains\Auth\Models\User;
+use App\Domains\Sale\Models\Sale;
 use App\Domains\Category\Models\Category;
+use App\Domains\ProductSale\Models\ProductSale;
 use App\Domains\ProductImage\Models\ProductImage;
-use App\Domains\ProductDetail\Models\ProductDetal;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,14 +35,19 @@ trait ProductRelationship
 
     public function productImages(): HasMany
     {
-        return $this->hasMany(ProductImage::class,'product_id','id');
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
+
+    public function sale(): BelongsToMany
+    {
+        return $this->belongsToMany(Sale::class, ProductSale::class);
     }
 
     public function attachCategories(array $categories): void
     {
         $this->categories()->attach($categories);
     }
-    
+
     public function detachCategories(array $categories): void
     {
         $this->categories()->detach($categories);

@@ -6,6 +6,7 @@ use App\Services\BaseService;
 use Illuminate\Http\Response;
 use App\Domains\Cart\Models\Cart;
 use App\Domains\Coupon\Models\Coupon;
+use App\Domains\CouponUser\Models\CouponUser;
 use App\Domains\Product\Models\Product;
 use App\Domains\ProductDetail\Models\ProductDetail;
 
@@ -14,28 +15,30 @@ use App\Domains\ProductDetail\Models\ProductDetail;
  */
 class CartService extends BaseService
 {
-
     protected ProductDetail $productDetail;
     protected Product $product;
     protected Coupon $coupon;
+    protected CouponUser $couponUser;
     /**
      * CartService constructor.
      * @param Cart $cart
      * @param ProductDetail $productDetail
      * @param Product $product
      * @param Coupon $coupon
+     * @param CouponUser $couponUser
      */
     public function __construct(
         Cart $cart,
         ProductDetail $productDetail,
         Product $product,
-        Coupon $coupon
-
+        Coupon $coupon,
+        CouponUser $couponUser
     ) {
         $this->model = $cart;
         $this->productDetail = $productDetail;
         $this->product = $product;
         $this->coupon = $coupon;
+        $this->couponUser = $couponUser;
     }
 
     public function getProductInCartByUserId()
@@ -55,18 +58,12 @@ class CartService extends BaseService
                     'user_id' => auth()->user()->id,
                     'product_detail_id' => $item['productDetailId'],
                     'product_quantity' => $productInCart->product_quantity + (int) $item['quantity'],
-                    'product_size' => $item['size'],
-                    'product_color' => $item['color'],
-                    'product_price' => $item['price']
                 ]);
             } else {
                 $this->model->create([
                     'user_id' => auth()->user()->id,
                     'product_detail_id' => $item['productDetailId'],
                     'product_quantity' => $item['quantity'],
-                    'product_size' => $item['size'],
-                    'product_color' => $item['color'],
-                    'product_price' => $item['price']
                 ]);
             }
             $productDetail = $this->getProductDetail($item['productDetailId']);
@@ -164,7 +161,7 @@ class CartService extends BaseService
 
         return $productsInCart->reduce(function ($carry, $product) {
             $quantity = $product->product_quantity;
-            $price = $product->product_price;
+            $price = $product->productDetail->price;
 
             return $carry + ($quantity * $price);
         }, 0);
@@ -175,7 +172,7 @@ class CartService extends BaseService
         $productsInCart = $this->getProductInCartByUserId();
         $subtotal = $productsInCart->reduce(function ($carry, $product) {
             $quantity = $product->product_quantity;
-            $price = $product->product_price;
+            $price = $product->productDetail->price;
             return $carry + ($quantity * $price);
         }, 0);
 
@@ -202,6 +199,14 @@ class CartService extends BaseService
     public function checkCouponUnusedUserAndStillExpiryDate(string|null $name)
     {
         return $this->coupon->firstWithExpiryDate($name ?? '');
+    }
+
+    public function checkCouponUserExist(int|string|null $id)
+    {
+        $this->couponUser->where('user_id', auth()->user()->id)
+        ->where('coupon_id', $id)
+        ->where('is_used', config('constants.is_used.false'))
+        ->first();
     }
 
     public function getCouponByName(string|null $name)

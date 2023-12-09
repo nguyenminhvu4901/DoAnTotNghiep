@@ -4,6 +4,7 @@ namespace App\Domains\ProductDetail\Services;
 
 use Exception;
 use App\Services\BaseService;
+use App\Domains\Sale\Models\Sale;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Domains\ProductDetail\Models\ProductDetail;
@@ -13,9 +14,11 @@ use App\Domains\ProductDetail\Models\ProductDetail;
  */
 class ProductDetailService extends BaseService
 {
-    public function __construct(ProductDetail $productDetail)
+    protected Sale $sale;
+    public function __construct(ProductDetail $productDetail, Sale $sale)
     {
         $this->model = $productDetail;
+        $this->sale = $sale;
     }
 
     public function search(array $data = [])
@@ -71,13 +74,16 @@ class ProductDetailService extends BaseService
 
     protected function createProductDetail(array $data = [], $productId): ProductDetail
     {
+        if(isset($data['sale']))
+        {
+
+        }
         return $this->model->create([
             'product_id' => $productId,
             'size' => $data['size'],
             'color' => $data['color'],
             'quantity' => $data['quantity'],
             'price' => $data['price'],
-            'sale' => $data['sale'] ?? null,
         ]);
     }
 
@@ -91,7 +97,6 @@ class ProductDetailService extends BaseService
                 'color' => $data['color'],
                 'quantity' => $data['quantity'],
                 'price' => $data['price'],
-                'sale' => $data['sale'] ?? null,
             ]);
 
             DB::commit();

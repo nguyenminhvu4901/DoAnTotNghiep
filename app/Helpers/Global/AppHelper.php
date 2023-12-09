@@ -150,8 +150,7 @@ if (!function_exists('collectionPaginate')) {
         int $pageSize,
         int $currentPage = null,
         array $otherOptions = []
-    ): mixed
-    {
+    ): mixed {
         $page = $currentPage ?? Paginator::resolveCurrentPage();
         $total = $results->count();
         $options = array_merge([
@@ -227,7 +226,7 @@ if (!function_exists('containsNoNull')) {
      */
     function containsNoNull(array $arr): bool
     {
-       return count(array_filter($arr , fn($item) => $item === null)) === 0;
+        return count(array_filter($arr, fn ($item) => $item === null)) === 0;
     }
 }
 
@@ -236,7 +235,8 @@ if (!function_exists('activityTypesThatRequiresFile')) {
      * @param $type
      * @return bool
      */
-    function activityTypesThatRequiresFile($type) {
+    function activityTypesThatRequiresFile($type)
+    {
         return in_array($type, [
             config('constants.activity_types.file'),
             config(('constants.activity_types.video'))
@@ -249,12 +249,13 @@ if (!function_exists('numberToRomantic')) {
      * @param int $number
      * @return string
      */
-    function numberToRomantic($number) {
+    function numberToRomantic($number)
+    {
         $map = config('constants.roman-numbers');
         $returnValue = '';
         while ($number > 0) {
             foreach ($map as $roman => $int) {
-                if($number >= $int) {
+                if ($number >= $int) {
                     $number -= $int;
                     $returnValue .= $roman;
                     break;
@@ -298,8 +299,7 @@ if (!function_exists('moreQuestionScopeDetails')) {
     }
 }
 
-if (!function_exists('numericOrderToCharacters'))
-{
+if (!function_exists('numericOrderToCharacters')) {
     /**
      * @param int $number
      * @return string
@@ -360,6 +360,7 @@ if (!function_exists('countProductInCart')) {
      */
     function countProductInCart()
     {
-        return Cart::where('user_id', auth()->user()->id)->count();
+        return Cart::where('user_id', auth()->user()->id)
+            ->where('product_quantity', '!=', 0)->count();
     }
 }

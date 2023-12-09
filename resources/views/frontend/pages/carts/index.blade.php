@@ -69,16 +69,16 @@
                                                 <h5>{{ optional($cart->product())->first()->name }}</h5>
                                             </td>
                                             <td class="shoping__cart__price">
-                                                {{ $cart->product_color }}
+                                                {{ $cart->productDetail->color }}
                                             </td>
                                             <td class="shoping__cart__price">
-                                                {{ $cart->product_size }}
+                                                {{ $cart->productDetail->size }}
                                             </td>
                                             <td class="shoping__cart__price">
                                                 $69.00
                                             </td>
                                             <td class="shoping__cart__price">
-                                                {{ $cart->product_price }} VND
+                                                {{ $cart->productDetail->price }} VND
                                             </td>
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
@@ -133,7 +133,7 @@
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
-                                                {{ $cart->product_price * $cart->product_quantity }} VND
+                                                {{ $cart->productDetail->price * $cart->product_quantity }} VND
                                             </td>
                                             <td class="shoping__cart__item__close">
                                                 <span class="delete-product" data-cart-id="{{ $cart->id }}"
