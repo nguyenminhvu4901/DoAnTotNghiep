@@ -31,22 +31,36 @@
                                         {{ $loop->iteration }}
                                     </td>
                                     <td class="text-center align-middle">
-                                        <input type="hidden" name="productDetail[{{ $key }}][color]"
-                                            value="{{ $productDetail->color }}">
                                         {{ $productDetail->color }}
                                     </td>
                                     <td class="text-center align-middle">
-                                        <input type="hidden" name="productDetail[{{ $key }}][size]"
-                                            value="{{ $productDetail->size }}">
                                         {{ $productDetail->size }}
                                     </td>
                                     <td class="text-center align-middle">
                                         {{ $productDetail->quantity }}
                                     </td>
                                     <td class="text-center align-middle">
-                                        <input type="hidden" name="productDetail[{{ $key }}][price]"
-                                            value="{{ $productDetail->price }}">
-                                        {{ $productDetail->price }}$
+                                        @if (isset($productDetail->salePrice))
+                                            <span style="text-decoration: line-through">
+                                                {{ $productDetail->price }} @lang('VND')
+                                            </span>
+                                            <span>
+                                                (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                            </span>
+                                            <br>
+                                            {{ $productDetail->salePrice }} @lang('VND')
+                                        @elseif(isset($productDetail->salePriceGlobal))
+                                            <span style="text-decoration: line-through">
+                                                {{ $productDetail->price }} @lang('VND')
+                                            </span>
+                                            <span>
+                                                (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                            </span>
+                                            <br>
+                                            {{ $productDetail->salePriceGlobal }} @lang('VND')
+                                        @else
+                                            {{ $productDetail->price }} @lang('VND')
+                                        @endif
                                     </td>
                                     <td class="text-center align-middle">
                                         <div class="quantity">
@@ -70,10 +84,13 @@
                                                     data-max-quantity="{{ $productDetail->quantity }}">+</span>
                                             </div>
                                         </div>
-                                        @include('frontend.pages.products.partials.show-modal-max-quantity', [
-                                            'productDetailId' => $productDetail->id,
-                                            'maxQuantity' => $productDetail->quantity,
-                                        ])
+                                        @include(
+                                            'frontend.pages.products.partials.show-modal-max-quantity',
+                                            [
+                                                'productDetailId' => $productDetail->id,
+                                                'maxQuantity' => $productDetail->quantity,
+                                            ]
+                                        )
                                     </td>
                                 </tr>
                             @empty
@@ -85,7 +102,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-add-to-cart" data-dismiss="modal">@lang('Close')</button>
+                    <button type="button" class="btn btn-secondary close-add-to-cart"
+                        data-dismiss="modal">@lang('Close')</button>
                     <button type="submit" class="btn btn-primary">@lang('Add to cart')</button>
                 </div>
             </div>

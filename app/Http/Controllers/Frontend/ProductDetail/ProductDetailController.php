@@ -32,37 +32,7 @@ class ProductDetailController extends Controller
         $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->getAllProducts();
 
-        foreach ($productDetails as $productDetail) {
-            if (!$productDetail->saleOption->isEmpty()) {
-                if ($productDetail->saleOption->first()->type == config('constants.type_sale.percent')) {
-                    $productDetail->salePrice = $productDetail->price - $productDetail->price * ($productDetail->saleOption->first()->value / 100);
-                    if ($productDetail->salePrice < 0) {
-                        $productDetail->salePrice = 0;
-                    }
-                } else {
-                    $productDetail->salePrice =  $productDetail->price - $productDetail->saleOption->first()->value;
-                    if ($productDetail->salePrice < 0) {
-                        $productDetail->salePrice = 0;
-                    }
-                }
-                $productDetail->reducedValue = $productDetail->saleOption->first()->value;
-                $productDetail->reducedType = $productDetail->saleOption->first()->type;
-            } else if (!$productDetail->product->saleGlobal->isEmpty()) {
-                if ($productDetail->product->saleGlobal->first()->type == config('constants.type_sale.percent')) {
-                    $productDetail->salePriceGlobal = $productDetail->price - $productDetail->price * ($productDetail->product->saleGlobal->first()->value / 100);
-                    if ($productDetail->salePriceGlobal < 0) {
-                        $productDetail->salePriceGlobal = 0;
-                    }
-                } else {
-                    $productDetail->salePriceGlobal =  $productDetail->price - $productDetail->product->saleGlobal->first()->value;
-                    if ($productDetail->salePriceGlobal < 0) {
-                        $productDetail->salePriceGlobal = 0;
-                    }
-                }
-                $productDetail->reducedValue = $productDetail->product->saleGlobal->first()->value;
-                $productDetail->reducedType = $productDetail->product->saleGlobal->first()->type;
-            }
-        }
+        $productDetails = $this->productDetailService->getDiscount($productDetails);
 
         return view('frontend.pages.product-detail.index', ['productDetails' => $productDetails, 'categories' => $categories, 'products' => $products]);
     }

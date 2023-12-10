@@ -159,21 +159,72 @@ class CartService extends BaseService
     {
         $productsInCart = $this->getProductInCartByUserId();
 
-        return $productsInCart->reduce(function ($carry, $product) {
-            $quantity = $product->product_quantity;
-            $price = $product->productDetail->price;
+        return $productsInCart->reduce(function ($carry, $cart) {
+            $quantity = $cart->product_quantity;
 
-            return $carry + ($quantity * $price);
+            if (!$cart->productDetail->saleOption->isEmpty()) {
+                if ($cart->productDetail->saleOption->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->saleOption->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+            } else if (!$cart->productDetail->product->saleGlobal->isEmpty()) {
+                if ($cart->productDetail->product->saleGlobal->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->product->saleGlobal->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+            }
+
+            return $carry + ($quantity * $cart->productDetail->salePrice);
         }, 0);
     }
 
     public function getPriceProductInCart()
     {
         $productsInCart = $this->getProductInCartByUserId();
-        $subtotal = $productsInCart->reduce(function ($carry, $product) {
-            $quantity = $product->product_quantity;
-            $price = $product->productDetail->price;
-            return $carry + ($quantity * $price);
+        $subtotal = $productsInCart->reduce(function ($carry, $cart) {
+            $quantity = $cart->product_quantity;
+
+            if (!$cart->productDetail->saleOption->isEmpty()) {
+                if ($cart->productDetail->saleOption->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->saleOption->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+            } else if (!$cart->productDetail->product->saleGlobal->isEmpty()) {
+                if ($cart->productDetail->product->saleGlobal->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->product->saleGlobal->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+            }
+
+            return $carry + ($quantity * $cart->productDetail->salePrice);
         }, 0);
 
         // Kiểm tra xem có session 'coupon' hay không
@@ -204,9 +255,9 @@ class CartService extends BaseService
     public function checkCouponUserExist(int|string|null $id)
     {
         $this->couponUser->where('user_id', auth()->user()->id)
-        ->where('coupon_id', $id)
-        ->where('is_used', config('constants.is_used.false'))
-        ->first();
+            ->where('coupon_id', $id)
+            ->where('is_used', config('constants.is_used.false'))
+            ->first();
     }
 
     public function getCouponByName(string|null $name)
@@ -243,5 +294,43 @@ class CartService extends BaseService
         $coupon->detachUser(auth()->user()->id);
 
         return $coupon;
+    }
+
+    public function getDiscount($carts)
+    {
+        foreach ($carts as $cart) {
+            if (!$cart->productDetail->saleOption->isEmpty()) {
+                if ($cart->productDetail->saleOption->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->saleOption->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+
+                $cart->productDetail->reducedValue = $cart->productDetail->saleOption->first()->value;
+                $cart->productDetail->reducedType = $cart->productDetail->saleOption->first()->type;
+            } else if (!$cart->productDetail->product->saleGlobal->isEmpty()) {
+                if ($cart->productDetail->product->saleGlobal->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePriceGlobal = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->product->saleGlobal->first()->value / 100);
+                    if ($cart->productDetail->salePriceGlobal < 0) {
+                        $cart->productDetail->salePriceGlobal = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePriceGlobal =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    if ($cart->productDetail->salePriceGlobal < 0) {
+                        $cart->productDetail->salePriceGlobal = 0;
+                    }
+                }
+                $cart->productDetail->reducedValue = $cart->productDetail->product->saleGlobal->first()->value;
+                $cart->productDetail->reducedType = $cart->productDetail->product->saleGlobal->first()->type;
+            }
+        }
+
+        return $carts;
     }
 }

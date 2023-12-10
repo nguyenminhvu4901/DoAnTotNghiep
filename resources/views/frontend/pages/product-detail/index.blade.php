@@ -170,7 +170,9 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $productDetails->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
+                @if (!empty($productDetails))
+                    {{ $productDetails->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
+                @endif
             </div>
         </div>
     </div>

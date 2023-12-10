@@ -26,6 +26,8 @@ class CartController extends Controller
         $priceAllProductInCart = $this->cartService->getPriceProductInCart();
         $subPriceProductInCart = $this->cartService->getSubPriceProductInCart();
 
+        $carts =  $this->cartService->getDiscount($carts);
+
         $data = [
             'carts' => $carts,
             'priceAllProductInCart' => $priceAllProductInCart,

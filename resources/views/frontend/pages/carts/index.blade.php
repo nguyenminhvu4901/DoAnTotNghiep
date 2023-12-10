@@ -75,10 +75,34 @@
                                                 {{ $cart->productDetail->size }}
                                             </td>
                                             <td class="shoping__cart__price">
-                                                $69.00
+                                                @if (isset($cart->productDetail->salePrice))
+                                                    <span>
+                                                        {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'VND' : '%' }}
+                                                    </span>
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    <span>
+                                                        {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'VND' : '%' }}
+                                                    </span>
+                                                @else
+                                                    @lang('There are no sale price')
+                                                @endif
                                             </td>
                                             <td class="shoping__cart__price">
-                                                {{ $cart->productDetail->price }} VND
+                                                @if (isset($cart->productDetail->salePrice))
+                                                    <span style="text-decoration: line-through">
+                                                        {{ $cart->productDetail->price }} @lang('VND')
+                                                    </span>
+                                                    <br>
+                                                    {{ $cart->productDetail->salePrice }} @lang('VND')
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    <span style="text-decoration: line-through">
+                                                        {{ $cart->productDetail->price }} @lang('VND')
+                                                    </span>
+                                                    <br>
+                                                    {{ $cart->productDetail->salePriceGlobal }} @lang('VND')
+                                                @else
+                                                    {{ $cart->productDetail->price }} @lang('VND')
+                                                @endif
                                             </td>
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
@@ -133,7 +157,16 @@
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
-                                                {{ $cart->productDetail->price * $cart->product_quantity }} VND
+                                                @if (isset($cart->productDetail->salePrice))
+                                                    {{ $cart->productDetail->salePrice * $cart->product_quantity }}
+                                                    @lang('VND')
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    {{ $cart->productDetail->salePriceGlobal * $cart->product_quantity }}
+                                                    @lang('VND')
+                                                @else
+                                                    {{ $cart->productDetail->price * $cart->product_quantity }}
+                                                    @lang('VND')
+                                                @endif
                                             </td>
                                             <td class="shoping__cart__item__close">
                                                 <span class="delete-product" data-cart-id="{{ $cart->id }}"
