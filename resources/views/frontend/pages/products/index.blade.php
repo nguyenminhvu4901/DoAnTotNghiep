@@ -48,6 +48,9 @@
                                 @lang('Category')
                             </th>
                             <th class="text-center">
+                                @lang('Sale price')
+                            </th>
+                            <th class="text-center">
                                 @lang('Created by')
                             </th>
                             <th class="text-center">
@@ -57,7 +60,7 @@
                                 @lang('Add Option Product')
                             </th>
                             <th class="text-center">
-                                @lang('Add Discount')
+                                @lang('Discount')
                             </th>
                             <th class="text-center">
                                 @lang('Add Image')
@@ -85,6 +88,14 @@
                                     {{ optional($product->categories()->pluck('name'))->first() ?? __('There are no categories') }}
                                 </td>
                                 <td class="text-center align-middle">
+                                    @if (!$product->saleGlobal->isEmpty())
+                                        {{ $product->saleGlobal->first()->value }}
+                                        {{ $product->saleGlobal->first()->type == 1 ? __('VND') : '%' }}
+                                    @else
+                                        @lang('There are no sale price')
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
                                     {{ $product->created_by }}
                                 </td>
                                 <td class="text-center align-middle">
@@ -96,9 +107,19 @@
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.sales.create', ['productId' => $product->id, 'level' => 'parent']) }}">
-                                        <i class="fas fa-tag"></i>
-                                    </a>
+                                    @if ($product->saleGlobal->isEmpty())
+                                        <a
+                                            href="{{ route('frontend.sales.create', ['productId' => $product->id, 'level' => 'parent']) }}">
+                                            <i class="fas fa-tag"></i> @lang('Add')
+                                        </a>
+                                    @elseif(!$product->saleGlobal->isEmpty() && isset($product->sale->first()->id))
+                                        <a
+                                            href="{{ route('frontend.sales.edit', ['id' => $product->sale->first()->id]) }}">
+                                            <i class="fas fa-edit"></i> @lang('Update')
+                                        </a>
+                                    @else
+                                        @lang('Product price has been reduced')
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="{{ route('frontend.productImages.create', ['slug' => $product->slug]) }}">

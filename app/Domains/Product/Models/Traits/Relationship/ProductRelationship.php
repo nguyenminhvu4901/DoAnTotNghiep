@@ -43,6 +43,12 @@ trait ProductRelationship
         return $this->belongsToMany(Sale::class, ProductSale::class);
     }
 
+    public function saleGlobal(): BelongsToMany
+    {
+        return $this->belongsToMany(Sale::class, ProductSale::class)
+                    ->whereNull('product_sale.product_detail_id');
+    }
+
     public function attachCategories(array $categories): void
     {
         $this->categories()->attach($categories);

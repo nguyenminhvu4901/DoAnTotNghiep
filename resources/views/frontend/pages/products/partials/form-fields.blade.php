@@ -26,17 +26,6 @@
 
 <div class="form-group row">
     <label for="input_name" class="col-sm-2 col-form-label">
-        @lang('Price') <span class="text-danger">*</span>
-    </label>
-    <div class="col-sm-5">
-        <input type="number" name="price" class="form-control rounded {{ checkDisplayError($errors, 'price') }}"
-            id="input_price" placeholder="@lang('Price')"
-            value="{{ old('price') ?? (isset($product) ? $product->price : '') }}">
-        <small id="error_price" class="error text-danger">{{ $errors->first('price') }}</small>
-    </div>
-</div>
-<div class="form-group row">
-    <label for="input_name" class="col-sm-2 col-form-label">
         @lang('Category name')
     </label>
     <div class="col-sm-5">

@@ -32,4 +32,9 @@ trait ProductDetailRelationship
     {
         return $this->belongsToMany(Sale::class, ProductSale::class);
     }
+
+    public function saleOption(): BelongsToMany
+    {
+        return $this->belongsToMany(Sale::class, ProductSale::class)->whereNotNull('product_sale.product_detail_id');
+    }
 }
