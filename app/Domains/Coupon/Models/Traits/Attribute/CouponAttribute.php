@@ -28,21 +28,21 @@ trait CouponAttribute
         return convert_date_to_string($this->attributes['expiry_date']);
     }
 
+    // public function getFormattedTypeCouponAttribute()
+    // {
+    //     if ($this->attributes['type'] == 0) {
+    //         return '%';
+    //     } else {
+    //         return __('Number');
+    //     }
+    // }
+
     public function getFormattedTypeCouponAttribute()
     {
         if ($this->attributes['type'] == 0) {
             return '%';
         } else {
-            return __('Number');
-        }
-    }
-
-    public function getFormattedTypeCouponAtAttribute()
-    {
-        if ($this->attributes['type'] == 0) {
-            return '%';
-        } else {
-            return __('đ');
+            return __('VND');
         }
     }
 }

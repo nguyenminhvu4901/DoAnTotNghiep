@@ -59,7 +59,7 @@
                                 @lang('Price')
                             </th>
                             <th class="text-center">
-                                @lang('Sale')
+                                @lang('Add Discount')
                             </th>
                             <th class="text-center">
                                 @lang('Add new Option')
@@ -97,7 +97,9 @@
                                     {{ $productDetail->price }} $
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->sale ?? __('This product is not discounted') }}
+                                    <a href="{{ route('frontend.sales.create', ['productId' => $productDetail->id, 'level' => 'child']) }}">
+                                        <i class="fas fa-tag"></i>
+                                    </a>
                                 </td>
                                 <td class="text-center align-middle">
                                     <a

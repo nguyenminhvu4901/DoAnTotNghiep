@@ -16,7 +16,7 @@ Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth']], 
                 ->push(__('Sale management'), route('frontend.sales.index'));
         });
 
-    Route::get('{productId}/create', [SaleController::class, 'create'])->name('create')
+    Route::get('{productId}/{level}/create', [SaleController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Sale management'), route('frontend.sales.index'))
@@ -24,4 +24,17 @@ Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth']], 
         });
 
     Route::post('{productId}/{level}/store', [SaleController::class, 'store'])->name('store');
+
+    Route::get('{id}/edit', [SaleController::class, 'edit'])->name('edit')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Sale management'), route('frontend.sales.index'))
+                ->push(__('Update Product Discounts'));
+        });
+
+    Route::put('{id}/update', [SaleController::class, 'update'])->name('update');
+
+    Route::patch('{saleId}/update-active', [SaleController::class, 'updateActive'])->name('updateActive');
+
+    Route::delete('{saleId}/destroy', [SaleController::class, 'destroy'])->name('destroy');
 });
