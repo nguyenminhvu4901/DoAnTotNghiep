@@ -2,6 +2,7 @@
 
 namespace App\Domains\ProductDetail\Models\Traits\Relationship;
 
+use Carbon\Carbon;
 use App\Domains\Sale\Models\Sale;
 use App\Domains\Product\Models\Product;
 use App\Domains\Category\Models\Category;
@@ -35,6 +36,10 @@ trait ProductDetailRelationship
 
     public function saleOption(): BelongsToMany
     {
-        return $this->belongsToMany(Sale::class, ProductSale::class)->whereNotNull('product_sale.product_detail_id');
+        return $this->belongsToMany(Sale::class, ProductSale::class)
+            ->whereNotNull('product_sale.product_detail_id')
+            ->where('start_date', '<=', Carbon::now())
+            ->where('expiry_date', '>=', Carbon::now())
+            ->where('is_active', '!=', config('constants.is_active.false'));
     }
 }

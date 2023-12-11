@@ -2,6 +2,7 @@
 
 namespace App\Domains\Product\Models\Traits\Relationship;
 
+use Carbon\Carbon;
 use App\Domains\Auth\Models\User;
 use App\Domains\Sale\Models\Sale;
 use App\Domains\Category\Models\Category;
@@ -46,7 +47,10 @@ trait ProductRelationship
     public function saleGlobal(): BelongsToMany
     {
         return $this->belongsToMany(Sale::class, ProductSale::class)
-                    ->whereNull('product_sale.product_detail_id');
+                    ->whereNull('product_sale.product_detail_id')
+                    ->where('start_date', '<=', Carbon::now())
+                    ->where('expiry_date', '>=', Carbon::now())
+                    ->where('is_active', '!=' , config('constants.is_active.false'));
     }
 
     public function attachCategories(array $categories): void
