@@ -12,12 +12,17 @@
 }
 
 #sidebar-container {
+    height: 100vh;
     width: 20%;
     position: sticky;
     top: calc(2.5vh + 20px);
     align-self: flex-start;
     margin-left: 20px;
     transition: all 0.3s;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column; /* Thêm thuộc tính flex-direction: column để các item trong sidebar xếp dọc */
 }
 
 #sidebar::-webkit-scrollbar {
@@ -26,10 +31,15 @@
 }
 
 #sidebar {
-    scrollbar-width: none;
+    overflow-y: auto; /* Thay đổi từ "scrollbar-width: none" thành "overflow-y: auto" */
+    scrollbar-color: var(--route-grey) transparent; /* Màu của cuộn thanh */
     border-radius: 30px;
     background: var(--white);
-    height: 90%;
+    flex: 1; /* Cho phần sidebar mở rộng để lấp đầy không gian còn lại */
+    padding: 10px; /* Khoảng cách giữa các item trong sidebar */
+    flex-direction: column;
+    padding-right: 15px;
+    
 
     #sidebar-nix-logo {
         width: min(15vh, 15vw);
@@ -112,7 +122,8 @@
 }
 
 .sidebar-item {
-    height: 45vh
+    flex-shrink: 0;
+    margin-bottom: 10px;
 }
 
 /**

@@ -43,9 +43,6 @@
                                 @lang('Coupon')
                             </th>
                             <th class="text-center">
-                                @lang('Type')
-                            </th>
-                            <th class="text-center">
                                 @lang('Value')
                             </th>
                             <th class="text-center">
@@ -77,10 +74,7 @@
                                     {{ $coupon->name }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $coupon->formatted_type_coupon }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $coupon->value }}
+                                    {{ $coupon->value }} {{ $coupon->formatted_type_coupon }}
                                 </td>
                                 <td class="text-center align-middle">
                                     {{ $coupon->formatted_start_date_at }}
@@ -118,7 +112,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">@lang('Not found data')</td>
+                                <td colspan="9" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

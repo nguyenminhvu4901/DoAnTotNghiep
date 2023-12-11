@@ -7,5 +7,25 @@ return [
 
     'save_image' => [
         'product' => 'app/public/images/products/'
+    ],
+
+    'coupon' => [
+        'percent' => 0,
+        'number' => 1,
+    ],
+
+    'type_sale' => [
+        'percent' => 0,
+        'number' => 1,
+    ],
+    
+    'is_used' => [
+        'false' => 0,
+        'true' => 1,
+    ],
+
+    'is_active' => [
+        'false' => 0,
+        'true' => 1,
     ]
 ];

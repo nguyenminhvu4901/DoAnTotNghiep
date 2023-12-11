@@ -52,6 +52,7 @@ class UserService extends BaseService
      */
     public function registerUser(array $data = []): User
     {
+
         DB::beginTransaction();
 
         try {

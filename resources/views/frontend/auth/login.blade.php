@@ -22,15 +22,16 @@
                                 <input type="email" name="email" id="email" class="form-control"
                                     placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}" maxlength="255"
                                     required autofocus autocomplete="email" />
+                                <small id="error_name" class="error text-danger">{{ $errors->first('email') }}</small>
                             </div>
 
                             <!-- Password input -->
                             <div class="form-outline mb-3">
                                 <input type="password" name="password" id="password" class="form-control"
                                     placeholder="{{ __('Password') }}" maxlength="100" required
-                                    autocomplete="current-password" data-toggle="password"/>
+                                    autocomplete="current-password" data-toggle="password" />
+                                <small id="error_name" class="error text-danger">{{ $errors->first('password') }}</small>
                             </div>
-
                             <div class="d-flex justify-content-between align-items-center">
                                 <!-- Checkbox -->
                                 <div class="form-check mb-0">
@@ -45,7 +46,8 @@
                             <div class="text-center text-lg-start mt-4 pt-2">
                                 <button type="submit" class="btn btn-primary btn-lg"
                                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="{{ route('frontend.auth.register') }}"
+                                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a
+                                        href="{{ route('frontend.auth.register') }}"
                                         class="small btn btn-link fw-bold mb-0">Register</a></p>
                             </div>
                         </form>

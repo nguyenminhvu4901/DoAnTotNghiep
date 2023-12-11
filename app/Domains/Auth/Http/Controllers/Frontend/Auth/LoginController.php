@@ -2,11 +2,14 @@
 
 namespace App\Domains\Auth\Http\Controllers\Frontend\Auth;
 
-use App\Domains\Auth\Events\User\UserLoggedIn;
+use App\Domains\CouponUser\Models\CouponUser;
 use App\Rules\Captcha;
+use Illuminate\Http\Request;
+use App\Domains\Coupon\Models\Coupon;
+use App\Domains\Auth\Events\User\UserLoggedIn;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
 use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 /**
@@ -34,7 +37,7 @@ class LoginController
      */
     public function redirectPath()
     {
-        return route(homeRoute());
+        return route('frontend.user.dashboard');
     }
 
     /**
@@ -45,6 +48,34 @@ class LoginController
     public function showLoginForm()
     {
         return view('frontend.auth.login');
+    }
+
+    public function customLogout(Request $request)
+    {
+        $couponUsers = CouponUser::where('user_id', auth()->user()->id)
+            ->where('is_used', config('constants.is_used.false'))
+            ->get();
+
+        if (session()->has('coupon_name')) {
+            $coupon = Coupon::where('name', session('coupon_name'))->first();
+
+            $coupon->update([
+                'quantity' => (int) $coupon->quantity + 1
+            ]);
+            $coupon->detachUser(auth()->user()->id);
+        } else if (!$couponUsers->isEmpty()) {
+            foreach ($couponUsers as $couponUser) {
+                $coupon = Coupon::findOrFail($couponUser->coupon_id);
+
+                $coupon->update([
+                    'quantity' => (int) $coupon->quantity + 1
+                ]);
+
+                $coupon->detachUser(auth()->user()->id);
+            }
+        }
+
+        return $this->logout($request);
     }
 
     /**
@@ -58,11 +89,29 @@ class LoginController
     protected function validateLogin(Request $request)
     {
         $request->validate([
+            'email' => ['required', 'exists:users,email', 'email'],
             $this->username() => ['required', 'max:255', 'string'],
             'password' => array_merge(['max:100'], PasswordRules::login()),
             'g-recaptcha-response' => ['required_if:captcha_status,true', new Captcha],
         ], [
             'g-recaptcha-response.required_if' => __('validation.required', ['attribute' => 'captcha']),
+        ]);
+    }
+
+    public function index(Request $request)
+    {
+        if ($request->user()) {
+            return view('frontend.user.dashboard');
+        }
+
+        return $this->showLoginForm();
+    }
+
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [__('account or password is incorrect')],
         ]);
     }
 
@@ -78,10 +127,26 @@ class LoginController
     protected function attemptLogin(Request $request)
     {
         try {
-            return $this->guard()->attempt(
+            $login =  $this->guard()->attempt(
                 $this->credentials($request),
                 $request->filled('remember')
             );
+
+            $couponUsers = CouponUser::where('user_id', auth()->user()->id)
+                ->where('is_used', config('constants.is_used.false'))
+                ->get();
+
+            foreach ($couponUsers as $couponUser) {
+                $coupon = Coupon::findOrFail($couponUser->coupon_id);
+
+                $coupon->update([
+                    'quantity' => (int) $coupon->quantity + 1
+                ]);
+
+                $coupon->detachUser(auth()->user()->id);
+            }
+
+            return $login;
         } catch (HttpResponseException $exception) {
             $this->incrementLoginAttempts($request);
 
@@ -89,21 +154,13 @@ class LoginController
         }
     }
 
-    /**
-     * The user has been authenticated.
-     *
-     * @param  Request  $request
-     * @param $user
-     * @return mixed
-     */
+
     protected function authenticated(Request $request, $user)
     {
-        if (! $user->isActive()) {
+        if (!$user->isActive()) {
             auth()->logout();
-
             return redirect()->route('frontend.auth.login')->withFlashDanger(__('Your account has been deactivated.'));
         }
-
         event(new UserLoggedIn($user));
 
         if (config('boilerplate.access.user.single_login')) {

@@ -23,6 +23,7 @@
         <small id="error_name" class="error text-danger">{{ $errors->first('description') }}</small>
     </div>
 </div>
+
 <div class="form-group row">
     <label for="input_name" class="col-sm-2 col-form-label">
         @lang('Category name')

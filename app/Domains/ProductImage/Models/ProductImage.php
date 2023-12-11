@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Domains\Product\Models\Traits\Attribute\ProductAttribute;
-use App\Domains\ProductImage\Models\Traits\Method\ProductImageMethod;
 use App\Domains\ProductImage\Models\Traits\Attribute\ProductImageAttribute;
 use App\Domains\ProductImage\Models\Traits\Relationship\ProductImageRelationship;
 use App\Domains\ProductImage\Models\Traits\Scope\ProductImageScope;

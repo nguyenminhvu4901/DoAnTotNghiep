@@ -20,7 +20,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::group(['as' => 'auth.'], function () {
     Route::group(['middleware' => 'auth'], function () {
         // Authentication
-        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+        Route::post('logout', [LoginController::class, 'customLogout'])->name('logout');
 
         // Password expired routes
         Route::get('password/expired', [PasswordExpiredController::class, 'expired'])->name('password.expired');
@@ -82,7 +82,7 @@ Route::group(['as' => 'auth.'], function () {
 
     Route::group(['middleware' => 'guest'], function () {
         // Authentication
-        Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::get('login', [LoginController::class, 'index'])->name('login');
         Route::post('login', [LoginController::class, 'login']);
 
         // Registration

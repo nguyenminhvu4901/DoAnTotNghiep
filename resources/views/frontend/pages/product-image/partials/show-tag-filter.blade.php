@@ -17,7 +17,7 @@
             @include('frontend.includes.filter.filter-display-tag', [
                 'text' => __('Product') . ': ' . $product->name,
                 'name' => 'products[]',
-                'value' => $product->name,
+                'value' => $product->slug,
             ])
         @endif
     @endforeach
