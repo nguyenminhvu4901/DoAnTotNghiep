@@ -27,7 +27,7 @@ $(document).ready(function () {
             });
 
             $(`#modalDelete-${cartIdToUpdateWhenClick}`).on('click', '#cancelDelete', function () {
-                $('.input-quantity').val(oldQuantitySingle);
+                $(`.quantityInput-${productDetailIdToUpdateWhenClick}`).val(oldQuantitySingle);
             });
         } else {
             updateProductInCart(productDetailIdToUpdateWhenClick, cartIdToUpdateWhenClick, urlUpdateSingle, newQuantitySingle, oldQuantitySingle)
@@ -51,20 +51,20 @@ $(document).ready(function () {
             });
 
             $(`#modalDelete-${cartId}`).on('click', '#cancelDelete', function () {
-                $('.input-quantity').val(oldQuantityMultiple);
+                $(`.quantityInput-${productDetailIdToUpdateWhenChange}`).val(oldQuantityMultiple);
             });
         } else if (quantityNewMultiple > maxQuantity) {
             $(`#modalMaxQuantity-${cartId}`).modal('show');
 
             $(`#modalMaxQuantity-${cartId}`).on('click', '#confirmMaxQuantity', function () {
-                $('.input-quantity').val(maxQuantity);
+                $(`.quantityInput-${productDetailIdToUpdateWhenChange}`).val(maxQuantity);
 
-                $('.input-quantity').data('timer', setTimeout(function () {
+                $(`.quantityInput-${productDetailIdToUpdateWhenChange}`).data('timer', setTimeout(function () {
                     updateProductInCart(productDetailIdToUpdateWhenChange, cartId, urlUpdateMultiple, maxQuantity, oldQuantityMultiple);
                 }, 1000));
             });
         } else {
-            $('.input-quantity').data('timer', setTimeout(function () {
+            $(`.quantityInput-${productDetailIdToUpdateWhenChange}`).data('timer', setTimeout(function () {
                 updateProductInCart(productDetailIdToUpdateWhenChange, cartId, urlUpdateMultiple, quantityNewMultiple, oldQuantityMultiple);
             }, 1000));
         }
@@ -85,7 +85,6 @@ $(document).ready(function () {
                 title: 'Xoá thành công',
                 confirmButtonText: "Rất giỏi",
             }).then(function () {
-                // $('#renderCart').html(response.html);
                 location.reload();
             });
         }).fail(function (error) {

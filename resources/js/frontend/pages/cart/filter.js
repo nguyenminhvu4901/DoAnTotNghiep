@@ -6,7 +6,6 @@ $(function () {
 
     $(document).on('click', '.remove-search-filter', function () {
         let newInput = $('<input>').attr('type', 'hidden').attr('name', 'checkDelete').attr('value', 'true');
-        console.log(newInput);
         $('#checkDeleteCouponInCart').prepend(newInput);
         const inputName = $(this).data('name')
         const inputValue = $(this).data('value')

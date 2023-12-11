@@ -30,11 +30,11 @@
             var input = $(this);
             var maxQuantity = parseInt(input.data('max-quantity'));
             var enteredQuantity = parseFloat(input.val());
-
+            var productDetailIdWhenChange = $(this).data('product-id');
             if (enteredQuantity > maxQuantity) {
-                input.val(maxQuantity);
+                $(`.quantityInput-${productDetailIdWhenChange}`).val(maxQuantity);
             } else if (enteredQuantity < 0) {
-                input.val(0);
+                $(`.quantityInput-${productDetailIdWhenChange}`).val(0);
             }
 
             updateQuantityButtons(input);
@@ -54,12 +54,12 @@
         var enteredQuantity = parseInt($(this).val());
         var productDetailIdInProduct = $(this).data('product-id');
         if (isNaN(enteredQuantity) || enteredQuantity < 0) {
-            $(this).val(0);
+            $(`.quantityInput-${productDetailIdInProduct}`).val(0);
         } else if (enteredQuantity > maxQuantity) {
             $(`#modalMaxQuantity-${productDetailIdInProduct}`).modal('show');
 
             $(`#modalMaxQuantity-${productDetailIdInProduct}`).on('click', '#confirmMaxQuantity', function () {
-                $('.input-quantity-in-product-detail').val(maxQuantity);
+                $(`.quantityInput-${productDetailIdInProduct}`).val(maxQuantity);
             });
 
             $(`#modalMaxQuantity-${productDetailIdInProduct}`).on('click', '.close-modal-children', function () {
