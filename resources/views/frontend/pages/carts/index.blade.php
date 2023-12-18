@@ -228,6 +228,7 @@
                                         <input type="hidden" name="couponValue" value="{{ session('coupon_value') }}">
                                         <input type="hidden" name="couponName" value="{{ session('coupon_name') }}">
                                         <input type="hidden" name="couponType" value="{{ session('coupon_type') }}">
+                                        <input type="hidden" name="couponId" value="{{ session('coupon_id') }}">
                                     @endif
                                     <input type="hidden" name="totalAllProduct" value="{{ $priceAllProductInCart }}">
                                     <li style="color:red">@lang('Total') <span>{{ $priceAllProductInCart }} VND</span>

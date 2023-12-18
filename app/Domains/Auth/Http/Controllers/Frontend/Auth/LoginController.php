@@ -54,6 +54,7 @@ class LoginController
     {
         $couponUsers = CouponUser::where('user_id', auth()->user()->id)
             ->where('is_used', config('constants.is_used.false'))
+            ->where('order_id', null)
             ->get();
 
         if (session()->has('coupon_name')) {
@@ -135,6 +136,7 @@ class LoginController
             if ($login) {
                 $couponUsers = CouponUser::where('user_id', auth()->user()->id)
                     ->where('is_used', config('constants.is_used.false'))
+                    ->where('order_id', null)
                     ->get();
 
                 foreach ($couponUsers as $couponUser) {
@@ -147,7 +149,7 @@ class LoginController
                     $coupon->detachUser(auth()->user()->id);
                 }
             }
-            
+
             return $login;
         } catch (HttpResponseException $exception) {
             $this->incrementLoginAttempts($request);

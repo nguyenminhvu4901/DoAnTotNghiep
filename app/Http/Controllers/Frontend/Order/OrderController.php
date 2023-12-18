@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Http\Requests\Frontend\Order\CheckoutRequest;
-use App\Domains\API\VietNamProvince\Services\VietNamProvinceService;
 use App\Http\Requests\Frontend\Order\ProcessCheckoutRequest;
+use App\Domains\API\VietNamProvince\Services\VietNamProvinceService;
 
 class OrderController extends Controller
 {
@@ -48,6 +49,7 @@ class OrderController extends Controller
                 'couponValue' => $request->couponValue,
                 'couponName' => $request->couponName,
                 'couponType' => $request->couponType,
+                'couponId' => $request->couponId
             ];
 
             $data = array_merge($data, $dataCoupon);
@@ -58,12 +60,40 @@ class OrderController extends Controller
 
     public function processCheckout(ProcessCheckoutRequest $request)
     {
-        dd($request->all());
+        if ($request->payment_method == config('constants.payment_method.direct')) {
+            return $this->processCheckoutWhenPayingInCash($request->all());
+        }
+    }
+
+    public function processCheckoutWhenPayingInCash($data = [])
+    {
+        $addressOrder = $this->orderService->createAddressOrder($data);
+
+        $order = $this->orderService->createOrder($data, $addressOrder->id);
+
+        $this->orderService->createProductOrder($data, $order->id);
+
+        $this->orderService->deleteProductOrderSuccessInCart($data);
+
+        if (isset($data['couponId'])) {
+            $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
+            Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+        }
+
+        return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'));
+    }
+
+    public function processCheckoutWhenPayingWithVnpay($data = [])
+    {
+    }
+
+    public function processCheckoutWhenPayingWithMomo($data = [])
+    {
     }
 
     public function getDistrictDetailByProvinceId(Request $request, $provinceID)
     {
-        
+
         $districts = $this->vietNamProvinceService->getDistrictByProvinceId($request->provinceId);
 
         return response()->json([

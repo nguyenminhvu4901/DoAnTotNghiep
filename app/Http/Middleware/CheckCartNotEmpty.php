@@ -17,7 +17,8 @@ class CheckCartNotEmpty
      */
     public function handle($request, Closure $next)
     {
-        $cart = Cart::where('user_id', auth()->user()->id)->count();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('product_quantity', '!=', 0)->count();
+        
         if ($cart < 1) {
             return redirect()->route('frontend.carts.index')->withFlashDanger(__('Giỏ hàng của bạn đang trống.'));
         }

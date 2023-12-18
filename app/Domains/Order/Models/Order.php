@@ -2,8 +2,6 @@
 
 namespace App\Domains\Order\Models;
 
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,21 +10,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Order extends Model
 {
-    use HasFactory,
-        HasSlug;
+    use HasFactory;
 
     protected $table = "orders";
 
     protected $fillable = [
-        'name',
+        'user_id',
+        'address_order_id',
+        'status',
+        'payment_method',
+        'total',
+        'ship',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'note'
     ];
-
-    protected $dates = ['deleted_at'];
-
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
 }

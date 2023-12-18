@@ -18,6 +18,7 @@ class CouponUser extends Model
         'coupon_id',
         'user_id',
         'order_id',
-        'value'
+        'value',
+        'is_used',
     ];
 }

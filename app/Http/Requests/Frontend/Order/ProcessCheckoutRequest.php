@@ -25,8 +25,19 @@ class ProcessCheckoutRequest extends FormRequest
     public function rules()
     {
         return [
+            'customer_name' => ['required'],
+            'customer_email' => ['required'],
+            'customer_phone' => ['required'],
             'customer_address' => ['required'],
             'province' => ['required', Rule::notIn(['default'])],
+            'district' => ['required', Rule::notIn(['default'])],
+            'ward' => ['required', Rule::notIn(['default'])],
+            'province_name' => ['required'],
+            'district_name' => ['required'],
+            'ward_name' => ['required'],
+            'payment_method' => ['required', Rule::in([1, 2, 3])],
+            'ship' => ['required'],
+            'totalAllProduct' => ['required']
         ];
     }
 }
