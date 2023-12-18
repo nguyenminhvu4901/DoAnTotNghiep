@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="footer">
-                @include('frontend.includes.footer')
+                {{-- @include('frontend.includes.footer') --}}
             </div>
         @endguest
     </div><!--app-->
@@ -62,15 +62,17 @@
     <script src="{{ mix('js/frontend.js') }}"></script>
     <script src="{{ mix('js/assets/index.js') }}"></script>
     <script src="{{ asset('js/assets/vendor/ckeditor5/build/ckeditor.js') }}"></script>
-    <script src="jquery.min.js"></script>
+    {{-- <script src="jquery.min.js"></script> --}}
     {{-- <script src="owlcarousel/owl.carousel.min.js"></script> --}}
     <script>
-        ClassicEditor
-            .create(document.querySelector('#ckeditor'))
-            .catch(error => {
-                console.error(error);
-            });
         $(document).ready(function() {
+            if (document.getElementById('ckeditor')) {
+                ClassicEditor
+                    .create(document.querySelector('#ckeditor'))
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
             $(".owl-carousel").owlCarousel();
         });
     </script>

@@ -44,9 +44,8 @@
     </section>
 
     <div id="renderCart">
-        <form action="{{ route('frontend.orders.checkout') }}" method="POST">
+        <form action="{{ route('frontend.orders.checkout') }}" method="GET">
             @csrf
-            @method('POST')
             <section class="shoping-cart spad">
                 <div class="container">
                     <div class="row">
@@ -234,7 +233,7 @@
                                     <li style="color:red">@lang('Total') <span>{{ $priceAllProductInCart }} VND</span>
                                     </li>
                                 </ul>
-                                <button type="submit" class="btn primary-btn right-align">@lang('PROCEED TO CHECKOUT')</button>
+                                <button type="submit" class="btn primary-btn right-align ">@lang('PROCEED TO CHECKOUT')</button>
                             </div>
                         </div>
                     </div>

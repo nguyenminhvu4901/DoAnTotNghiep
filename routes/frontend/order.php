@@ -15,6 +15,15 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth']]
             $trail->parent(homeRoute())
                 ->push(__('Sale management'), route('frontend.sales.index'));
         });
+    Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 
-    Route::post('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty');
+    Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty');
+
+    Route::get('get-district-detail/{provinceID}', [OrderController::class, 'getDistrictDetailByProvinceId'])->name('getDistrictDetail');
+
+    Route::get('get-province-in-viet-nam', [OrderController::class, 'getProvinceInVietNam'])->name('getProvinceInVietNam');
+
+    Route::get('get-ward-detail/{districtID}', [OrderController::class, 'getWardDetailByDistrictId'])->name('getWardDetail');
+
+    Route::get('delivery-fee-charged/{districtID}/{wardCode}', [OrderController::class, 'getShippingCostDetail'])->name('getShippingCost');
 });
