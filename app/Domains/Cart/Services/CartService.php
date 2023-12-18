@@ -186,6 +186,8 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 }
+            } else {
+                $cart->productDetail->salePrice = $cart->productDetail->price;
             }
 
             return $carry + ($quantity * $cart->productDetail->salePrice);
@@ -222,6 +224,8 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 }
+            } else {
+                $cart->productDetail->salePrice = $cart->productDetail->price;
             }
 
             return $carry + ($quantity * $cart->productDetail->salePrice);

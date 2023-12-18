@@ -364,3 +364,12 @@ if (!function_exists('countProductInCart')) {
             ->where('product_quantity', '!=', 0)->count();
     }
 }
+
+if (!function_exists('formatMoney')) {
+    /**
+     */
+    function formatMoney($fee)
+    {
+        return str_replace(',', '.', number_format((double) $fee));
+    }
+}

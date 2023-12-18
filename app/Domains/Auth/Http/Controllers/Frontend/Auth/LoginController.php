@@ -132,20 +132,22 @@ class LoginController
                 $request->filled('remember')
             );
 
-            $couponUsers = CouponUser::where('user_id', auth()->user()->id)
-                ->where('is_used', config('constants.is_used.false'))
-                ->get();
+            if ($login) {
+                $couponUsers = CouponUser::where('user_id', auth()->user()->id)
+                    ->where('is_used', config('constants.is_used.false'))
+                    ->get();
 
-            foreach ($couponUsers as $couponUser) {
-                $coupon = Coupon::findOrFail($couponUser->coupon_id);
+                foreach ($couponUsers as $couponUser) {
+                    $coupon = Coupon::findOrFail($couponUser->coupon_id);
 
-                $coupon->update([
-                    'quantity' => (int) $coupon->quantity + 1
-                ]);
+                    $coupon->update([
+                        'quantity' => (int) $coupon->quantity + 1
+                    ]);
 
-                $coupon->detachUser(auth()->user()->id);
+                    $coupon->detachUser(auth()->user()->id);
+                }
             }
-
+            
             return $login;
         } catch (HttpResponseException $exception) {
             $this->incrementLoginAttempts($request);
