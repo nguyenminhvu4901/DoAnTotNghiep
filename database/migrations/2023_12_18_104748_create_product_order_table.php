@@ -22,6 +22,9 @@ class CreateProductOrderTable extends Migration
             $table->string('product_size');
             $table->string('product_color');
             $table->double('product_price');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_detail_id')->references('id')->on('product_detail')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

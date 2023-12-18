@@ -3,6 +3,9 @@
 @section('title', __('Dashboard'))
 
 @section('content')
+    <div class="fade-in">
+        @include('includes.partials.messages')
+    </div><!--fade-in-->
     <!-- Header Section Begin -->
     <header class="header">
         <div class="container">

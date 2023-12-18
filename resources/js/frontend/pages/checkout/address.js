@@ -20,13 +20,15 @@
         } else {
             let url = $(`.province-option-${provinceId}`).data('url');
             let totalCost = $(`.province-option-${provinceId}`).data('total-cost');
-
+            let provinceName = $(`.province-option-${provinceId}`).data('province-name');
             district = null;
             const storedData = localStorage.getItem('formData');
+
             if (storedData) {
                 const formData = JSON.parse(storedData);
                 district = formData.district;
             }
+
             actions.ajaxCall({
                 url: url,
                 type: 'GET',
@@ -37,9 +39,12 @@
                 },
             }).done(function (response) {
                 $('#district-render').html(response.data);
+                $('#selected-province-name').val(provinceName);
+
                 if ($('#select-district').val() != null) {
                     ajaxRenderWard('#select-district')
                 }
+
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
@@ -67,6 +72,7 @@
             </div>`);
         } else if (districtId) {
             let url = $(`.district-option-${districtId}`).data('url');
+            let districtName = $(`.district-option-${districtId}`).data('district-name');
             const storedData = localStorage.getItem('formData');
             ward = null;
             if (storedData) {
@@ -84,6 +90,7 @@
             }).done(function (response) {
                 if (districtId != "default") {
                     $('#ward-render').html(response.data);
+                    $('#selected-district-name').val(districtName);
                     if ($('#select-ward').val() != null) {
                         ajaxRenderFee('#select-ward')
                     }
@@ -103,6 +110,7 @@
             })
         } else {
             let url = $(`.district-option-${districtIdInLocalStorage}`).data('url');
+            let districtName = $(`.district-option-${districtIdInLocalStorage}`).data('district-name');
             const storedData = localStorage.getItem('formData');
             ward = null;
             if (storedData) {
@@ -119,6 +127,7 @@
                 },
             }).done(function (response) {
                 $('#ward-render').html(response.data);
+                $('#selected-district-name').val(districtName);
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
@@ -140,6 +149,7 @@
             </div>`);
         } else {
             let districtId = $(`.ward-option-${wardCode}`).data('district-id');
+            let wardName = $(`.ward-option-${wardCode}`).data('ward-name');
             let url = $(`.ward-option-${wardCode}`).data('url');
             actions.ajaxCall({
                 url: url,
@@ -151,6 +161,7 @@
                 },
             }).done(function (response) {
                 $('#fee-ship').html(response.data);
+                $('#selected-ward-name').val(wardName);
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
@@ -164,7 +175,7 @@
     }
 
     $('#select-province').on('change', function (e) {
-        ajaxRenderDistrict(this);
+        ajaxRenderDistrict('#select-province');
     })
 
     $('#select-district').on('change', function (e) {

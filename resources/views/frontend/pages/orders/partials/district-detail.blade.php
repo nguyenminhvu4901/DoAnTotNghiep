@@ -5,11 +5,14 @@
             <option class="district-option-{{ $district['DistrictID'] }}" value="{{ $district['DistrictID'] }}"
                 {{ $oldDistrict == $district['DistrictID'] ? 'selected' : '' }}
                 data-url="{{ route('frontend.orders.getWardDetail', ['districtID' => $district['DistrictID']]) }}"
-                data-district-id="{{ $district['DistrictID'] }}" data-total-cost="{{ $totalAllProduct }}">
+                data-district-id="{{ $district['DistrictID'] }}" 
+                data-district-name="{{ $district['DistrictName'] }}"
+                data-total-cost="{{ $totalAllProduct }}">
                 {{ $district['DistrictName'] }}</option>
         @endforeach
     @endif
 </select>
+<input type="hidden" id="selected-district-name" name="district_name">
 
 <script src="{{ asset('js/pages/filter.js') }}"></script>
 <script src="{{ asset('js/pages/checkout/address.js') }}"></script>
