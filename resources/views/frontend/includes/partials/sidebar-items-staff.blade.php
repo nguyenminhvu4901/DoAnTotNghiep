@@ -210,8 +210,8 @@
         </div>
     </a>
 </div>
-<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.carts.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg" href="{{ route('frontend.carts.index') }}"
-    href="{{ route('frontend.carts.index') }}">
+<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.carts.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+    href="{{ route('frontend.carts.index') }}" href="{{ route('frontend.carts.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Cart') ({{ countProductInCart() ?? 0 }})</div>
@@ -231,13 +231,10 @@
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Sale')</div>
     </div>
 </a>
-<a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
+<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.orders.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+    href="{{ route('frontend.orders.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Order')</div>
     </div>
 </a>
-
-
-
-

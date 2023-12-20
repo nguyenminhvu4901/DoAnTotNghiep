@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ModifyStatusInOrdersTable extends Migration
+class AddColumnCodeOrderInOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,7 @@ class ModifyStatusInOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->enum('status', [0, 1, 2, 3, 4, 5])->default(1)->after('address_order_id');
+            $table->string('code_order')->unique()->after('id');
         });
     }
 
@@ -30,11 +26,7 @@ class ModifyStatusInOrdersTable extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->string('status');
+            $table->dropColumn('code_order');
         });
     }
 }

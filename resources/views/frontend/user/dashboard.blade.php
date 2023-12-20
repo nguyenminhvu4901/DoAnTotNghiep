@@ -502,3 +502,9 @@
         </div>
     </section>
 @endsection
+
+@push('after-scripts')
+    @if (session()->has('X-Clear-LocalStorage'))
+        <script src="{{ asset('js/pages/dashboard/clearLocalStorage.js') }}"></script>
+    @endif
+@endpush

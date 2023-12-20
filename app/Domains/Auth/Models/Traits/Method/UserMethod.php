@@ -25,16 +25,6 @@ trait UserMethod
         return $this->type === self::TYPE_ADMIN;
     }
 
-    public function isCurrentRoleStaff(): bool
-    {
-        return $this->current_role === self::ROLE_STAFF;
-    }
-
-    public function isCurrentRoleCustomer(): bool
-    {
-        return $this->current_role === self::ROLE_CUSTOMER;
-    }
-
     /**
      * @return mixed
      */
@@ -49,6 +39,24 @@ trait UserMethod
     public function hasAllAccess(): bool
     {
         return $this->isAdmin() && $this->hasRole(config('boilerplate.access.role.admin'));
+    }
+
+    /**
+     * @param bool $excludeAdmin
+     * @return bool
+     */
+    public function isRoleStaff(): bool
+    {
+        return $this->hasRole(self::ROLE_STAFF);
+    }
+
+        /**
+     * @param bool $excludeAdmin
+     * @return bool
+     */
+    public function isRoleCustomer(): bool
+    {
+        return $this->hasRole(self::ROLE_CUSTOMER);
     }
 
     /**
@@ -108,7 +116,7 @@ trait UserMethod
      */
     public function getAvatar($size = null)
     {
-        return 'https://gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'?s='.config('boilerplate.avatar.size', $size).'&d=mp';
+        return 'https://gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?s=' . config('boilerplate.avatar.size', $size) . '&d=mp';
     }
 
     /**

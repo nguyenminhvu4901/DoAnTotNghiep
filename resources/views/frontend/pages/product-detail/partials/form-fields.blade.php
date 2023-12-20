@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div class="form-group row">
+{{-- <div class="form-group row">
     <label for="input_name" class="col-sm-2 col-form-label">
         @lang('Sale')
     </label>
@@ -68,7 +68,7 @@
             value="{{ old('sale') ?? (isset($productDetail) ? $productDetail->sale : '') }}">
         <small id="error_name" class="error text-danger">{{ $errors->first('sale') }}</small>
     </div>
-</div>
+</div> --}}
 
 @push('after-scripts')
     <script src="{{ asset('js/pages/formRules.js') }}"></script>
