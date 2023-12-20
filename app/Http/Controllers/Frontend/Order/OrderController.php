@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
 use App\Domains\ProductDetail\Models\ProductDetail;
@@ -23,6 +24,33 @@ class OrderController extends Controller
     ) {
         $this->orderService = $orderService;
         $this->vietNamProvinceService = $vietNamProvinceService;
+    }
+
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+        if ($user->isAdmin() || $user->isRoleStaff()) {
+            $orders = $this->orderService->search($request->all());
+        } else if ($user->isRoleCustomer()) {
+            $orders = $this->orderService->searchInEachUser($request->all());
+        } else {
+            $orders = collect([])->paginate(config('constants.paginate'));
+        }
+
+        return view('frontend.pages.orders.index', ['orders' => $orders]);
+    }
+
+    public function getCustomerInformation(int $orderId)
+    {
+        $order = $this->orderService->getById($orderId);
+
+        return view('frontend.pages.orders.customer-information', ['order' => $order]);
+    }
+
+    public function getProductInformation(int $orderId)
+    {
+        $order = $this->orderService->getById($orderId);
+        return view('frontend.pages.orders.product-information', ['order' => $order]);
     }
 
     public function checkout(CheckoutRequest $request)
@@ -61,7 +89,10 @@ class OrderController extends Controller
     public function processCheckout(ProcessCheckoutRequest $request)
     {
         if ($request->payment_method == config('constants.payment_method.direct')) {
-            return $this->processCheckoutWhenPayingInCash($request->all());
+            $this->processCheckoutWhenPayingInCash($request->all());
+
+            return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'))
+            ->with('X-Clear-LocalStorage', 'true');
         }
     }
 
@@ -79,8 +110,6 @@ class OrderController extends Controller
             $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
             Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
         }
-
-        return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'));
     }
 
     public function processCheckoutWhenPayingWithVnpay($data = [])
@@ -93,7 +122,6 @@ class OrderController extends Controller
 
     public function getDistrictDetailByProvinceId(Request $request, $provinceID)
     {
-
         $districts = $this->vietNamProvinceService->getDistrictByProvinceId($request->provinceId);
 
         return response()->json([

@@ -144,8 +144,10 @@
                                     </ul>
                                 @empty
                                 @endforelse
-                                <div class="checkout__order__subtotal">Subtotal <span
-                                        style="color:black">{{ formatMoney($subAllProduct) }}</span></div>
+                                <div class="checkout__order__subtotal">@lang('Subtotal')
+                                    <input type="hidden" name="subTotalAllProduct" value="{{ $subAllProduct }}">
+                                    <span style="color:black">{{ formatMoney($subAllProduct) }}</span>
+                                </div>
                                 @if (isset($couponName))
                                     <input type="hidden" name="couponValue" value="{{ $couponValue }}">
                                     <input type="hidden" name="couponId" value="{{ $couponId }}">

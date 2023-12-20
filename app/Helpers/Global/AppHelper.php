@@ -370,6 +370,6 @@ if (!function_exists('formatMoney')) {
      */
     function formatMoney($fee)
     {
-        return str_replace(',', '.', number_format((double) $fee));
+        return 'đ' . str_replace(',', '.', number_format((float) $fee));
     }
 }
