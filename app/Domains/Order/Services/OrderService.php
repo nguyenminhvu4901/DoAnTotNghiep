@@ -3,14 +3,15 @@
 namespace App\Domains\Order\Services;
 
 use Exception;
+use Illuminate\Support\Str;
 use App\Services\BaseService;
+use App\Domains\Cart\Models\Cart;
 use Illuminate\Support\Facades\DB;
 use App\Domains\Order\Models\Order;
 use App\Exceptions\GeneralException;
 use App\Domains\Coupon\Models\Coupon;
-use App\Domains\AddressOrder\Models\AddressOrder;
-use App\Domains\Cart\Models\Cart;
 use App\Domains\CouponUser\Models\CouponUser;
+use App\Domains\AddressOrder\Models\AddressOrder;
 use App\Domains\ProductOrder\Models\ProductOrder;
 
 /**
@@ -42,6 +43,21 @@ class OrderService extends BaseService
         $this->cart = $cart;
     }
 
+    public function search($data = [])
+    {
+        return $this->model
+            ->latest('id')
+            ->paginate(config('constants.paginate'));
+    }
+
+    public function searchInEachUser($data = [])
+    {
+        return $this->model
+            ->where('user_id', auth()->user()->id)
+            ->latest('id')
+            ->paginate(config('constants.paginate'));
+    }
+
     public function createAddressOrder($data)
     {
         DB::beginTransaction();
@@ -68,9 +84,11 @@ class OrderService extends BaseService
         DB::beginTransaction();
         try {
             $order = $this->model->create([
+                'code_order' => Str::random(10),
                 'user_id' => auth()->user()->id,
                 'status' => config('constants.status_order.ready_to_pick'),
                 'payment_method' => $data['payment_method'],
+                'sub_total' => $data['subTotalAllProduct'],
                 'total' => $data['totalAllProduct'],
                 'address_order_id' => $addressId,
                 'ship' => $data['ship'],
@@ -84,7 +102,7 @@ class OrderService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating address order123. Please try again.'));
+            throw new GeneralException(__('There was a problem creating address order. Please try again.'));
         }
 
         return $order;
@@ -95,7 +113,7 @@ class OrderService extends BaseService
         foreach ($data['productDetail'] as $product) {
             $this->productOrder->create([
                 'user_id' => auth()->user()->id,
-                'product_detail_id' => $product['productDetailId'],
+                'product_id' => $product['productId'],
                 'order_id' => $orderId,
                 'product_quantity' => $product['quantity'],
                 'product_size' => $product['size'],

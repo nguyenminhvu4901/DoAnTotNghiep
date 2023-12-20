@@ -37,7 +37,15 @@ class ProcessCheckoutRequest extends FormRequest
             'ward_name' => ['required'],
             'payment_method' => ['required', Rule::in([1, 2, 3])],
             'ship' => ['required'],
-            'totalAllProduct' => ['required']
+            'totalAllProduct' => ['required'],
+            'subTotalAllProduct' => ['required', 'numeric'],
+            'productDetail.*.productId' => ['required', 'exists:products,id'],
+            'productDetail.*.name' => ['required'],
+            'productDetail.*.color' => ['required'],
+            'productDetail.*.size' => ['required'],
+            'productDetail.*.productDetailId' => ['required', 'exists:product_detail,id'],
+            'productDetail.*.quantity' => ['required'],
+            'productDetail.*.price' => ['required'],
         ];
     }
 }

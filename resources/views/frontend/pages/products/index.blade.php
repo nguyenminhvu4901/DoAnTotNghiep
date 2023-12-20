@@ -153,7 +153,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="10" class="text-center">@lang('Not found data')</td>
+                                <td colspan="12" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

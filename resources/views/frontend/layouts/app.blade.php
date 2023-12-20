@@ -62,7 +62,7 @@
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/frontend.js') }}"></script>
-    {{-- <script src="{{ mix('js/assets/index.js') }}"></script> --}}
+    <script src="{{ mix('js/assets/vendor/index.js') }}"></script>
     <script src="{{ asset('js/assets/vendor/ckeditor5/build/ckeditor.js') }}"></script>
     {{-- <script src="jquery.min.js"></script> --}}
     {{-- <script src="owlcarousel/owl.carousel.min.js"></script> --}}

@@ -13,8 +13,24 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth']]
     Route::get('index', [OrderController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Sale management'), route('frontend.sales.index'));
+                ->push(__('Order management'), route('frontend.orders.index'));
         });
+
+    Route::get('index/customer-information/{orderId}', [OrderController::class, 'getCustomerInformation'])->name('customerInfo')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Order management'), route('frontend.orders.index'))
+                ->push(__('Customer Information In Order'));
+        });
+
+    Route::get('index/product-information/{orderId}', [OrderController::class, 'getProductInformation'])->name('productInfo')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Order management'), route('frontend.orders.index'))
+                ->push(__('Product Information In Order'));
+        });
+
+
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 
     Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty');

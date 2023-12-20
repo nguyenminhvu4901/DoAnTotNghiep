@@ -59,7 +59,15 @@
 
     function ajaxRenderWard(element) {
         let districtId = $(element).val();
-        let districtIdInLocalStorage = JSON.parse(localStorage.getItem('formData')).district
+        
+        districtIdInLocalStorage = null;
+        const storedData = localStorage.getItem('formData');
+
+        if (storedData) {
+            const formData = JSON.parse(storedData);
+            districtIdInLocalStorage = formData.district;
+        }
+
         let totalCost = $(element).data('total-cost');
         $('#select-ward').val('');
 
