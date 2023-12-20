@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Http\Requests\Frontend\Order\CheckoutRequest;
 use App\Http\Requests\Frontend\Order\ProcessCheckoutRequest;
@@ -34,7 +36,7 @@ class OrderController extends Controller
         } else if ($user->isRoleCustomer()) {
             $orders = $this->orderService->searchInEachUser($request->all());
         } else {
-            $orders = collect([])->paginate(config('constants.paginate'));
+            $orders = new LengthAwarePaginator(collect([]), 0, config('constants.paginate'));
         }
 
         return view('frontend.pages.orders.index', ['orders' => $orders]);
@@ -92,7 +94,7 @@ class OrderController extends Controller
             $this->processCheckoutWhenPayingInCash($request->all());
 
             return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'))
-            ->with('X-Clear-LocalStorage', 'true');
+                ->with('X-Clear-LocalStorage', 'true');
         }
     }
 
