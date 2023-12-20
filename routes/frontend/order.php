@@ -30,6 +30,8 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth']]
                 ->push(__('Product Information In Order'));
         });
 
+    Route::put('update-status-order/{orderId}', [OrderController::class, 'updateStatusOrder'])->name('updateStatusOrder');
+
 
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 

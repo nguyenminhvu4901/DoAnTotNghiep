@@ -50,4 +50,13 @@ return [
         'delivering' => '4', // Đang giao hàng
         'delivered' => '5' // Đã nhận, giao thành công
     ],
+
+    'status_order_text' => [
+        'Cancel order' => '0',
+        'Preparing orders' => '1',
+        'Sending order to carrier' => '2',
+        'Order sent successfully' => '3',
+        'Delivering' => '4',
+        'Successful delivery' => '5',
+    ]
 ];

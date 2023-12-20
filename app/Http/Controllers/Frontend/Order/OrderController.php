@@ -55,6 +55,11 @@ class OrderController extends Controller
         return view('frontend.pages.orders.product-information', ['order' => $order]);
     }
 
+    public function updateStatusOrder(Request $request, int $orderId)
+    {
+        
+    }
+
     public function checkout(CheckoutRequest $request)
     {
         $productDetails = collect($request->productDetail)->map(function ($item) {
