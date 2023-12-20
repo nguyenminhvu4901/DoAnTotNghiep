@@ -15,6 +15,8 @@ class ModifyStatusInOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('status');
+        });
+        Schema::table('orders', function (Blueprint $table) {
             $table->enum('status', [0, 1, 2, 3, 4, 5])->default(1)->after('address_order_id');
         });
     }
@@ -28,7 +30,6 @@ class ModifyStatusInOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('status');
-            $table->string('status');
         });
     }
 }
