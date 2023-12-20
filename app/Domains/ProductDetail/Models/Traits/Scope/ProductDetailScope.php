@@ -25,11 +25,11 @@ trait ProductDetailScope
     public function scopeFilterByProduct($query, array $product)
     {
         return $query->whereHas('product', function ($query) use ($product) {
-            $query->whereIn('products.slug', $product);
+            $query->whereIn('slug', $product);
         });
     }
 
-       /**
+    /**
      * @param $query
      * @param array $categories
      * @param $operator

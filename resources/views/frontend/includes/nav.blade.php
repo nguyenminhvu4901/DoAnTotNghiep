@@ -1,7 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container-fluid rounded-md">
-        <x-utils.link :href="route('frontend.index')" :text="appName()" class="navbar-brand" />
-
+        {{-- <x-utils.link :href="route('frontend.index')" :text="appName()" class="navbar-brand" /> --}}
+        @if (config('boilerplate.frontend_breadcrumbs'))
+            @include('frontend.includes.partials.breadcrumbs')
+        @endif
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('Toggle navigation')">
             <span class="navbar-toggler-icon"></span>
@@ -10,6 +12,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 @if (config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
+                    <li class="nav-item">
+                        <a href="{{ route('frontend.carts.index') }}" class="nav-link" style="height: 100%;">
+                            <i class="fas fa-shopping-cart align-middle"></i>
+                            <span class="align-middle"> {{ countProductInCart() ?? 0 }}</span>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <x-utils.link :text="__(getLocaleName(app()->getLocale()))" class="nav-link dropdown-toggle" id="navbarDropdownLanguageLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
@@ -66,6 +74,6 @@
     </div><!--container-->
 </nav>
 
-@if (config('boilerplate.frontend_breadcrumbs'))
+{{-- @if (config('boilerplate.frontend_breadcrumbs'))
     @include('frontend.includes.partials.breadcrumbs')
-@endif
+@endif --}}

@@ -53,6 +53,8 @@ class ProductController extends Controller
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
         $productDetails = app()->make(ProductDetailService::class)->getProductDetails($product->id);
         $productImages = app()->make(ProductImageService::class)->getProductDetails($product->id);
+
+
         return view(
             'frontend.pages.products.detail',
             [

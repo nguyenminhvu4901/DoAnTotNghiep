@@ -56,3 +56,7 @@
     font-size: 14px;
     color: var(--grey-breadcrumb);
 }
+
+.container-fluid.breadcrumb .breadcrumb-item a:hover {
+    color: var(--grey-breadcrumb);
+}

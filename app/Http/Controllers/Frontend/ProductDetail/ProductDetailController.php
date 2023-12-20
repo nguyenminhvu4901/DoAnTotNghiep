@@ -32,6 +32,8 @@ class ProductDetailController extends Controller
         $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->getAllProducts();
 
+        $productDetails = $this->productDetailService->getDiscount($productDetails);
+
         return view('frontend.pages.product-detail.index', ['productDetails' => $productDetails, 'categories' => $categories, 'products' => $products]);
     }
 
@@ -39,7 +41,7 @@ class ProductDetailController extends Controller
     {
         $product = $this->productService->getBySlug($slug);
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
-        
+
         return view('frontend.pages.product-detail.create', ['product' => $product]);
     }
 

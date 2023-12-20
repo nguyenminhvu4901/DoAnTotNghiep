@@ -59,7 +59,7 @@
                                 @lang('Price')
                             </th>
                             <th class="text-center">
-                                @lang('Sale')
+                                @lang('Discount')
                             </th>
                             <th class="text-center">
                                 @lang('Add new Option')
@@ -94,10 +94,42 @@
                                     {{ $productDetail->quantity }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->price }} $
+                                    @if (isset($productDetail->salePrice))
+                                        <span style="text-decoration: line-through">
+                                            {{ $productDetail->price }} @lang('VND')
+                                        </span>
+                                        <span>
+                                            (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                        </span>
+                                        <br>
+                                        {{ $productDetail->salePrice }} @lang('VND')
+                                    @elseif(isset($productDetail->salePriceGlobal))
+                                        <span style="text-decoration: line-through">
+                                            {{ $productDetail->price }} @lang('VND')
+                                        </span>
+                                        <span>
+                                            (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                        </span>
+                                        <br>
+                                        {{ $productDetail->salePriceGlobal }} @lang('VND')
+                                    @else
+                                        {{ $productDetail->price }} @lang('VND')
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->sale ?? __('This product is not discounted') }}
+                                    @if (!isset($productDetail->salePrice))
+                                        <a
+                                            href="{{ route('frontend.sales.create', ['productId' => $productDetail->id, 'level' => 'child']) }}">
+                                            <i class="fas fa-tag"></i> @lang('Add')
+                                        </a>
+                                    @elseif(!$productDetail->saleOption->isEmpty() && isset($productDetail->saleOption->first()->id))
+                                        <a
+                                            href="{{ route('frontend.sales.edit', ['id' => $productDetail->saleOption->first()->id]) }}">
+                                            <i class="fas fa-edit"></i> @lang('Update')
+                                        </a>
+                                    @else
+                                        @lang('Product price has been reduced')
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
                                     <a
@@ -138,7 +170,9 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $productDetails->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
+                @if (!empty($productDetails))
+                    {{ $productDetails->onEachSide(1)->appends(request()->only('search', 'categories', 'products'))->links('frontend.includes.custom-pagination') }}
+                @endif
             </div>
         </div>
     </div>

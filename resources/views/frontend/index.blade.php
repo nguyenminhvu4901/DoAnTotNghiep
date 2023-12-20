@@ -1,117 +1,59 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('frontend.layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ appName() }}</title>
-    <meta name="description" content="@yield('meta_description', appName())">
-    <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
-    @yield('meta')
+@section('title', __('Login'))
 
-    @stack('before-styles')
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
-    <style>
-        html,
-        body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
+@section('content')
+    <div>
+        <section class="vh-100">
+            <div class="container-fluid h-custom">
+                <div class="row d-flex justify-content-center align-items-center vh-100">
+                    <div class="col-md-9 col-lg-6 col-xl-5">
+                        <img src="{{ asset('img/logo/logo-bg.png') }}" class="img-fluid" alt="Sample image">
+                    </div>
+                    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                        <form action="{{ route('frontend.auth.login') }}" method="POST">
+                            @method('POST')
+                            @csrf
+                            <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                                <h1 class="mx-auto d-block pb-5">@lang('Login')</h1>
+                            </div>
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" name="email" id="email" class="form-control"
+                                    placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}" maxlength="255"
+                                    required autofocus autocomplete="email" />
+                                <small id="error_name" class="error text-danger">{{ $errors->first('email') }}</small>
+                            </div>
 
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
-        .content {
-            text-align: center;
-        }
-
-        .title {
-            font-size: 84px;
-        }
-
-        .links>a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-    </style>
-    @stack('after-styles')
-</head>
-
-<body>
-    @include('includes.partials.read-only')
-    @include('includes.partials.logged-in-as')
-    @include('includes.partials.announcements')
-
-    <div id="app" class="flex-center position-ref full-height">
-        <div class="top-right links">
-            @auth
-                @if ($logged_in_user->isUser())
-                    <a href="{{ route('frontend.user.dashboard') }}">@lang('Dashboard')</a>
-                @endif
-
-                <a href="{{ route('frontend.user.account') }}">@lang('Account')</a>
-            @else
-                <a href="{{ route('frontend.auth.login') }}">@lang('Login')</a>
-
-                @if (config('boilerplate.access.user.registration'))
-                    <a href="{{ route('frontend.auth.register') }}">@lang('Register')</a>
-                @endif
-            @endauth
-        </div><!--top-right-->
-
-        <div class="content">
-            @include('includes.partials.messages')
-
-            <div class="title m-b-md">
-                <example-component></example-component>
-            </div><!--title-->
-
-            <div class="links">
-                <a href="http://laravel-boilerplate.com" target="_blank"><i class="fa fa-book"></i>
-                    @lang('Docs')</a>
-                <a href="https://github.com/rappasoft/laravel-boilerplate" target="_blank"><i class="fab fa-github"></i>
-                    GitHub</a>
-            </div><!--links-->
-        </div><!--content-->
-    </div><!--app-->
-
-    @stack('before-scripts')
-    <script src="{{ mix('js/manifest.js') }}"></script>
-    <script src="{{ mix('js/vendor.js') }}"></script>
-    <script src="{{ mix('js/frontend.js') }}"></script>
-    @stack('after-scripts')
-</body>
-
-</html>
+                            <!-- Password input -->
+                            <div class="form-outline mb-3">
+                                <input type="password" name="password" id="password" class="form-control"
+                                    placeholder="{{ __('Password') }}" maxlength="100" required
+                                    autocomplete="current-password" data-toggle="password" />
+                                <small id="error_name" class="error text-danger">{{ $errors->first('password') }}</small>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <!-- Checkbox -->
+                                <div class="form-check mb-0">
+                                    <input name="remember" id="remember" class="form-check-input" type="checkbox"
+                                        {{ old('remember') ? 'checked' : '' }} />
+                                    <label class="form-check-label" for="remember">
+                                        @lang('Remember Me')
+                                    </label>
+                                </div>
+                                <x-utils.link :href="route('frontend.auth.password.request')" class="btn btn-link" :text="__('Forgot Your Password?')" />
+                            </div>
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                                <button type="submit" class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                                <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a
+                                        href="{{ route('frontend.auth.register') }}"
+                                        class="small btn btn-link fw-bold mb-0">Register</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+@endsection

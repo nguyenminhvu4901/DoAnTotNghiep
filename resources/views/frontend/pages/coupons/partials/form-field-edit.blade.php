@@ -28,7 +28,7 @@
             <input class="form-check-input" type="radio" name="type" id="flexRadioDefault2" value="1"
                 {{ $coupon->type == '1' ? 'checked' : '' }}>
             <label class="form-check-label" for="flexRadioDefault2">
-                @lang('Number')
+                @lang('VND')
             </label>
         </div>
     </div>

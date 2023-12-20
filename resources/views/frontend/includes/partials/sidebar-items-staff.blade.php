@@ -162,7 +162,7 @@
         </div>
     </a>
 </div> --}}
-<a class="d-flex mb-3 menu-parent @if (isCurrentRouteInRoutes('frontend.user.dashboard')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+<a class="d-flex mb-3 menu-parent @if (isCurrentRouteInRoutes('frontend.user.dashboard') || isCurrentRouteInRoutes('admin.dashboard')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
     href="{{ route('frontend.user.dashboard') }}">
     <div class="d-flex align-items-center">
         <i class="fas fa-columns  fa-lg sidebar-icon"></i>
@@ -210,17 +210,25 @@
         </div>
     </a>
 </div>
-<a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
+<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.carts.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg" href="{{ route('frontend.carts.index') }}"
+    href="{{ route('frontend.carts.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
-        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Cart')</div>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Cart') ({{ countProductInCart() ?? 0 }})</div>
     </div>
 </a>
-<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.coupons.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg" 
+<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.coupons.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
     href="{{ route('frontend.coupons.index') }}">
     <div class="d-flex align-items-center">
         <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Coupon')</div>
+    </div>
+</a>
+<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.sales.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+    href="{{ route('frontend.sales.index') }}">
+    <div class="d-flex align-items-center">
+        <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Sale')</div>
     </div>
 </a>
 <a class="d-flex mb-3 sidebar-route-normal text-lg" href="{{ route('frontend.categories.index') }}">
@@ -229,3 +237,7 @@
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Order')</div>
     </div>
 </a>
+
+
+
+

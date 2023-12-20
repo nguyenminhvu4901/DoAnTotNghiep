@@ -22,6 +22,7 @@
                                                     value="{{ old('name') }}" placeholder="{{ __('Name') }}"
                                                     maxlength="100" required autofocus autocomplete="name" />
                                             </div>
+                                            <small id="error_name" class="error text-danger">{{ $errors->first('name') }}</small>
                                         </div><!--form-group-->
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
@@ -29,6 +30,7 @@
                                                     placeholder="{{ __('E-mail Address') }}" value="{{ old('email') }}"
                                                     maxlength="255" required autocomplete="email" />
                                             </div>
+                                            <small id="error_name" class="error text-danger">{{ $errors->first('email') }}</small>
                                         </div><!--form-group-->
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
@@ -36,6 +38,7 @@
                                                     placeholder="{{ __('Password') }}" maxlength="100" required
                                                     autocomplete="new-password" data-toggle="password"/>
                                             </div>
+                                            <small id="error_name" class="error text-danger">{{ $errors->first('password') }}</small>
                                         </div><!--form-group-->
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div class="form-outline flex-fill mb-0">
@@ -44,6 +47,8 @@
                                                     placeholder="{{ __('Password Confirmation') }}" maxlength="100" required
                                                     autocomplete="new-password" data-toggle="password"/>
                                             </div>
+
+                                            <small id="error_name" class="error text-danger">{{ $errors->first('password_confirmation') }}</small>
                                         </div><!--form-group-->
                                         <div class="form-check d-flex justify-content-center mb-5">
                                             <div class="form-check">

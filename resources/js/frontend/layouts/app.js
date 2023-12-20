@@ -9,7 +9,7 @@
 
 'use strict';
 
-(function ($) {
+$(document).ready(function () {
 
     /*------------------
         Preloader
@@ -30,6 +30,14 @@
             var mixer = mixitup(containerEl);
         }
     });
+
+    var headerMessage = document.querySelector('.alert.header-message');
+    setTimeout(() => {
+      if (headerMessage) {
+        headerMessage.style.display = 'none';
+      }
+    }, 5000);
+
 
     /*------------------
         Background Set
@@ -165,10 +173,4 @@
     });
     minamount.val('$' + rangeSlider.slider("values", 0));
     maxamount.val('$' + rangeSlider.slider("values", 1));
-
-    /*--------------------------
-        Select
-    ----------------------------*/
-
-
-})(jQuery);
+});
