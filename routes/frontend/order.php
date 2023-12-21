@@ -10,6 +10,11 @@ use Tabuna\Breadcrumbs\Trail;
  */
 
 Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth']], function () {
+
+    Route::patch('update-status-order/{orderId}', [OrderController::class, 'updateStatusOrder'])->name('updateStatusOrder');
+
+    Route::patch('cancel-order/{orderId}', [OrderController::class, 'cancelOrder'])->name('cancelOrder');
+
     Route::get('index', [OrderController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
@@ -29,9 +34,6 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth']]
                 ->push(__('Order management'), route('frontend.orders.index'))
                 ->push(__('Product Information In Order'));
         });
-
-    Route::put('update-status-order/{orderId}', [OrderController::class, 'updateStatusOrder'])->name('updateStatusOrder');
-
 
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 

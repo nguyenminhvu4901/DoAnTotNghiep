@@ -12,8 +12,9 @@
                 <p>@lang('Do you want to cancel this order? This process cannot be undone.')</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" id="cancelCancle" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmCancle" data-dismiss="modal">@lang('Submit')</button>
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal">@lang('Cancel')</button>
+                <button type="submit" class="btn btn-danger">@lang('Submit')</button>
             </div>
         </div>
     </div>

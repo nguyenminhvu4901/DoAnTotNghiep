@@ -29,7 +29,7 @@ trait OrderAttribute
             return __('The carrier has received the goods');
         } else if ($this->attributes['status'] == config('constants.status_order.delivering')) {
             return __('Order is being delivered');
-        } else if ($this->attributes['status'] == config('constants.status_order.delivering')) {
+        } else if ($this->attributes['status'] == config('constants.status_order.delivered')) {
             return __('Order delivered successfully');
         } else {
             return $this->attributes['status'];

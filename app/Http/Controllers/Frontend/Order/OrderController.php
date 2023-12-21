@@ -14,6 +14,7 @@ use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Http\Requests\Frontend\Order\CheckoutRequest;
 use App\Http\Requests\Frontend\Order\ProcessCheckoutRequest;
 use App\Domains\API\VietNamProvince\Services\VietNamProvinceService;
+use App\Http\Requests\Frontend\Order\updateStatusRequest;
 
 class OrderController extends Controller
 {
@@ -55,9 +56,35 @@ class OrderController extends Controller
         return view('frontend.pages.orders.product-information', ['order' => $order]);
     }
 
-    public function updateStatusOrder(Request $request, int $orderId)
+    public function updateStatusOrder(updateStatusRequest $request, int $orderId)
     {
-        
+        $order = $this->orderService->getById($orderId);
+
+        $order->update([
+            'status' => $request->get('orderStatus')
+        ]);
+
+        return response()->json([
+            'status_code' => Response::HTTP_OK,
+        ]);
+    }
+
+    public function cancelOrder(int $orderId)
+    {
+        $order = $this->orderService->getById($orderId);
+
+        if ($order->status == config('constants.status_order.cancel')) {
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
+        } elseif ($order->status == config('constants.status_order.delivered')) {
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
+        } else {
+            $order->update([
+                'status' => config('constants.status_order.cancel')
+            ]);
+
+            return redirect()->route('frontend.orders.index')
+                ->withFlashSuccess(__('The order has been successfully canceled.'));
+        }
     }
 
     public function checkout(CheckoutRequest $request)
