@@ -138,11 +138,13 @@ class OrderService extends BaseService
             ->where('coupon_id', $couponId)
             ->where('user_id', auth()->user()->id)
             ->first();
-
-        $couponUser->update([
-            'is_used' => config('constants.is_used.true'),
-            'order_id' => $orderId
-        ]);
+            
+        if (isset($couponUser)) {
+            $couponUser->update([
+                'is_used' => config('constants.is_used.true'),
+                'order_id' => $orderId
+            ]);
+        }
 
         return $couponUser;
     }

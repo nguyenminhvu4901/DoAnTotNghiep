@@ -97,7 +97,7 @@
                                             data-total-cost="{{ $totalAllProduct }}" name="payment_method">
                                             <option value="1">@lang('Payment on delivery')</option>
                                             <option value="2">@lang('Payment via VNPay')</option>
-                                            <option value="3">@lang('Payment via Momo')</option>
+                                            {{-- <option value="3">@lang('Payment via Momo')</option> --}}
                                         </select>
                                     </div>
                                 </div>

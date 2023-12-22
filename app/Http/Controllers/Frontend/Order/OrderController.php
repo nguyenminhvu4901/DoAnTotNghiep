@@ -174,10 +174,6 @@ class OrderController extends Controller
         return $this->vnPayService->getVNPayPayment($request->all());
     }
 
-    public function processCheckoutWhenPayingWithMomo($data = [])
-    {
-    }
-
     public function getDistrictDetailByProvinceId(Request $request, $provinceID)
     {
         $districts = $this->vietNamProvinceService->getDistrictByProvinceId($request->provinceId);

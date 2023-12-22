@@ -13,7 +13,7 @@ class VNPayService
     public function getVNPayPayment(array $data)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8090/orders/vnpay-thanks";
+        $vnp_Returnurl = url('/') . "/orders/vnpay-thanks";
         $vnp_TmnCode = config('constants.vnpay.vnp_TmnCode');
         $vnp_HashSecret = config('constants.vnpay.vnp_HashSecret');
 

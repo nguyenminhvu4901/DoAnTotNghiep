@@ -39,7 +39,7 @@ return [
     'payment_method' => [
         'direct' => '1',
         'vnpay' => '2',
-        'momo' => '3'
+        // 'momo' => '3'
     ],
 
     'status_order' => [
