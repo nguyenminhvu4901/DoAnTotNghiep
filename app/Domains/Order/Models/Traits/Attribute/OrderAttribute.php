@@ -10,8 +10,6 @@ trait OrderAttribute
             return __('Payment on delivery');
         } else if ($this->attributes['payment_method'] == config('constants.payment_method.vnpay')) {
             return __('Payment via VNPay wallet');
-        } else if ($this->attributes['payment_method'] == config('constants.payment_method.momo')) {
-            return __('Payment via Momo wallet');
         } else {
             return $this->attributes['payment_method'];
         }
@@ -36,7 +34,7 @@ trait OrderAttribute
         }
     }
 
-        /**
+    /**
      * @return ?string
      */
     public function getCreatedByAttribute(): ?string
