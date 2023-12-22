@@ -5,28 +5,30 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Domains\API\VNPay\Services\VNPayService;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Http\Requests\Frontend\Order\CheckoutRequest;
+use App\Http\Requests\Frontend\Order\updateStatusRequest;
 use App\Http\Requests\Frontend\Order\ProcessCheckoutRequest;
 use App\Domains\API\VietNamProvince\Services\VietNamProvinceService;
-use App\Http\Requests\Frontend\Order\updateStatusRequest;
 
 class OrderController extends Controller
 {
     protected OrderService $orderService;
     protected VietNamProvinceService $vietNamProvinceService;
+    protected VNPayService $vnPayService;
 
     public function __construct(
         OrderService $orderService,
-        VietNamProvinceService $vietNamProvinceService
+        VietNamProvinceService $vietNamProvinceService,
+        VNPayService $vnPayService
     ) {
         $this->orderService = $orderService;
         $this->vietNamProvinceService = $vietNamProvinceService;
+        $this->vnPayService = $vnPayService;
     }
 
     public function index(Request $request)
@@ -67,6 +69,21 @@ class OrderController extends Controller
         return response()->json([
             'status_code' => Response::HTTP_OK,
         ]);
+    }
+
+    public function getVNPayThanks()
+    {
+        if (session()->has('data')) {
+            $this->processCheckoutWhenPayingInCash(session('data'));
+            Session::forget(['data']);
+        }
+
+        return view('frontend.pages.orders.sub-page.thanks-vnpay');
+    }
+
+    public function getWaitPayment(Request $request)
+    {
+        return view('frontend.pages.orders.sub-page.wait-payment', ['data' => $request->all()]);
     }
 
     public function cancelOrder(int $orderId)
@@ -127,6 +144,12 @@ class OrderController extends Controller
 
             return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'))
                 ->with('X-Clear-LocalStorage', 'true');
+        } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
+            Session::put(['data' => $request->all()]);
+
+            return view('frontend.pages.orders.sub-page.wait-payment', [
+                'totalAllProduct' => $request->input('totalAllProduct'),
+            ]);
         }
     }
 
@@ -146,8 +169,9 @@ class OrderController extends Controller
         }
     }
 
-    public function processCheckoutWhenPayingWithVnpay($data = [])
+    public function processCheckoutWhenPayingWithVnpay(Request $request)
     {
+        return $this->vnPayService->getVNPayPayment($request->all());
     }
 
     public function processCheckoutWhenPayingWithMomo($data = [])

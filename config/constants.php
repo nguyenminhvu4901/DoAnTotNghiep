@@ -58,5 +58,14 @@ return [
         'Order sent successfully' => '3',
         'Delivering' => '4',
         'Successful delivery' => '5',
-    ]
+    ],
+
+    'vnpay' => [
+        'vnp_TmnCode' => 'MO0DDVN3',
+        'vnp_HashSecret' => 'AACFVHHKFMBVXJREGUBEEYYSZCGWYTMW',
+        'so_the' => '9704198526191432198',
+        'ten_chu_the' => 'NGUYEN VAN A',
+        'ngay_phat_hanh' => '07/15',
+        'otp' => '123456'
+    ],
 ];
