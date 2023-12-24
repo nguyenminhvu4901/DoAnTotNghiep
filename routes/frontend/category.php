@@ -20,29 +20,29 @@ Route::group(['as' => 'categories.', 'prefix' => 'categories', 'middleware' => [
             $trail->parent(homeRoute())
                 ->push(__('Category management'), route('frontend.categories.index'))
                 ->push(__('Create new Category'));
-        });
+        })->middleware('permission:user.category.create');
 
-    Route::post('store', [CategoryController::class, 'store'])->name('store');
+    Route::post('store', [CategoryController::class, 'store'])->name('store')->middleware('permission:user.category.create');
 
     Route::get('{categorySlug}/edit', [CategoryController::class, 'edit'])->name('edit')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Category management'), route('frontend.categories.index'))
                 ->push(__('Update Category'));
-        });
+        })->middleware('permission:user.category.edit');
 
-    Route::put('{slug}/update', [CategoryController::class, 'update'])->name('update');
+    Route::put('{slug}/update', [CategoryController::class, 'update'])->name('update')->middleware('permission:user.category.edit');
 
-    Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy');
+    Route::delete('{id}/destroy', [CategoryController::class, 'destroy'])->name('destroy')->middleware('permission:user.category.disable');
 
     Route::get('trash', [CategoryController::class, 'getAllCategoryInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Category management'), route('frontend.categories.index'))
                 ->push(__('Achieve Category management'));
-        });
+        })->middleware('permission:user.category.trash');
 
-    Route::get('{id}/restore', [CategoryController::class, 'restoreCategory'])->name('restore');
+    Route::get('{id}/restore', [CategoryController::class, 'restoreCategory'])->name('restore')->middleware('permission:user.category.trash');
 
-    Route::get('{id}/force-delete', [CategoryController::class, 'forceDeleteCategory'])->name('forceDelete');
+    Route::get('{id}/force-delete', [CategoryController::class, 'forceDeleteCategory'])->name('forceDelete')->middleware('permission:user.category.trash');
 });

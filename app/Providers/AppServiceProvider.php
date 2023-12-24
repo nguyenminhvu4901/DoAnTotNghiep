@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Domains\Cart\Models\Cart;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -31,5 +29,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
+
+        //@hasPermission('delete_product')
+        //@hasPermission(['delete_product', 'edit_product'])
+        Blade::if('hasPermission', function ($permissions) {
+            $user = auth()->user();
+
+            if (!$user) {
+                return false;
+            }
+
+            $permissions = is_array($permissions) ? $permissions : explode('|', $permissions);
+
+            foreach ($permissions as $permission) {
+                if ($user->can($permission)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
     }
 }

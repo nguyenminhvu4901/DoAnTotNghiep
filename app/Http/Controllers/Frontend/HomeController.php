@@ -14,10 +14,11 @@ class HomeController
      */
     public function index()
     {
-        if (Auth::check()) {
-            return redirect()->route('frontend.user.dashboard');
-        } else {
-            return view('frontend.index');
-        }
+        return redirect()->route('frontend.user.dashboard');
+        // if (Auth::check()) {
+        //     return redirect()->route('frontend.user.dashboard');
+        // } else {
+        //     return view('frontend.index');
+        // }
     }
 }

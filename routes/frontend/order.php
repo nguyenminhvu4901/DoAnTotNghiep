@@ -9,7 +9,7 @@ use Tabuna\Breadcrumbs\Trail;
  * All route names are prefixed with 'frontend.'.
  */
 
-Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 'web']], function () {
+Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 'web', 'permission:user.order']], function () {
 
     Route::patch('update-status-order/{orderId}', [OrderController::class, 'updateStatusOrder'])->name('updateStatusOrder');
 

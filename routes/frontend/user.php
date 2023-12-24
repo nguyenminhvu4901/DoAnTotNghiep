@@ -10,7 +10,7 @@ use Tabuna\Breadcrumbs\Trail;
  * All route names are prefixed with 'frontend.'
  * These routes can not be hit if the user has not confirmed their email
  */
-Route::group(['as' => 'user.', 'middleware' => ['auth', 'password.expires', config('boilerplate.access.middleware.verified')]], function () {
+Route::group(['as' => 'user.'], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard')
         ->breadcrumbs(function (Trail $trail) {
