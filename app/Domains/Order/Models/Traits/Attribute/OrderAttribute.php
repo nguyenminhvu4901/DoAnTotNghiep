@@ -10,8 +10,6 @@ trait OrderAttribute
             return __('Payment on delivery');
         } else if ($this->attributes['payment_method'] == config('constants.payment_method.vnpay')) {
             return __('Payment via VNPay wallet');
-        } else if ($this->attributes['payment_method'] == config('constants.payment_method.momo')) {
-            return __('Payment via Momo wallet');
         } else {
             return $this->attributes['payment_method'];
         }
@@ -29,14 +27,14 @@ trait OrderAttribute
             return __('The carrier has received the goods');
         } else if ($this->attributes['status'] == config('constants.status_order.delivering')) {
             return __('Order is being delivered');
-        } else if ($this->attributes['status'] == config('constants.status_order.delivering')) {
+        } else if ($this->attributes['status'] == config('constants.status_order.delivered')) {
             return __('Order delivered successfully');
         } else {
             return $this->attributes['status'];
         }
     }
 
-        /**
+    /**
      * @return ?string
      */
     public function getCreatedByAttribute(): ?string

@@ -39,7 +39,7 @@ return [
     'payment_method' => [
         'direct' => '1',
         'vnpay' => '2',
-        'momo' => '3'
+        // 'momo' => '3'
     ],
 
     'status_order' => [
@@ -49,5 +49,23 @@ return [
         'send_to_carrier' => '3', // Đã lấy hàng, đã gửi hàng
         'delivering' => '4', // Đang giao hàng
         'delivered' => '5' // Đã nhận, giao thành công
+    ],
+
+    'status_order_text' => [
+        'Cancel order' => '0',
+        'Preparing orders' => '1',
+        'Sending order to carrier' => '2',
+        'Order sent successfully' => '3',
+        'Delivering' => '4',
+        'Successful delivery' => '5',
+    ],
+
+    'vnpay' => [
+        'vnp_TmnCode' => 'MO0DDVN3',
+        'vnp_HashSecret' => 'AACFVHHKFMBVXJREGUBEEYYSZCGWYTMW',
+        'so_the' => '9704198526191432198',
+        'ten_chu_the' => 'NGUYEN VAN A',
+        'ngay_phat_hanh' => '07/15',
+        'otp' => '123456'
     ],
 ];

@@ -45,7 +45,10 @@
                             </div>
                             <div class="text-center text-lg-start mt-4 pt-2">
                                 <button type="submit" class="btn btn-primary btn-lg"
-                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">@lang('Login')</button>
+                                <a href="{{ route('google.redirect') }}" class="btn btn-success btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;"><i class="fab fa-google">
+                                        @lang('Login with Google')</i></a>
                                 <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a
                                         href="{{ route('frontend.auth.register') }}"
                                         class="small btn btn-link fw-bold mb-0">Register</a></p>

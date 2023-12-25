@@ -132,7 +132,6 @@ class LoginController
                 $this->credentials($request),
                 $request->filled('remember')
             );
-
             if ($login) {
                 $couponUsers = CouponUser::where('user_id', auth()->user()->id)
                     ->where('is_used', config('constants.is_used.false'))

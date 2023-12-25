@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Domains\API\VNPay\Services\VNPayService;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Http\Requests\Frontend\Order\CheckoutRequest;
+use App\Http\Requests\Frontend\Order\updateStatusRequest;
 use App\Http\Requests\Frontend\Order\ProcessCheckoutRequest;
 use App\Domains\API\VietNamProvince\Services\VietNamProvinceService;
 
@@ -17,13 +19,16 @@ class OrderController extends Controller
 {
     protected OrderService $orderService;
     protected VietNamProvinceService $vietNamProvinceService;
+    protected VNPayService $vnPayService;
 
     public function __construct(
         OrderService $orderService,
-        VietNamProvinceService $vietNamProvinceService
+        VietNamProvinceService $vietNamProvinceService,
+        VNPayService $vnPayService
     ) {
         $this->orderService = $orderService;
         $this->vietNamProvinceService = $vietNamProvinceService;
+        $this->vnPayService = $vnPayService;
     }
 
     public function index(Request $request)
@@ -34,7 +39,7 @@ class OrderController extends Controller
         } else if ($user->isRoleCustomer()) {
             $orders = $this->orderService->searchInEachUser($request->all());
         } else {
-            $orders = collect([])->paginate(config('constants.paginate'));
+            $orders = new LengthAwarePaginator(collect([]), 0, config('constants.paginate'));
         }
 
         return view('frontend.pages.orders.index', ['orders' => $orders]);
@@ -51,6 +56,52 @@ class OrderController extends Controller
     {
         $order = $this->orderService->getById($orderId);
         return view('frontend.pages.orders.product-information', ['order' => $order]);
+    }
+
+    public function updateStatusOrder(updateStatusRequest $request, int $orderId)
+    {
+        $order = $this->orderService->getById($orderId);
+
+        $order->update([
+            'status' => $request->get('orderStatus')
+        ]);
+
+        return response()->json([
+            'status_code' => Response::HTTP_OK,
+        ]);
+    }
+
+    public function getVNPayThanks()
+    {
+        if (session()->has('data')) {
+            $this->processCheckoutWhenPayingInCash(session('data'));
+            Session::forget(['data']);
+        }
+
+        return view('frontend.pages.orders.sub-page.thanks-vnpay');
+    }
+
+    public function getWaitPayment(Request $request)
+    {
+        return view('frontend.pages.orders.sub-page.wait-payment', ['data' => $request->all()]);
+    }
+
+    public function cancelOrder(int $orderId)
+    {
+        $order = $this->orderService->getById($orderId);
+
+        if ($order->status == config('constants.status_order.cancel')) {
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
+        } elseif ($order->status == config('constants.status_order.delivered')) {
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
+        } else {
+            $order->update([
+                'status' => config('constants.status_order.cancel')
+            ]);
+
+            return redirect()->route('frontend.orders.index')
+                ->withFlashSuccess(__('The order has been successfully canceled.'));
+        }
     }
 
     public function checkout(CheckoutRequest $request)
@@ -92,7 +143,13 @@ class OrderController extends Controller
             $this->processCheckoutWhenPayingInCash($request->all());
 
             return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'))
-            ->with('X-Clear-LocalStorage', 'true');
+                ->with('X-Clear-LocalStorage', 'true');
+        } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
+            Session::put(['data' => $request->all()]);
+
+            return view('frontend.pages.orders.sub-page.wait-payment', [
+                'totalAllProduct' => $request->input('totalAllProduct'),
+            ]);
         }
     }
 
@@ -112,12 +169,9 @@ class OrderController extends Controller
         }
     }
 
-    public function processCheckoutWhenPayingWithVnpay($data = [])
+    public function processCheckoutWhenPayingWithVnpay(Request $request)
     {
-    }
-
-    public function processCheckoutWhenPayingWithMomo($data = [])
-    {
+        return $this->vnPayService->getVNPayPayment($request->all());
     }
 
     public function getDistrictDetailByProvinceId(Request $request, $provinceID)

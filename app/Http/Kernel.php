@@ -88,6 +88,7 @@ class Kernel extends HttpKernel
         'type' => \App\Domains\Auth\Http\Middleware\UserTypeCheck::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cart_not_empty' => \App\Http\Middleware\CheckCartNotEmpty::class,
+        'prevent_direct_access' => \App\Http\Middleware\PreventDirectAccess::class,
     ];
 
     /**
