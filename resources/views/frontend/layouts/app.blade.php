@@ -57,7 +57,7 @@
             </div>
         @endguest
     </div><!--app-->
-    <div id="chat"></div>
+    <div id="chat" style="position: fixed; bottom: 0; right: 5%; z-index: 1"></div>
     @stack('before-scripts')
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>

@@ -1,7 +1,8 @@
 import ReactDOM from 'react-dom/client';
+import ChatUser from './pages/ChatUser';
 
 if (document.getElementById('chat')) {
     const main = ReactDOM.createRoot(document.getElementById('chat'));
 
-    main.render(<h2>Chat</h2>);
+    main.render(<ChatUser />);
 }
