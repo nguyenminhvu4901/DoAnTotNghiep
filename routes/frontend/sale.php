@@ -30,11 +30,11 @@ Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth', 'p
             $trail->parent(homeRoute())
                 ->push(__('Sale management'), route('frontend.sales.index'))
                 ->push(__('Update Product Discounts'));
-        });
+        })->middleware('permission:user.sale.edit');
 
-    Route::put('{id}/update', [SaleController::class, 'update'])->name('update');
+    Route::put('{id}/update', [SaleController::class, 'update'])->name('update')->middleware('permission:user.sale.edit');
 
-    Route::patch('{saleId}/update-active', [SaleController::class, 'updateActive'])->name('updateActive');
+    Route::patch('{saleId}/update-active', [SaleController::class, 'updateActive'])->name('updateActive')->middleware('permission:user.sale.edit');
 
-    Route::delete('{saleId}/destroy', [SaleController::class, 'destroy'])->name('destroy');
+    Route::delete('{saleId}/destroy', [SaleController::class, 'destroy'])->name('destroy')->middleware('permission:user.sale.disable');
 });

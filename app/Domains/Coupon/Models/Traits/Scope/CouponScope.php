@@ -23,6 +23,7 @@ trait CouponScope
             ->where('start_date', '<=', Carbon::now())
             ->where('expiry_date', '>=', Carbon::now())
             ->where('quantity', '>', 0)
+            ->where('is_active', config('constants.is_active.true'))
             ->first();
     }
 

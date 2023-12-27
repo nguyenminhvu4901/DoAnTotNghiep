@@ -4,6 +4,7 @@ use App\Domains\Cart\Models\Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Container\Container;
 use Illuminate\Pagination\Paginator;
+use \App\Domains\Order\Models\Order;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
@@ -362,6 +363,26 @@ if (!function_exists('countProductInCart')) {
     {
         return Cart::where('user_id', auth()->user()->id)
             ->where('product_quantity', '!=', 0)->count();
+    }
+}
+
+if (!function_exists('countOrderExist')) {
+    /**
+     * @return array
+     */
+    function countOrderExist()
+    {
+        if(auth()->user()->isAdmin())
+        {
+            return Order::where('status', '!=', '0')
+                ->where('status', '!=', '5')
+                ->count();
+        }else{
+            return Order::where('user_id', auth()->user()->id)
+                    ->where('status', '!=', '0')
+                    ->where('status', '!=', '5')->count();
+        }
+
     }
 }
 

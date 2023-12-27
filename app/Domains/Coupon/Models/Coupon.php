@@ -31,7 +31,8 @@ class Coupon extends Model
         'start_date',
         'expiry_date',
         'quantity',
-        'description'
+        'description',
+        'is_active'
     ];
 
     protected $dates = ['deleted_at'];

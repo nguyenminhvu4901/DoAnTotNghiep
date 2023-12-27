@@ -9,8 +9,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <p>@lang('Do you really want to delete record? This process cannot
-                                                                                                                            be undone.')</p>
+                <p>@lang('Do you want to remove the product from the shopping cart? This process cannot be undone.')</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" id="cancelDelete" data-dismiss="modal">Cancel</button>

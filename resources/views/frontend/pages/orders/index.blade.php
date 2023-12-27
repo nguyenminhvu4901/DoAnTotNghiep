@@ -18,7 +18,7 @@
                     <form id="search-form" class="d-flex align-items-center" action="" method="GET">
                         <div class="nav-search-bar d-inline-flex" style="width:500px">
                             <input class="form-control flex-grow-1" type="text" placeholder="@lang('Search')..."
-                                value="{{ old('search', request()->get('search')) }}" name="search">
+                                   value="{{ old('search', request()->get('search')) }}" name="search">
                             <button class="border-0 bg-transparent" type="submit">
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
@@ -33,179 +33,172 @@
             <div class="table-responsive rounded">
                 <table class="table table-hover table-striped border rounded" id="categories-table">
                     <thead class="bg-header-table">
-                        <tr>
-                            <th class="text-center">@lang('No.')</th>
+                    <tr>
+                        <th class="text-center">@lang('No.')</th>
+                        <th class="text-center">
+                            @lang('Order Code')
+                        </th>
+                        <th class="text-center">
+                            @lang('Order account name')
+                        </th>
+                        <th class="text-center">
+                            @lang('Customer name')
+                        </th>
+                        <th class="text-center">
+                            @lang('Payment method')
+                        </th>
+                        <th class="text-center">
+                            @lang('Total price')
+                        </th>
+                        <th class="text-center">
+                            @lang('Order status')
+                        </th>
+                        <th class="text-center">
+                            @lang('Customer information')
+                        </th>
+                        <th class="text-center">
+                            @lang('Product information')
+                        </th>
+                        @if (auth()->user()->isAdmin() ||
+                                auth()->user()->isRoleStaff())
                             <th class="text-center">
-                                @lang('Order Code')
+                                @lang('Action')
                             </th>
-                            <th class="text-center">
-                                @lang('Order account name')
-                            </th>
-                            <th class="text-center">
-                                @lang('Customer name')
-                            </th>
-                            <th class="text-center">
-                                @lang('Payment method')
-                            </th>
-                            <th class="text-center">
-                                @lang('Total price')
-                            </th>
-                            <th class="text-center">
-                                @lang('Order status')
-                            </th>
-                            <th class="text-center">
-                                @lang('Customer information')
-                            </th>
-                            <th class="text-center">
-                                @lang('Product information')
-                            </th>
-                            @if (auth()->user()->isAdmin() ||
-                                    auth()->user()->isRoleStaff())
-                                <th class="text-center">
-                                    @lang('Action')
-                                </th>
-                            @endif
-                            <th class="text-center">
-                                @lang('Cancel order')
-                            </th>
-                        </tr>
+                        @endif
+                        <th class="text-center">
+                            @lang('Cancel order')
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @forelse($orders as $order)
-                            <tr>
-                                <td class="text-center align-middle">{{ $loop->iteration + $orders->firstItem() - 1 }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $order->code_order }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $order->created_by }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $order->customer_name }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $order->formatted_payment }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ formatMoney($order->total) }}
-                                </td>
-                                <td class="text-center align-middle" style="color:firebrick">
-                                    {{ $order->formatted_order_status }}
-                                </td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.orders.customerInfo', ['orderId' => $order->id]) }}"><i
+                    @forelse($orders as $order)
+                        <tr>
+                            <td class="text-center align-middle">{{ $loop->iteration + $orders->firstItem() - 1 }}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{ $order->code_order }}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{ $order->created_by }}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{ $order->customer_name }}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{ $order->formatted_payment }}
+                            </td>
+                            <td class="text-center align-middle">
+                                {{ formatMoney($order->total) }}
+                            </td>
+                            <td class="text-center align-middle" style="color:firebrick">
+                                {{ $order->formatted_order_status }}
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="{{ route('frontend.orders.customerInfo', ['orderId' => $order->id]) }}"><i
                                             class="fas fa-user"></i></a>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <a href="{{ route('frontend.orders.productInfo', ['orderId' => $order->id]) }}"><i
+                            </td>
+                            <td class="text-center align-middle">
+                                <a href="{{ route('frontend.orders.productInfo', ['orderId' => $order->id]) }}"><i
                                             class="fas fa-info"></i></a>
-                                </td>
-                                @if (auth()->user()->isAdmin() ||
-                                        auth()->user()->isRoleStaff())
-                                    <td class="text-center align-middle" style="width: 200px;">
-                                        <select class="form-control status-order" style="width: 100%;" name="status"
+                            </td>
+                            @if (auth()->user()->isAdmin() ||
+                                    auth()->user()->isRoleStaff())
+                                <td class="text-center align-middle" style="width: 200px;">
+                                    <select class="form-control status-order" style="width: 100%;" name="status"
                                             data-current-status="{{ $order->status }}"
                                             data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}">
-                                            @foreach (config('constants.status_order_text') as $key => $value)
-                                                @if (config('constants.status_order_text.Cancel order') == $order->status)
-                                                    <option value="{{ $value }}"
+                                        @foreach (config('constants.status_order_text') as $key => $value)
+                                            @if (config('constants.status_order_text.Cancel order') == $order->status)
+                                                <option value="{{ $value }}"
                                                         @if ($order->status == $value) selected @endif>
-                                                        {{ $key }}
-                                                    </option>
+                                                    {{ $key }}
+                                                </option>
                                                 @break
 
                                             @elseif (config('constants.status_order_text.Successful delivery') == $order->status)
                                                 <option
-                                                    value="{{ config('constants.status_order_text.Successful delivery') }}"
-                                                    @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>
+                                                        value="{{ config('constants.status_order_text.Successful delivery') }}"
+                                                        @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>
                                                     {{ array_search('5', config('constants.status_order_text')) }}
                                                 </option>
-                                            @break
+                                                @break
 
-                                        @elseif($value == config('constants.status_order_text.Cancel order'))
-                                            @continue
-                                        @endif
-                                        <option value="{{ $value }}"
-                                            @if ($order->status == $value) selected @endif>{{ $key }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                        @endif
-                        @if (auth()->user()->isRoleCustomer())
-                            <td class="text-center align-middle">
-                                @if ($order->status == config('constants.status_order.ready_to_pick'))
-                                    <form
-                                        action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="button" class="btn btn-link"
-                                            href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"
-                                            data-toggle="modal">
-                                            <i class="fas fa-times" style="color: #df2b0c;" disabled></i>
-                                        </button>
-                                        @include('frontend.pages.orders.partials.modal-cancel-order', [
-                                            'orderId' => $order->id,
-                                        ])
-                                    </form>
-                                @elseif($order->status == config('constants.status_order.cancel'))
-                                    @lang('Order has been cancelled')
-                                @else
-                                    @lang('You cannot cancel your order because it has already been prepared and shipped')
-                                @endif
-                            </td>
-                        @else
-                            <td class="text-center align-middle">
-                                @if (
-                                    $order->status != config('constants.status_order.cancel') &&
-                                        $order->status != config('constants.status_order.delivered'))
-                                    <form
-                                        action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="button" class="btn btn-link"
-                                            href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"
-                                            data-toggle="modal">
-                                            <i class="fas fa-times" style="color: #df2b0c;" disabled></i>
-                                        </button>
-                                        @include('frontend.pages.orders.partials.modal-cancel-order', [
-                                            'orderId' => $order->id,
-                                        ])
-                                    </form>
-                                @elseif($order->status == config('constants.status_order.delivered'))
-                                    @lang('The order has been successfully delivered, so it cannot be canceled.')
-                                @else
-                                    @lang('Order has been cancelled.')
-                                @endif
-                            </td>
-                        @endif
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="12" class="text-center">@lang('Not found data')</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                                            @elseif($value == config('constants.status_order_text.Cancel order'))
+                                                @continue
+                                            @endif
+                                            <option value="{{ $value }}"
+                                                    @if ($order->status == $value) selected @endif>{{ $key }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            @endif
+                            @if (auth()->user()->isRoleCustomer())
+                                <td class="text-center align-middle">
+                                    @if ($order->status == config('constants.status_order.ready_to_pick'))
+                                        <form
+                                                action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"
+                                                method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button" class="btn btn-link"
+                                                    href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"
+                                                    data-toggle="modal">
+                                                <i class="fas fa-times" style="color: #df2b0c;" disabled></i>
+                                            </button>
+                                            @include('frontend.pages.orders.partials.modal-cancel-order', [
+                                                'orderId' => $order->id,
+                                            ])
+                                        </form>
+                                    @elseif($order->status == config('constants.status_order.cancel'))
+                                        @lang('Order has been cancelled')
+                                    @else
+                                        @lang('You cannot cancel your order because it has already been prepared and shipped')
+                                    @endif
+                                </td>
+                            @else
+                                <td class="text-center align-middle">
+                                    @if (
+                                        $order->status != config('constants.status_order.cancel') &&
+                                            $order->status != config('constants.status_order.delivered'))
+                                        <form
+                                                action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"
+                                                method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button" class="btn btn-link"
+                                                    href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"
+                                                    data-toggle="modal">
+                                                <i class="fas fa-times" style="color: #df2b0c;" disabled></i>
+                                            </button>
+                                            @include('frontend.pages.orders.partials.modal-cancel-order', [
+                                                'orderId' => $order->id,
+                                            ])
+                                        </form>
+                                    @elseif($order->status == config('constants.status_order.delivered'))
+                                        @lang('The order has been successfully delivered, so it cannot be canceled.')
+                                    @else
+                                        @lang('Order has been cancelled.')
+                                    @endif
+                                </td>
+                            @endif
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="12" class="text-center">@lang('Not found data')</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination container-fluid pt-2 position-sticky">
+                {{ $orders->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
+            </div>
+        </div>
     </div>
-    <div class="pagination container-fluid pt-2 position-sticky">
-        {{ $orders->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
-    </div>
-</div>
-</div>
 @endsection
 
 @push('after-scripts')
-<script>
-    // $(document).ready(function() {
-    //     $('.status-order').on('change', function(e) {
-    //         let orderStatus = $(this).val();
-    //     })
-    // });
-</script>
-<script src="{{ asset('js/pages/filter.js') }}"></script>
-<script src="{{ asset('js/pages/order/updateStatus.js') }}"></script>
+    <script src="{{ asset('js/pages/filter.js') }}"></script>
+    <script src="{{ asset('js/pages/order/updateStatus.js') }}"></script>
 @endpush
