@@ -24,17 +24,19 @@ class OrderService extends BaseService
     protected Coupon $coupon;
     protected CouponUser $couponUser;
     protected Cart $cart;
+
     /**
      * OrderService constructor.
      */
     public function __construct(
-        Order $order,
+        Order        $order,
         AddressOrder $addressOrder,
         ProductOrder $productOrder,
-        Coupon $coupon,
-        CouponUser $couponUser,
-        Cart $cart
-    ) {
+        Coupon       $coupon,
+        CouponUser   $couponUser,
+        Cart         $cart
+    )
+    {
         $this->model = $order;
         $this->addressOrder = $addressOrder;
         $this->productOrder = $productOrder;
@@ -46,6 +48,12 @@ class OrderService extends BaseService
     public function search($data = [])
     {
         return $this->model
+            ->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->when(isset($data['payment_method']), function ($query) use ($data) {
+                $query->filterByPaymentMethod($data['payment_method']);
+            })->when(isset($data['status']), function ($query) use ($data) {
+                $query->filterByStatus($data['status']);
+            })
             ->latest('id')
             ->paginate(config('constants.paginate'));
     }
@@ -138,7 +146,7 @@ class OrderService extends BaseService
             ->where('coupon_id', $couponId)
             ->where('user_id', auth()->user()->id)
             ->first();
-            
+
         if (isset($couponUser)) {
             $couponUser->update([
                 'is_used' => config('constants.is_used.true'),

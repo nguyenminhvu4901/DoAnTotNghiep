@@ -4,6 +4,7 @@ namespace App\Domains\Order\Models;
 
 use App\Domains\Order\Models\Traits\Attribute\OrderAttribute;
 use App\Domains\Order\Models\Traits\Relationship\OrderRelationship;
+use App\Domains\Order\Models\Traits\Scope\OrderScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,8 +14,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Order extends Model
 {
     use HasFactory,
-    OrderAttribute,
-    OrderRelationship;
+        OrderAttribute,
+        OrderRelationship,
+        OrderScope;
 
     protected $table = "orders";
 

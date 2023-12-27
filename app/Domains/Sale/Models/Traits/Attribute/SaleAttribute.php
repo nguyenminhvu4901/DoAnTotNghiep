@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domains\Sale\Models\Traits\Attribute;
+use \Carbon\Carbon;
 
 trait SaleAttribute
 {
@@ -26,6 +27,26 @@ trait SaleAttribute
             return '%';
         } else {
             return __('VND');
+        }
+    }
+
+    public function getRemainAttribute(): string
+    {
+        $expiryDate = Carbon::createFromFormat('Y-m-d', $this->expiry_date);
+        $createdDate = Carbon::createFromFormat('Y-m-d', $this->start_date);
+        $today = Carbon::now();
+        $daysRemaining = $today->diffInDays($expiryDate);
+        $daysStart = $today->diffInDays($createdDate);
+        if ($expiryDate < $today) {
+            return __('Expired');
+        } else if ($expiryDate->isToday()) {
+            return __('Today is the expiration date');
+        } else if ($today < $createdDate) {
+            return trans('Start in :couponStart days', ['couponStart' => $daysStart]);
+        } else if($expiryDate->isTomorrow()){
+            return __('Discount until the end of the day');
+        }else{
+            return trans('There are :couponExpiry days left until it expires', ['couponExpiry' => $daysRemaining]);
         }
     }
 }
