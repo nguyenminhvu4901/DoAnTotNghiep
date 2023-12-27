@@ -51,16 +51,14 @@ class PermissionRoleSeeder extends Seeder
             ]
         ];
 
-        foreach($roleData as $eachRole)
-        {
-            if(!$this->roleService->isExistByName($eachRole['name']))
-            {
+        foreach ($roleData as $eachRole) {
+            if (!$this->roleService->isExistByName($eachRole['name'])) {
                 Role::create($eachRole);
             }
         }
 
-         // Create Permissions
-         $permissionData = [
+        // Create Permissions
+        $permissionData = [
             [
                 'type' => User::TYPE_ADMIN,
                 'name' => 'admin.access.user',
@@ -138,6 +136,12 @@ class PermissionRoleSeeder extends Seeder
                         'description' => 'Detail category',
                         'sort' => 5,
                     ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.category.trash',
+                        'description' => 'Trash category',
+                        'sort' => 6,
+                    ],
                 ]
             ],
             [
@@ -174,6 +178,12 @@ class PermissionRoleSeeder extends Seeder
                         'name' => 'user.product.detail',
                         'description' => 'Detail product',
                         'sort' => 5,
+                    ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.product.trash',
+                        'description' => 'Trash product',
+                        'sort' => 6,
                     ],
                 ]
             ],
@@ -307,6 +317,43 @@ class PermissionRoleSeeder extends Seeder
                 'description' => 'Role - Permission management',
                 'sort' => 8
             ],
+            [
+                'type' => User::TYPE_USER,
+                'name' => 'user.sale',
+                'description' => 'Sale management',
+                'sort' => 9,
+                'children' => [
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.sale.create',
+                        'description' => 'Create sale',
+                    ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.sale.edit',
+                        'description' => 'Edit sale',
+                        'sort' => 2,
+                    ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.sale.view',
+                        'description' => 'View list sale',
+                        'sort' => 3,
+                    ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.sale.disabled',
+                        'description' => 'Disable sale',
+                        'sort' => 4,
+                    ],
+                    [
+                        'type' => User::TYPE_USER,
+                        'name' => 'user.sale.detail',
+                        'description' => 'Detail sale',
+                        'sort' => 5,
+                    ],
+                ]
+            ],
         ];
 
         foreach ($permissionData as $eachPermission) {
@@ -328,39 +375,42 @@ class PermissionRoleSeeder extends Seeder
             }
         }
 
-               // Assign Permissions to other Roles
+        // Assign Permissions to other Roles
         // env for manual run
         $refreshRolePermissions = env('REFRESH_ROLE_PERMISSION', false);
         // Staff
         $roleStaff = Role::find(2);
         $this->syncPermissionsForRole($roleStaff, [
+            //Category
             'user.category',
             'user.category.create',
             'user.category.edit',
             'user.category.view',
             'user.category.disabled',
             'user.category.detail',
+            'user.category.trash',
 
+            //Product
             'user.product',
             'user.product.create',
             'user.product.edit',
             'user.product.view',
             'user.product.disabled',
             'user.product.detail',
+            'user.category.trash',
 
+            //Cart
             'user.cart',
             'user.cart.create',
             'user.cart.edit',
             'user.cart.view',
             'user.cart.disabled',
 
-            'user.coupon',
-            'user.coupon.create',
-            'user.coupon.edit',
+            //Coupon
             'user.coupon.view',
-            'user.coupon.disabled',
             'user.coupon.detail',
 
+            //Order
             'user.order',
             'user.order.create',
             'user.order.edit',
@@ -368,23 +418,35 @@ class PermissionRoleSeeder extends Seeder
             'user.order.disabled',
             'user.order.detail'
         ], $refreshRolePermissions);
-        
+
         // Customer
         $roleCustomer = Role::find(3);
         $this->syncPermissionsForRole($roleCustomer, [
+            //Category
             'user.category.view',
             'user.category.detail',
+
+            //Product
             'user.product.view',
             'user.product.detail',
+
+            //Cart
             'user.cart',
             'user.cart.create',
             'user.cart.edit',
             'user.cart.view',
             'user.cart.disabled',
+
+            //Coupon
             'user.coupon.view',
             'user.coupon.detail',
+
+            //Order
+            'user.order',
             'user.order.create',
+            'user.order.edit',
             'user.order.view',
+            'user.order.disabled',
             'user.order.detail'
         ], $refreshRolePermissions);
 

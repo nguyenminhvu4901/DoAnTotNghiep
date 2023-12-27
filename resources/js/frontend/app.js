@@ -7,7 +7,7 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 require('../bootstrap');
-require('./assets/vendor/index.js');
+require('./assets/index.js');
 require('../plugins');
 require('../index');
 require('./layouts');

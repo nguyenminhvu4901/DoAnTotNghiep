@@ -16,7 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ mix('css/assets/index.scss') }}">
+    {{-- <link rel="stylesheet" href="{{ mix('css/assets/index.scss') }}"> --}}
 
     <livewire:styles />
     {{-- <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
@@ -32,7 +32,12 @@
 
     <div id="app">
         @guest
-            <main>
+            @include('frontend.includes.guest.nav')
+            @stack('page-messages')
+            <main id="main-content" class="pb-3">
+                <div id="preloder">
+                    <div class="loader"></div>
+                </div>
                 @yield('content')
             </main>
         @else
@@ -53,16 +58,20 @@
                 </div>
             </div>
             <div class="footer">
-                {{-- @include('frontend.includes.footer') --}}
+                @include('frontend.includes.footer')
             </div>
         @endguest
+        <div class="footer">
+            @include('frontend.includes.footer')
+        </div>
     </div><!--app-->
     <div id="chat"></div>
     @stack('before-scripts')
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js" integrity="sha512-nKZDK+ztK6Ug+2B6DZx+QtgeyAmo9YThZob8O3xgjqhw2IVQdAITFasl/jqbyDwclMkLXFOZRiytnUrXk/PM6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script src="{{ mix('js/manifest.js') }}"></script>
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/frontend.js') }}"></script>
-    <script src="{{ mix('js/assets/vendor/index.js') }}"></script>
+    {{-- <script src="{{ mix('js/assets/index.js') }}"></script> --}}
     <script src="{{ asset('js/assets/vendor/ckeditor5/build/ckeditor.js') }}"></script>
     {{-- <script src="jquery.min.js"></script> --}}
     {{-- <script src="owlcarousel/owl.carousel.min.js"></script> --}}

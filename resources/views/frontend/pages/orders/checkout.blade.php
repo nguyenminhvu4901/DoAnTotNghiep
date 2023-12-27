@@ -139,7 +139,7 @@
                                                 {{ $product->nameProduct }} </a>
                                             (@lang('Color'): {{ $product->color }}, @lang('Size'):
                                             {{ $product->size }})
-                                            <span>đ{{ formatMoney($product->price) }}</span>
+                                            <span>{{ formatMoney($product->price) }}</span>
                                         </li>
                                     </ul>
                                 @empty
