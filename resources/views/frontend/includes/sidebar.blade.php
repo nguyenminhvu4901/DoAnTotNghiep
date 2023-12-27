@@ -7,7 +7,7 @@
             </div>
             <div class="mb-3 d-flex justify-content-center">
                 <img id="sidebar-avatar" class="sidebar-avatar rounded-circle" src="{{ $logged_in_user->avatar }}"
-                    alt="avatar">
+                     alt="avatar">
             </div>
             <div class="mb-5 pb-3">
                 <div class="mb-1 d-flex justify-content-center">
@@ -18,7 +18,11 @@
                 </div>
             </div>
             <div class="mb-5 px-xl-5 px-3 sidebar-show overflow-hidden sidebar-item">
-                @include('frontend.includes.partials.sidebar-items-staff')
+                @if(auth()->user()->isRoleCustomer())
+                    @include('frontend.includes.partials.sidebar-items-customer')
+                @else
+                    @include('frontend.includes.partials.sidebar-items-staff')
+                @endif
             </div>
         </div>
     </div>

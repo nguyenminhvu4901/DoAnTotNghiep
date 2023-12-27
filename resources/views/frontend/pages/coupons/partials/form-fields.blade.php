@@ -93,6 +93,18 @@
     </div>
 </div>
 
+<div class="form-group row">
+    <label for="input_name" class="col-sm-2 col-form-label">
+        @lang('Active') <span class="text-danger">*</span>
+    </label>
+    <div class="col-sm-5">
+        <label class="switch">
+            <input type="checkbox" name="is_active" checked>
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+
 @push('after-scripts')
     <script src="{{ asset('js/pages/formRules.js') }}"></script>
 @endpush

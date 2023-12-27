@@ -2,6 +2,7 @@
 
 namespace App\Domains\Coupon\Services;
 
+use App\Domains\Sale\Models\Sale;
 use Exception;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
@@ -14,13 +15,15 @@ use App\Domains\Coupon\Models\Coupon;
 class CouponService extends BaseService
 {
     protected Coupon $coupon;
+
     /**
      * ProductService constructor.
      * @param Coupon $coupon
      */
     public function __construct(
         Coupon $coupon
-    ) {
+    )
+    {
         $this->model = $coupon;
     }
 
@@ -42,7 +45,8 @@ class CouponService extends BaseService
                 'start_date' => $data['start_date'],
                 'expiry_date' => $data['expiry_date'],
                 'quantity' => $data['quantity'],
-                'description' => $data['description']
+                'description' => $data['description'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
             ]);
 
             DB::commit();
@@ -66,7 +70,8 @@ class CouponService extends BaseService
                 'start_date' => $data['start_date'],
                 'expiry_date' => $data['expiry_date'],
                 'quantity' => $data['quantity'],
-                'description' => $data['description']
+                'description' => $data['description'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
             ]);
 
             DB::commit();
@@ -92,5 +97,17 @@ class CouponService extends BaseService
         }
 
         return $coupon;
+    }
+
+    public function updateActive($data = [], Coupon $coupon)
+    {
+        if ($data['isActive'] == config('constants.is_active.true')) {
+            $data['isActive'] = config('constants.is_active.false');
+        } else {
+            $data['isActive'] = config('constants.is_active.true');
+        }
+        $coupon->update([
+            'is_active' => $data['isActive']
+        ]);
     }
 }

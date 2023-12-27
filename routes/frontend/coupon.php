@@ -40,5 +40,7 @@ Route::group(['as' => 'coupons.', 'prefix' => 'coupons', 'middleware' => ['auth'
 
     Route::put('{slug}/update', [CouponController::class, 'update'])->name('update')->middleware('permission:user.coupon.edit');
 
+    Route::patch('{couponId}/update-active', [CouponController::class, 'updateActive'])->name('updateActive')->middleware('permission:user.coupon.edit');
+
     Route::delete('{slug}/destroy', [CouponController::class, 'destroy'])->name('destroy')->middleware('permission:user.coupon.disable');
 });

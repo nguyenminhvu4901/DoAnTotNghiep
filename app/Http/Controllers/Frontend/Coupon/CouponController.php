@@ -70,4 +70,16 @@ class CouponController extends Controller
 
         return redirect(route('frontend.coupons.index'))->withFlashSuccess(__('Successfully deleted.'));
     }
+
+    public function updateActive(Request $request, int $couponId)
+    {
+        $coupon = $this->couponService->getById($couponId);
+        abort_if(!$coupon, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->couponService->updateActive($request->all(), $coupon);
+
+        return response()->json([
+            'status_code' => Response::HTTP_OK,
+        ]);
+    }
 }

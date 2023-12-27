@@ -22,10 +22,11 @@ class OrderController extends Controller
     protected VNPayService $vnPayService;
 
     public function __construct(
-        OrderService $orderService,
+        OrderService           $orderService,
         VietNamProvinceService $vietNamProvinceService,
-        VNPayService $vnPayService
-    ) {
+        VNPayService           $vnPayService
+    )
+    {
         $this->orderService = $orderService;
         $this->vietNamProvinceService = $vietNamProvinceService;
         $this->vnPayService = $vnPayService;
@@ -142,7 +143,7 @@ class OrderController extends Controller
         if ($request->payment_method == config('constants.payment_method.direct')) {
             $this->processCheckoutWhenPayingInCash($request->all());
 
-            return redirect(route('frontend.user.dashboard'))->withFlashSuccess(__('Order Success.'))
+            return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
                 ->with('X-Clear-LocalStorage', 'true');
         } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
             Session::put(['data' => $request->all()]);
@@ -224,7 +225,7 @@ class OrderController extends Controller
                 'frontend.pages.orders.partials.fee-detail',
                 [
                     'ship' => $fee['total'],
-                    'totalAllProduct' => (float) $request->totalCost + (float) $fee['total'],
+                    'totalAllProduct' => (float)$request->totalCost + (float)$fee['total'],
                 ]
             )->render()
         ]);

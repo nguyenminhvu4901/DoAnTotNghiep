@@ -14,7 +14,7 @@ Route::group(['as' => 'productImages.', 'prefix' => 'product-images', 'middlewar
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Product image management'), route('frontend.productImages.index'));
-        })->middleware('permission:user.product.index');
+        })->middleware('permission:user.product.view');
 
     Route::get('{slug}/create', [ProductImageController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {

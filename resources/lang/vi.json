@@ -196,5 +196,13 @@
     "Watch": "Đồng hồ đeo tay",
     "Free Pickup and Delivery Available": "Có sẵn nhận và giao hàng miễn phí",
     "Quality jewelry": "Trang sức chất lượng",
-    "Unfortunately, you can only purchase a maximum of :maxQuantity products": "Rất tiếc, bạn chỉ có thể mua tối đa :maxQuantity sản phẩm"
+    "Unfortunately, you can only purchase a maximum of :maxQuantity products": "Rất tiếc, bạn chỉ có thể mua tối đa :maxQuantity sản phẩm",
+    "Start in :couponStart days": "Bắt đầu trong :couponStart ngày",
+    "There are :couponExpiry days left until it expires": "Kết thúc sau :couponExpiry ngày",
+    "Expired": "Đã hết hạn",
+    "There are no sale price": "Sản phẩm này không được giảm giá",
+    "Add": "Thêm",
+    "Order has been cancelled": "Đơn hàng đã được huỷ",
+    "Payment method": "Phương thức thanh toán",
+    "Payment on delivery": "Thanh toán khi nhận hàng"
 }

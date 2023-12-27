@@ -34,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
         //@hasPermission(['delete_product', 'edit_product'])
         Blade::if('hasPermission', function ($permissions) {
             $user = auth()->user();
-
             if (!$user) {
                 return false;
             }
