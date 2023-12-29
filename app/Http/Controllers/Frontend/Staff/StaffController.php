@@ -6,17 +6,17 @@ use App\Domains\Staff\Services\StaffService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use App\Domains\Sale\Services\SaleService;
-use App\Domains\Product\Services\ProductService;
-use App\Http\Requests\Frontend\Sale\StoreRequest;
-use App\Http\Requests\Frontend\Sale\UpdateRequest;
+use \App\Http\Requests\Frontend\Staff\StoreRequest;
+use App\Http\Requests\Frontend\Staff\UpdateRequest;
 
 class StaffController extends Controller
 {
     protected StaffService $staffService;
+
     public function __construct(
         StaffService $staffService
-    ) {
+    )
+    {
         $this->staffService = $staffService;
     }
 
@@ -24,69 +24,89 @@ class StaffController extends Controller
     {
         $staff = $this->staffService->search($request->all());
 
-        return view('frontend.pages.sales.index');
+        return view('frontend.pages.staff.index', ['staff' => $staff]);
     }
 
-    public function create(Request $request, int $productId)
+    public function create()
     {
-        if ($request->level == 'parent') {
-            $product = $this->saleService->getProductById($productId);
-        } else if ($request->level == 'child') {
-            $product = $this->saleService->getProductDetailById($productId);
-        } else {
-            abort_if(true, Response::HTTP_NOT_FOUND);
-        }
-
-        return view('frontend.pages.sales.create', ['product' => $product, 'level' => $request->level]);
+        return view('frontend.pages.staff.create');
     }
 
-    public function store(StoreRequest $request, int $productId)
+    public function store(StoreRequest $request)
     {
-        if ($request->level == 'parent') {
-            $this->saleService->createProductSaleGlobal($request->all(), $productId);
-        } else if ($request->level == 'child') {
-            $this->saleService->createProductSaleOption($request->all(), $productId);
-        } else {
-            abort_if(true, Response::HTTP_NOT_FOUND);
-        }
+        $this->staffService->store($request->all());
 
-        return redirect()->route('frontend.sales.index')->withFlashSuccess(__('Successfully created.'));
+        return redirect()->route('frontend.staff.index')
+            ->withFlashSuccess(__('Successfully created employee account.'));
     }
 
-    public function edit(int $id)
+    public function show(int $staffId)
     {
-        $sale = $this->saleService->getById($id);
+        $staff = $this->staffService->getById($staffId);
 
-        return view('frontend.pages.sales.edit', ['sale' => $sale]);
+        return view('frontend.pages.staff.detail', ['staff' => $staff]);
     }
 
-    public function update(UpdateRequest $request, int $saleId)
+    public function edit(int $staffId)
     {
-        $sale = $this->saleService->getById($saleId);
-        $this->saleService->updateSale($request->all(), $sale);
+        $staff = $this->staffService->getById($staffId);
 
-        return redirect()->route('frontend.sales.index')->withFlashSuccess(__('Successfully updated.'));
+        return view('frontend.pages.staff.edit', ['staff' => $staff]);
     }
 
-    public function destroy(int $saleId)
+    public function update(UpdateRequest $request, int $staffId)
     {
-        $sale = $this->saleService->getById($saleId);
-        abort_if(!$sale, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $staff = $this->staffService->getById($staffId);
+        $this->staffService->update($request->all(), $staff);
 
-        $this->saleService->delete($sale);
-
-        return redirect()->route('frontend.sales.index')->withFlashSuccess(__('Successfully deleted.'));
+        return redirect()->route('frontend.staff.index')->withFlashSuccess(__('Successfully updated.'));
     }
 
-    public function updateActive(Request $request, int $saleId)
+    public function destroy(int $staffId)
     {
-        $sale = $this->saleService->getById($saleId);
-        abort_if(!$sale, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $staff = $this->staffService->getById($staffId);
+        abort_if(!$staff, Response::HTTP_INTERNAL_SERVER_ERROR);
 
-        $this->saleService->updateActive($request->all(), $sale);
+        $this->staffService->delete($staff);
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+        return redirect()->route('frontend.staff.index')->withFlashSuccess(__('Successfully deleted.'));
+    }
+
+    public function getAllStaffInTrash(Request $request)
+    {
+        $staff = $this->staffService->searchWithTrash($request->all());
+
+        return view('frontend.pages.staff.trash.trash', ['staff' => $staff]);
+    }
+
+    public function showStaffInTrash(int $staffId)
+    {
+        $staff = $this->staffService->getByIdWithTrash($staffId);
+
+        abort_if(!$staff, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        return view('frontend.pages.staff.trash.detail', ['staff' => $staff]);
+    }
+
+    public function restoreStaff(int $staffId)
+    {
+        $staff = $this->staffService->getByIdWithTrash($staffId);
+
+        abort_if(!$staff, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->staffService->restore($staff);
+
+        return redirect()->route('frontend.staff.trash')->withFlashSuccess(__('Successfully restored.'));
+    }
+
+    public function forceDeleteStaff(int $staffId)
+    {
+        $staff = $this->staffService->getByIdWithTrash($staffId);
+
+        abort_if(!$staff, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->staffService->forceDelete($staff);
+
+        return redirect()->route('frontend.staff.trash')->withFlashSuccess(__('Successfully deleted.'));
     }
 }

@@ -29,6 +29,17 @@ return [
         'true' => 1,
     ],
 
+    'gender' => [
+        'Male',
+        'Female',
+        'Other'
+    ],
+    'user_gender' => [
+        'Male' => 0,
+        'Female' => 1,
+        'Other' => 2
+    ],
+
     'ghn' => [
         'url_address' => 'https://online-gateway.ghn.vn/shiip/public-api/master-data/',
         'url_fee' => 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',

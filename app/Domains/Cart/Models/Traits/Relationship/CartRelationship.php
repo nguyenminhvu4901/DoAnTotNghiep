@@ -2,7 +2,7 @@
 
 namespace App\Domains\Cart\Models\Traits\Relationship;
 
-use App\Models\User;
+use App\Domains\Auth\Models\User;
 use App\Domains\Product\Models\Product;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use App\Domains\ProductDetail\Models\ProductDetail;

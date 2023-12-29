@@ -32,7 +32,7 @@
                                 <div id="checkDeleteCouponInCart"></div>
                                 <input type="hidden" name="old_coupon_name"
                                     value="{{ session()->get('coupon_name') ?? null }}">
-                                <input type="text" name="coupon_code" placeholder="Enter your coupon code">
+                                <input type="text" name="coupon_code" placeholder="Enter your coupon code" >
                                 <button type="submit" class="site-btn">APPLY COUPON</button>
                             </form>
                         </div>

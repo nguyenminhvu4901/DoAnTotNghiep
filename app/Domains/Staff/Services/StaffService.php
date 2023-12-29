@@ -2,127 +2,181 @@
 
 namespace App\Domains\Staff\Services;
 
+use App\Domains\Auth\Events\User\UserUpdated;
+use App\Domains\Auth\Models\User;
+use App\Domains\Auth\Services\UserService;
 use App\Domains\Staff\Models\Staff;
 use Exception;
 use App\Services\BaseService;
-use App\Domains\Sale\Models\Sale;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Domains\Product\Models\Product;
-use App\Domains\ProductSale\Models\ProductSale;
-use App\Domains\ProductDetail\Models\ProductDetail;
 
 /**
  * Class CategoryService.
  */
 class StaffService extends BaseService
 {
+    protected UserService $userService;
+
     public function __construct(
-        Staff $staff
-    ) {
+        Staff       $staff,
+        UserService $userService
+    )
+    {
         $this->model = $staff;
+        $this->userService = $userService;
     }
+
     public function search($data)
     {
-        return $this->model
-            ->when(isset($data['search']), function ($query) use ($data) {
-                $query->search($data['search']);
-            })
-            ->when(isset($data['products']), function ($query) use ($data) {
-                $query->filterByProduct($data['products']);
-            })->whereHas('product', function ($query) {
-                $query->whereNotNull('product_id');
-            })
+        return $this->model->withNameOrEmail($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->with('user')
             ->latest('id')->paginate(config('constants.paginate'));
     }
 
-    public function getProductById(int $productId)
+    public function searchWithTrash($data)
     {
-        return $this->product->findOrFail($productId);
+        return $this->model->withNameOrEmailIncludingTrash($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->onlyTrashed()
+            ->latest('id')->paginate(config('constants.paginate'));
     }
 
-    public function getProductDetailById(int $productDetail)
-    {
-        return $this->productDetail->findOrFail($productDetail);
-    }
-
-    public function createProductSaleGlobal($data = [], int $productId)
-    {
-        $sale = $this->model->create([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
-
-        $sale->syncProduct($productId);
-
-        return $sale;
-    }
-
-    public function createProductSaleOption($data = [], int $productDetailId)
-    {
-        $sale = $this->model->create([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
-
-        $productDetail = $this->getProductDetailById($productDetailId);
-
-        $sale->syncProductDetailWithProductGlobal($productDetail->product_id, $productDetailId);
-
-        return $sale;
-    }
-
-    public function updateSale($data = [], Sale $sale)
-    {
-        $sale->update([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
-    }
-
-    public function delete(Sale $sale)
+    public function store(array $data = [])
     {
         DB::beginTransaction();
         try {
-            $sale->delete();
+            $staff = $this->createStaff($data);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem creating staff. Please try again.'));
+        }
+
+        return $staff;
+    }
+
+    /**
+     * @param array $data
+     * @return Staff
+     * @throws GeneralException
+     */
+    protected function createStaff(array $data = []): Staff
+    {
+        try {
+            $user = $this->userService->registerUserWithoutTryCatch($data);
+            $user->assignRole(User::ROLE_STAFF);
+        } catch (Exception $e) {
+            throw new GeneralException(__('There was a problem creating new user for this assistant'));
+        }
+
+        return $this->model->create([
+            'user_id' => $user->id,
+            'gender' => $data['gender'],
+            'birthday' => $data['birthday'],
+            'phone' => $data['phone'],
+            'bio' => $data['bio'] ?? '',
+        ]);
+    }
+
+    public function update(array $data = [], Staff|Model $staff)
+    {
+        DB::beginTransaction();
+        try {
+            $staff = $this->updateStaff($data, $staff);
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem deleting product. Please try again.'));
+            throw new GeneralException(__('There was a problem creating staff. Please try again.'));
         }
 
-        return $sale;
+        return $staff;
     }
 
-    public function updateActive($data = [], Sale $sale)
+    protected function updateStaff(array $updateData = [], Staff|Model $staff): Staff
     {
-        if($data['isActive'] == config('constants.is_active.true'))
-        {
-            $data['isActive'] = config('constants.is_active.false');
-        }else{
-            $data['isActive'] = config('constants.is_active.true');
+        DB::beginTransaction();
+        try {
+            try {
+                $this->userService->updateUserFromMemberData($staff->user, $updateData);
+            } catch (Exception $e) {
+                throw new GeneralException(
+                    __("There was a problem updating assistant's corresponding user. Please try again.")
+                );
+            }
+
+            $staff->update([
+                'gender' => $updateData['gender'],
+                'birthday' => $updateData['birthday'],
+                'phone' => $updateData['phone'],
+                'bio' => $updateData['bio'],
+            ]);
+
+            event(new UserUpdated($staff->user));
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating this assistant. Please try again.'));
         }
-        $sale->update([
-            'is_active' => $data['isActive']
-        ]);
+
+        return $staff;
     }
 
-    public function checkSaleGlobalExist(int $productId)
+    public function delete(Staff|Model $staff)
     {
-        return $this->productSale
-            ->where('product_id', $productId)
-            ->where('product_detail_id', null)
-            ->first();
+        DB::beginTransaction();
+        try {
+            $staff->user->delete();
+            event(new UserUpdated($staff->user));
+            $staff->delete();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem deleting staff. Please try again.'));
+        }
+
+        return $staff;
     }
+
+    public function restore(Staff|Model $staff): Staff
+    {
+        DB::beginTransaction();
+        try {
+            $staff->userWithTrashed->restore();
+            $staff->restore();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem restore staff. Please try again.'));
+        }
+
+        return $staff;
+    }
+
+    public function forceDelete(Staff|Model $staff): Staff
+    {
+        DB::beginTransaction();
+        try {
+            $staff->userWithTrashed->forceDelete();
+            $staff->forceDelete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem when deleting staff. Please try again.'));
+        }
+
+        return $staff;
+    }
+
 }
