@@ -9,6 +9,7 @@ use App\Domains\Auth\Events\User\UserRestored;
 use App\Domains\Auth\Events\User\UserStatusChanged;
 use App\Domains\Auth\Events\User\UserUpdated;
 use App\Domains\Auth\Models\User;
+use App\Domains\Session\Services\SessionService;
 use App\Exceptions\GeneralException;
 use App\Services\BaseService;
 use Exception;
@@ -20,19 +21,23 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserService extends BaseService
 {
+    protected SessionService $sessionService;
+
     /**
      * UserService constructor.
      *
-     * @param  User  $user
+     * @param User $user
+     * @param SessionService $sessionService
      */
-    public function __construct(User $user)
+    public function __construct(User $user, SessionService $sessionService)
     {
         $this->model = $user;
+        $this->sessionService = $sessionService;
     }
 
     /**
      * @param $type
-     * @param  bool|int  $perPage
+     * @param bool|int $perPage
      * @return mixed
      */
     public function getByType($type, $perPage = false)
@@ -45,7 +50,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  array  $data
+     * @param array $data
      * @return mixed
      *
      * @throws GeneralException
@@ -58,7 +63,7 @@ class UserService extends BaseService
         try {
             $user = $this->createUser($data);
             $user->assignRole(User::ROLE_CUSTOMER);
-            
+
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -68,6 +73,63 @@ class UserService extends BaseService
         DB::commit();
 
         return $user;
+    }
+
+    public function registerUserWithoutTryCatch(array $data = []): User
+    {
+        return $this->createUser($data);
+    }
+
+    /**
+     * @param User $user
+     * @param array $data
+     * @return User
+     *
+     * @throws Throwable
+     */
+    public function updateUserFromMemberData(User $user, array $data = []): User
+    {
+        $updateData = [
+            'name' => $data['name'],
+            'email' => $data['email']
+        ];
+        if (!$data['password']) {
+            unset($data['password']);
+        } else {
+            $this->updatePassword($user, $data);
+            $this->sessionService->removeUserSession($user->id);
+        }
+
+        $user->update($updateData);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @param $data
+     * @param bool $expired
+     * @return User
+     *
+     * @throws Throwable
+     */
+    public function updatePassword(User $user, $data, $expired = false): User
+    {
+        if (isset($data['current_password'])) {
+            throw_if(
+                !Hash::check($data['current_password'], $user->password),
+                new GeneralException(__('That is not your old password.'))
+            );
+        }
+
+        // Reset the expiration clock
+        if ($expired) {
+            $user->password_changed_at = now();
+        }
+
+        $user->password = $data['password'];
+
+        return tap($user)->update();
     }
 
     /**
@@ -81,7 +143,7 @@ class UserService extends BaseService
     {
         $user = $this->model::where('provider_id', $info->id)->first();
 
-        if (! $user) {
+        if (!$user) {
             DB::beginTransaction();
 
             try {
@@ -105,7 +167,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  array  $data
+     * @param array $data
      * @return User
      *
      * @throws GeneralException
@@ -127,7 +189,7 @@ class UserService extends BaseService
 
             $user->syncRoles($data['roles'] ?? []);
 
-            if (! config('boilerplate.access.user.only_roles')) {
+            if (!config('boilerplate.access.user.only_roles')) {
                 $user->syncPermissions($data['permissions'] ?? []);
             }
         } catch (Exception $e) {
@@ -141,7 +203,7 @@ class UserService extends BaseService
         DB::commit();
 
         // They didn't want to auto verify the email, but do they want to send the confirmation email to do so?
-        if (! isset($data['email_verified']) && isset($data['send_confirmation_email']) && $data['send_confirmation_email'] === '1') {
+        if (!isset($data['email_verified']) && isset($data['send_confirmation_email']) && $data['send_confirmation_email'] === '1') {
             $user->sendEmailVerificationNotification();
         }
 
@@ -149,8 +211,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  User  $user
-     * @param  array  $data
+     * @param User $user
+     * @param array $data
      * @return User
      *
      * @throws \Throwable
@@ -166,11 +228,11 @@ class UserService extends BaseService
                 'email' => $data['email'],
             ]);
 
-            if (! $user->isMasterAdmin()) {
+            if (!$user->isMasterAdmin()) {
                 // Replace selected roles/permissions
                 $user->syncRoles($data['roles'] ?? []);
 
-                if (! config('boilerplate.access.user.only_roles')) {
+                if (!config('boilerplate.access.user.only_roles')) {
                     $user->syncPermissions($data['permissions'] ?? []);
                 }
             }
@@ -188,8 +250,8 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  User  $user
-     * @param  array  $data
+     * @param User $user
+     * @param array $data
      * @return User
      */
     public function updateProfile(User $user, array $data = []): User
@@ -205,36 +267,9 @@ class UserService extends BaseService
 
         return tap($user)->save();
     }
-
+    
     /**
-     * @param  User  $user
-     * @param $data
-     * @param  bool  $expired
-     * @return User
-     *
-     * @throws \Throwable
-     */
-    public function updatePassword(User $user, $data, $expired = false): User
-    {
-        if (isset($data['current_password'])) {
-            throw_if(
-                ! Hash::check($data['current_password'], $user->password),
-                new GeneralException(__('That is not your old password.'))
-            );
-        }
-
-        // Reset the expiration clock
-        if ($expired) {
-            $user->password_changed_at = now();
-        }
-
-        $user->password = $data['password'];
-
-        return tap($user)->update();
-    }
-
-    /**
-     * @param  User  $user
+     * @param User $user
      * @param $status
      * @return User
      *
@@ -262,7 +297,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return User
      *
      * @throws GeneralException
@@ -283,7 +318,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return User
      *
      * @throws GeneralException
@@ -300,7 +335,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  User  $user
+     * @param User $user
      * @return bool
      *
      * @throws GeneralException
@@ -317,7 +352,7 @@ class UserService extends BaseService
     }
 
     /**
-     * @param  array  $data
+     * @param array $data
      * @return User
      */
     protected function createUser(array $data = []): User

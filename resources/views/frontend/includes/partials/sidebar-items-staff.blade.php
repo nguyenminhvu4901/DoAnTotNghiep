@@ -86,6 +86,33 @@
         </div>
     </a>
 @endcanany
+@canany(['user.management'])
+    <a class="d-flex mb-3 sidebar-route-normal text-lg menu-parent" data-toggle="collapse" role="button"
+       href="#account-management-items">
+        <div class="d-flex align-items-center">
+            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Account Management')</div>
+            <i class="ml-2 fa fa-angle-down " aria-hidden="true"></i>
+        </div>
+    </a>
+    <div id="account-management-items"
+         class="sidebar-items-collapse collapse pl-4 @if (isCurrentRouteInRoutes('frontend.staff.*') || isCurrentRouteInRoutes('frontend.customer.*')) show @endif text-lg">
+        <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.staff.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+           href="{{ route('frontend.staff.index') }}">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-box fa-lg sidebar-icon"></i>
+                <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('Staff')</div>
+            </div>
+        </a>
+        <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.customer.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
+           href="{{ route('frontend.customer.index') }}">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info fa-lg sidebar-icon"></i>
+                <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('Customer')</div>
+            </div>
+        </a>
+    </div>
+@endcanany
 <a class="d-flex mb-3 sidebar-route-normal" href="#"
    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
     <div class="d-flex align-items-center">

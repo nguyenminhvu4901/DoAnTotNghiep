@@ -22,10 +22,10 @@
                     <div class="card mb-3" style="border-radius: .5rem;">
                         <div class="row g-0">
                             <div class="col-md-2 gradient-custom text-center text-white"
-                                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                    alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                                <h3>{{ $order->customer_name }}</h3>
+                                     alt="Avatar" class="img-fluid my-5" style="width: 80px;"/>
+                                <h3>{{ $staff->name }}</h3>
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-4">
@@ -34,35 +34,29 @@
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
                                             <h6>@lang('Email')</h6>
-                                            <p class="text-muted">{{ $order->customer_email }}</p>
+                                            <p class="text-muted">{{ $staff->email }}</p>
                                         </div>
                                         <div class="col-6 mb-3">
                                             <h6>@lang('Phone')</h6>
-                                            <p class="text-muted">{{ $order->customer_phone }}</p>
-                                        </div>
-                                    </div>
-                                    <h6>@lang('Address')</h6>
-                                    <hr class="mt-0 mb-4">
-                                    <div class="row pt-1">
-                                        <div class="col-12 mb-3">
-                                            <p class="text-muted">
-                                                {{ implode(', ', [$order->addressOrder->address, $order->addressOrder->ward, $order->addressOrder->district, $order->addressOrder->province]) }}
-                                            </p>
+                                            <p class="text-muted">{{ $staff->phone }}</p>
                                         </div>
                                     </div>
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6>@lang('Order account')</h6>
-                                            <p class="text-muted">{{ $order->created_by }}</p>
+                                            <h6>@lang('Gender')</h6>
+                                            <p class="text-muted">{{ __($staff->genderLabel) }}</p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h6>@lang('Birthday')</h6>
+                                            <p class="text-muted">{{ formatDateTimeReadable($staff->birthday, true) }}</p>
                                         </div>
                                     </div>
-
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6>@lang('Note')</h6>
-                                            <p class="text-muted">{!! $order->note !!}</p>
+                                            <h6>@lang('Bio')</h6>
+                                            <p class="text-muted">{!! $staff->bio !!}</p>
                                         </div>
                                     </div>
                                 </div>

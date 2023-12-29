@@ -34,14 +34,14 @@ $(document).ready(function () {
         }
     });
 
-    $('.input-quantity').on('change', function () {
-        var maxQuantity = parseInt($(this).data('max-quantity'));
-        var quantityNewMultiple = parseInt($(this).val());
-        var oldQuantityMultiple = parseInt($(this).data('initial-quantity'));
-        var productDetailIdToUpdateWhenChange = $(this).data('product-id');
-        var cartId = $(this).data('cart-id');
-        var urlDeleteInput = $(this).data('action-delete');
-        var urlUpdateMultiple = $(this).data('action');
+    function updateQuantityDirect(inputElement) {
+        var maxQuantity = parseInt(inputElement.data('max-quantity'));
+        var quantityNewMultiple = parseInt(inputElement.val());
+        var oldQuantityMultiple = parseInt(inputElement.data('initial-quantity'));
+        var productDetailIdToUpdateWhenChange = inputElement.data('product-id');
+        var cartId = inputElement.data('cart-id');
+        var urlDeleteInput = inputElement.data('action-delete');
+        var urlUpdateMultiple = inputElement.data('action');
 
         if (isNaN(quantityNewMultiple) || quantityNewMultiple < 1) {
             $(`#modalDelete-${cartId}`).modal('show');
@@ -68,6 +68,10 @@ $(document).ready(function () {
                 updateProductInCart(productDetailIdToUpdateWhenChange, cartId, urlUpdateMultiple, quantityNewMultiple, oldQuantityMultiple);
             }, 1000));
         }
+    }
+
+    $('.input-quantity').on('change', function () {
+        updateQuantityDirect($(this));
     });
 
     function deleteProduct(productDetailId, cartId, url) {
@@ -109,14 +113,14 @@ $(document).ready(function () {
                 oldQuantity: oldQuantitySingle
             },
         }).done(function (response) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Cập nhật thành công',
-                confirmButtonText: "Rất giỏi",
-            }).then(function () {
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Cập nhật thành công',
+            //     confirmButtonText: "Rất giỏi",
+            // }).then(function () {
                 // $('#renderCart').html(response.html);
                 location.reload();
-            });
+            // });
         }).fail(function (error) {
             Swal.fire({
                 icon: 'error',
@@ -127,4 +131,12 @@ $(document).ready(function () {
             });
         })
     }
+
+    $('input').on('keypress', function (event) {
+        if (event.which == 13) {
+            $(this).blur();
+            event.preventDefault();
+        }
+
+    })
 });

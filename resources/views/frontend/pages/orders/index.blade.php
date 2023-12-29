@@ -23,12 +23,12 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        {{-- @include('frontend.pages.products.partials.show-modal-filter') --}}
+                        @include('frontend.pages.orders.partials.show-modal-filter')
                     </form>
                 </div>
             </div>
         </div>
-        {{-- @include('frontend.pages.products.partials.show-tag-filter') --}}
+        @include('frontend.pages.orders.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
             <div class="table-responsive rounded">
                 <table class="table table-hover table-striped border rounded" id="categories-table">
@@ -192,7 +192,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $orders->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
+                {{ $orders->onEachSide(1)->appends(request()->only('search', 'status', 'payment_method'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

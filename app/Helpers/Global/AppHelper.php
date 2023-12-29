@@ -394,3 +394,16 @@ if (!function_exists('formatMoney')) {
         return 'đ' . str_replace(',', '.', number_format((float) $fee));
     }
 }
+
+if (!function_exists('formatDateTimeReadable')) {
+    /**
+     * @param string|null $time
+     * @param bool $isDateType
+     * @return string|null
+     */
+    function formatDateTimeReadable(string|null $time, bool $isDateType = false): ?string
+    {
+        $format = $isDateType ? 'd/m/Y' : 'd/m/Y H:i:s';
+        return $time ? date($format, strtotime($time)) : null;
+    }
+}

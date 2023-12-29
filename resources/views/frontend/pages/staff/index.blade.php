@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('SALE MANAGEMENT'))
+@section('title', __('STAFF MANAGEMENT'))
 
 @section('content')
     <div class="fade-in">
@@ -9,7 +9,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('SALE MANAGEMENT')
+                @lang('STAFF MANAGEMENT')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -23,12 +23,16 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        @include('frontend.pages.sales.partials.show-modal-filter')
                     </form>
                 </div>
             </div>
+            <div class="d-flex align-items-center justify-content-md-end">
+                <a class="btn-footer-modal btn btn-primary rounded-10"
+                   href="{{ route('frontend.staff.create') }}">@lang('Create New Staff')</a>
+                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
+                   href="{{ route('frontend.staff.trash') }}">@lang('Staff Archive')</a>
+            </div>
         </div>
-        @include('frontend.pages.sales.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
             <div class="table-responsive rounded">
                 <table class="table table-hover table-striped border rounded" id="categories-table">
@@ -36,19 +40,16 @@
                     <tr>
                         <th class="text-center">@lang('No.')</th>
                         <th class="text-center">
-                            @lang('Product')
+                            @lang('Name')
                         </th>
                         <th class="text-center">
-                            @lang('Value')
+                            @lang('Email')
                         </th>
                         <th class="text-center">
-                            @lang('Start Date')
+                            @lang('Created Date')
                         </th>
                         <th class="text-center">
-                            @lang('Expiry Date')
-                        </th>
-                        <th class="text-center">
-                            @lang('Remain')
+                            @lang('Staff Information')
                         </th>
                         <th class="text-center">
                             @lang('Update')
@@ -56,80 +57,57 @@
                         <th class="text-center">
                             @lang('Delete')
                         </th>
-                        <th class="text-center">
-                            @lang('Active')
-                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($sales as $sale)
+                    @forelse($staff as $eachStaff)
                         <tr>
-                            <td class="text-center align-middle">
-                                {{ $loop->iteration + $sales->firstItem() - 1 }}
+                            <td class="text-center align-middle">{{ $loop->iteration + $staff->firstItem() - 1 }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->product->first() == null && $sale->productThroghProductDetail->first() == null
-                                    ? __('No Product Sale')
-                                    : ($sale->productThroghProductDetail->first() == null
-                                        ? $sale->product->first()->name . ' (' . __('All Products') . ')'
-                                        : $sale->productThroghProductDetail->first()->name .
-                                            ' (' .
-                                            $sale->productDetail->first()->size .
-                                            ', ' .
-                                            $sale->productDetail->first()->color .
-                                            ')') }}
+                                {{ $eachStaff->name }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->value }} {{ $sale->formatted_type_sale }}
+                                {{ $eachStaff->email }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->formatted_start_date_at }}
+                                {{ $eachStaff->formatted_created_at }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->formatted_expiry_date_at }}
+                                <a href="{{ route('frontend.staff.show', ['id' => $eachStaff->id]) }}">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->remain }}
-                            </td>
-                            <td class="text-center align-middle">
-                                <a href="{{ route('frontend.sales.edit', ['id' => $sale->id]) }}">
+                                <a href="{{ route('frontend.staff.edit', ['id' => $eachStaff->id]) }}">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </td>
                             <td class="text-center align-middle">
-                                <form action="{{ route('frontend.sales.destroy', ['saleId' => $sale->id]) }}"
+                                <form action="{{ route('frontend.staff.destroy', ['id' => $eachStaff->id]) }}"
                                       method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-link" href="#modalDelete-{{ $sale->id }}"
-                                            class="trigger-btn" data-toggle="modal">
+                                    <button type="button" class="btn btn-link" href="#modalDelete-{{$eachStaff->id  }}"
+                                            data-toggle="modal">
                                         <i class="fas fa-trash" style="color: #ff0000;"></i>
                                     </button>
-                                    @include('frontend.pages.sales.partials.show-model-delete', [
-                                        'saleId' => $sale->id,
+                                    @include('frontend.pages.staff.partials.show-modal-delete', [
+                                        'staffId' => $eachStaff->id,
                                     ])
                                 </form>
-                            </td>
-                            <td class="text-center align-middle">
-                                <label class="switch">
-                                    <input class="is-active-sale"
-                                           data-url="{{ route('frontend.sales.updateActive', ['saleId' => $sale->id]) }}"
-                                           type="checkbox" name="is_active" value="{{ $sale->is_active }}"
-                                            {{ $sale->is_active == 1 ? 'checked' : '' }}>
-                                    <span class="slider round"></span>
-                                </label>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">@lang('Not found data')</td>
+                            <td colspan="7" class="text-center">@lang('Not found data')</td>
                         </tr>
                     @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $sales->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
+                {{ $staff->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>
@@ -137,5 +115,4 @@
 
 @push('after-scripts')
     <script src="{{ asset('js/pages/filter.js') }}"></script>
-    <script src="{{ asset('js/pages/sale/update-active.js') }}"></script>
 @endpush
