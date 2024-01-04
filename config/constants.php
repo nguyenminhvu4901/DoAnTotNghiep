@@ -79,4 +79,5 @@ return [
         'ngay_phat_hanh' => '07/15',
         'otp' => '123456'
     ],
+    'top_best_seller_amount' => 10
 ];
