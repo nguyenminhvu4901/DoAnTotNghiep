@@ -2,6 +2,7 @@
 
 namespace App\Domains\Product\Models;
 
+use App\Domains\Product\Models\Traits\Method\ProductMethod;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +22,8 @@ class Product extends Model
         SoftDeletes,
         ProductAttribute,
         ProductRelationship,
-        ProductScope;
+        ProductScope,
+        ProductMethod;
 
     protected $table = "products";
 
@@ -39,5 +41,16 @@ class Product extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
+    }
+
+    /**
+     * @return int
+     */
+    public function getSaleCount(): int
+    {
+        return $this->orders->reduce(fn(
+            $carry,
+            $order
+        ) => $order->product_quantity + $carry, 0);
     }
 }

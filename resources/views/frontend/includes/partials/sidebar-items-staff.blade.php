@@ -113,6 +113,14 @@
         </a>
     </div>
 @endcanany
+
+<a class="d-flex mb-3 sidebar-route-normal" href="{{ route('frontend.productChart.index') }}">
+    <div class="d-flex align-items-center">
+        <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Statistic')</div>
+    </div>
+</a>
+
 <a class="d-flex mb-3 sidebar-route-normal" href="#"
    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
     <div class="d-flex align-items-center">

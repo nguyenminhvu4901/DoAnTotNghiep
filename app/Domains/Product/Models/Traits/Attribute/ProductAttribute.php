@@ -19,4 +19,5 @@ trait ProductAttribute
     {
         return optional($this->owner)->name;
     }
+
 }
