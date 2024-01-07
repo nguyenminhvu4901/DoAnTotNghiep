@@ -26,9 +26,8 @@
         </div>
     </div>
 @endsection
-
 @push('after-scripts')
-    <div id="js-data" class="d-none" data-best-seller-chart-data="{{json_encode($bestSellerBarChartData)}}"
+    <div id="js-data" class="d-none" data-best-seller-chart-data="{{json_encode($bestSellerBarChartData->values())}}"
          data-detail-url="{{ route('frontend.productChart.show') }}"
     ></div>
 
@@ -173,21 +172,22 @@
             options: {
               plugins: {
                 datalabels: {
-                  backgroundColor: function(context) {
-                    return context.dataset.backgroundColor;
-                  },
+                  // backgroundColor: function(context) {
+                  //   return context.dataset.backgroundColor;
+                  // },
                   color: 'white',
-                  display: function(context) {
-                    var dataset = context.dataset;
-                    var count = dataset.data.length;
-                    var value = dataset.data[context.dataIndex];
-                    return value > count * 1.5;
-                  },
+                  // 'background-color': 'transparent',
+                  // display: function(context) {
+                  //   var dataset = context.dataset;
+                  //   var count = dataset.data.length;
+                  //   var value = dataset.data[context.dataIndex];
+                  //   return value > count * 1.5;
+                  // },
                   font: {
                     weight: 'bold',
                     size: '15px'
                   },
-                  padding: 6,
+                  // padding: 6,
                   formatter: Math.round
                 }
               },
