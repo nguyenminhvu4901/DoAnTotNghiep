@@ -4,6 +4,7 @@ namespace App\Domains\Product\Services;
 
 use Exception;
 use App\Services\BaseService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Domains\Product\Models\Product;
@@ -15,6 +16,7 @@ use App\Domains\Category\Models\Category;
 class ProductService extends BaseService
 {
     protected Category $category;
+
     /**
      * ProductService constructor.
      * @param Product $product
@@ -155,5 +157,23 @@ class ProductService extends BaseService
     public function getAllProducts()
     {
         return $this->model->all();
+    }
+
+    public function getBestSellers()
+    {
+        return $this->model
+            ->with('orders')
+            ->get()
+            ->sortByDesc(fn($product) => $product->getSaleCount())
+            ->take(config('constants.top_best_seller_amount', 10));
+    }
+
+    public function convertBestSellersToBarChartData(Collection $products): Collection
+    {
+        return $products->map(fn($product) => [
+            'name' => $product->name,
+            'id' => $product->id,
+            'sales' => $product->getSaleCount()
+        ]);
     }
 }

@@ -40,4 +40,15 @@ class Product extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
+    /**
+     * @return int
+     */
+    public function getSaleCount(): int
+    {
+        return $this->orders->reduce(fn(
+            $carry,
+            $order
+        ) => $order->product_quantity + $carry, 0);
+    }
 }

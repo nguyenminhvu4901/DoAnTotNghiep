@@ -2,6 +2,7 @@
 
 namespace App\Domains\Product\Models\Traits\Relationship;
 
+use App\Domains\ProductOrder\Models\ProductOrder;
 use Carbon\Carbon;
 use App\Domains\Auth\Models\User;
 use App\Domains\Sale\Models\Sale;
@@ -66,5 +67,10 @@ trait ProductRelationship
     public function syncCategories($categories): void
     {
         $this->categories()->sync($categories);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(ProductOrder::class, 'product_id', 'id');
     }
 }
