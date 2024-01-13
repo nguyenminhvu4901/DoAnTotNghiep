@@ -31,7 +31,13 @@ trait UserAttribute
         if ($this->attributes['avatar'] != null || $this->attributes['avatar'] != '') {
             return asset('storage/images/avatars/' . $this->attributes['avatar']);
         }
+
         return $this->getAvatar();
+    }
+
+    public function getAvatarDefaultAttribute()
+    {
+        return asset('storage/images/avatars/default/avatars-default.jpg');
     }
 
     /**

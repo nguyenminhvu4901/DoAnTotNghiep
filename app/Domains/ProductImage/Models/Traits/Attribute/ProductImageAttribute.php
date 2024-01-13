@@ -11,7 +11,6 @@ trait ProductImageAttribute
         if ($this->image_path) {
             return asset('storage/images/products/' . $this->image_path);
         }
-
         return asset('storage/images/products/default/ProductImageDefault.jpg');
     }
 }

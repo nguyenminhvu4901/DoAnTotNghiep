@@ -11,13 +11,13 @@ use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 class ProfileController
 {
     /**
-     * @param  UpdateProfileRequest  $request
-     * @param  UserService  $userService
+     * @param UpdateProfileRequest $request
+     * @param UserService $userService
      * @return mixed
      */
     public function update(UpdateProfileRequest $request, UserService $userService)
     {
-        $userService->updateProfile($request->user(), $request->validated());
+        $userService->updateProfile($request->user(), $request->all(), $request);
 
         if (session()->has('resent')) {
             return redirect()->route('frontend.auth.verification.notice')->withFlashInfo(__('You must confirm your new e-mail address before you can go any further.'));

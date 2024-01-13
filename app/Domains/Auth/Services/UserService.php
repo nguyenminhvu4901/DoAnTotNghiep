@@ -8,19 +8,24 @@ use App\Domains\Auth\Events\User\UserDestroyed;
 use App\Domains\Auth\Events\User\UserRestored;
 use App\Domains\Auth\Events\User\UserStatusChanged;
 use App\Domains\Auth\Events\User\UserUpdated;
+use App\Domains\Auth\Models\Traits\ProcessImage;
 use App\Domains\Auth\Models\User;
 use App\Domains\Session\Services\SessionService;
 use App\Exceptions\GeneralException;
 use App\Services\BaseService;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class UserService.
  */
 class UserService extends BaseService
 {
+    use ProcessImage;
     protected SessionService $sessionService;
 
     /**
@@ -254,7 +259,7 @@ class UserService extends BaseService
      * @param array $data
      * @return User
      */
-    public function updateProfile(User $user, array $data = []): User
+    public function updateProfile(User $user, array $data = [], Request $request): User
     {
         $user->name = $data['name'] ?? null;
 
@@ -265,9 +270,14 @@ class UserService extends BaseService
             session()->flash('resent', true);
         }
 
+        if ($request->hasFile('avatar')) {
+            $avatarName = $this->updateImage($request, 'avatar');
+
+            $user->avatar = $avatarName;
+        }
+
         return tap($user)->save();
     }
-    
     /**
      * @param User $user
      * @param $status

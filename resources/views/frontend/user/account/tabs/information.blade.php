@@ -1,4 +1,4 @@
-<x-forms.patch :action="route('frontend.user.profile.update')">
+<x-forms.patch :action="route('frontend.user.profile.update')" enctype="multipart/form-data">
     <div class="form-group row">
         <label for="name" class="col-md-3 col-form-label text-md-right">@lang('Name')</label>
 
@@ -29,14 +29,14 @@
 
         <div class="col-md-9">
             <input id="input-image" type="file" name="avatar" class="form-control" placeholder="{{ __('Avatar') }}"
-                   value="{{ old('avatar') }}" required autofocus autocomplete="avatar"/>
+                   value="{{ old('avatar') }}"/>
             <br>
             <div id="image-preview"></div>
             <br>
             @isset($logged_in_user->avatar)
                 <div class="image-container">
+                    <input type="hidden" name="old-image" value="{{ $logged_in_user->avatar }}">
                     <img id="avatar-image" class="old-image" src="{{ $logged_in_user->avatar }}">
-                    <button id="delete-old-image" class="btn btn-danger btn-sm mt-2">X</button>
                 </div>
             @endisset
         </div>
