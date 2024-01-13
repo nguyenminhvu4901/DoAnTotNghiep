@@ -26,6 +26,7 @@ use Intervention\Image\Facades\Image;
 class UserService extends BaseService
 {
     use ProcessImage;
+
     protected SessionService $sessionService;
 
     /**
@@ -38,6 +39,41 @@ class UserService extends BaseService
     {
         $this->model = $user;
         $this->sessionService = $sessionService;
+    }
+
+    public function searchCustomerUser(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->whereHas('roles', function ($query) {
+                $query->where('name',User::ROLE_CUSTOMER);
+        })
+            ->latest('id')->paginate(config('constants.paginate'));
+    }
+
+    public function customerStore(array $data = [])
+    {
+        return $this->registerUser($data);
+    }
+
+    public function customerUpdate(array $data = [], $customerId)
+    {
+        $customer = $this->model->findOrFail($customerId);
+
+        return $this->updateUserFromMemberData($customer, $data);
+    }
+
+    public function customerDelete($customerId)
+    {
+        $customer = $this->model->findOrFail($customerId);
+
+        $this->delete($customer);
+    }
+
+    public function searchWithTrash(array $data = [])
+    {
+        return $this->model->searchIncludingTrash($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->onlyTrashed()
+            ->latest('id')->paginate(config('constants.paginate'));
     }
 
     /**
@@ -62,7 +98,6 @@ class UserService extends BaseService
      */
     public function registerUser(array $data = []): User
     {
-
         DB::beginTransaction();
 
         try {
@@ -98,6 +133,7 @@ class UserService extends BaseService
             'name' => $data['name'],
             'email' => $data['email']
         ];
+
         if (!$data['password']) {
             unset($data['password']);
         } else {
@@ -278,6 +314,7 @@ class UserService extends BaseService
 
         return tap($user)->save();
     }
+
     /**
      * @param User $user
      * @param $status
