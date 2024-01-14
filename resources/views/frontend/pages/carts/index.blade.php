@@ -87,11 +87,11 @@
                                                 <td class="shoping__cart__price">
                                                     @if (isset($cart->productDetail->salePrice))
                                                         <span>
-                                                            {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'VND' : '%' }}
+                                                            {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
                                                     @elseif(isset($cart->productDetail->salePriceGlobal))
                                                         <span>
-                                                            {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'VND' : '%' }}
+                                                            {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
                                                     @else
                                                         @lang('There are no sale price')
@@ -100,18 +100,18 @@
                                                 <td class="shoping__cart__price">
                                                     @if (isset($cart->productDetail->salePrice))
                                                         <span style="text-decoration: line-through">
-                                                            {{ $cart->productDetail->price }} @lang('VND')
+                                                            {{ formatMoney($cart->productDetail->price) }}
                                                         </span>
                                                         <br>
-                                                        {{ $cart->productDetail->salePrice }} @lang('VND')
+                                                        {{ formatMoney($cart->productDetail->salePrice) }}
                                                     @elseif(isset($cart->productDetail->salePriceGlobal))
                                                         <span style="text-decoration: line-through">
-                                                            {{ $cart->productDetail->price }} @lang('VND')
+                                                            {{ formatMoney($cart->productDetail->price) }}
                                                         </span>
                                                         <br>
-                                                        {{ $cart->productDetail->salePriceGlobal }} @lang('VND')
+                                                        {{ formatMoney($cart->productDetail->salePriceGlobal) }}
                                                     @else
-                                                        {{ $cart->productDetail->price }} @lang('VND')
+                                                        {{ formatMoney($cart->productDetail->price) }}
                                                     @endif
                                                 </td>
                                                 <td class="shoping__cart__quantity">
@@ -183,7 +183,7 @@
                                                             $price = $cart->productDetail->price * $cart->product_quantity;
                                                         @endphp
                                                     @endif
-                                                    {{ $price }} @lang('VND')
+                                                    {{ formatMoney($price) }}
                                                     <input type="hidden" name="productDetail[{{ $key }}][price]"
                                                         value="{{ $price }}">
                                                 </td>
@@ -209,19 +209,19 @@
                             <div class="shoping__checkout">
                                 <h5>Cart Total</h5>
                                 <ul>
-                                    <li>@lang('Subtotal') <span>{{ $subPriceAllProductInCart }} VND</span></li>
+                                    <li>@lang('Subtotal') <span>{{ formatMoney($subPriceAllProductInCart) }}</span></li>
                                     <input type="hidden" name="subAllProduct" value="{{ $subPriceAllProductInCart }}">
                                     @if (session()->has('coupon_name'))
                                         <li>@lang('Coupon')
                                             @if (session('coupon_type') == config('constants.coupon.percent'))
                                                 (%)
                                             @else
-                                                (VND)
+                                                (đ)
                                             @endif
                                             <span>{{ session('coupon_value') }} @if (session('coupon_type') == config('constants.coupon.percent'))
                                                     %
                                                 @else
-                                                    VND
+                                                    đ
                                                 @endif
                                             </span>
                                         </li>
@@ -231,7 +231,7 @@
                                         <input type="hidden" name="couponId" value="{{ session('coupon_id') }}">
                                     @endif
                                     <input type="hidden" name="totalAllProduct" value="{{ $priceAllProductInCart }}">
-                                    <li style="color:red">@lang('Total') <span>{{ $priceAllProductInCart }} VND</span>
+                                    <li style="color:red">@lang('Total') <span>{{ formatMoney($priceAllProductInCart) }}</span>
                                     </li>
                                 </ul>
                                 <button type="submit" class="btn primary-btn right-align ">@lang('PROCEED TO CHECKOUT')</button>

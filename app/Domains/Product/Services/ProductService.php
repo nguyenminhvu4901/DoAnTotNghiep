@@ -111,7 +111,7 @@ class ProductService extends BaseService
         DB::beginTransaction();
         try {
             $product->delete();
-            $product->syncCategories([]);
+//            $product->syncCategories([]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

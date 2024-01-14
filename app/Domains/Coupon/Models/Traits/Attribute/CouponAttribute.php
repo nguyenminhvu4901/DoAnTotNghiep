@@ -67,7 +67,7 @@ trait CouponAttribute
         if ($this->attributes['type'] == 0) {
             return '%';
         } else {
-            return __('VND');
+            return __('đ');
         }
     }
 }

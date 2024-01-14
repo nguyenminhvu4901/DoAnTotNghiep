@@ -35,7 +35,8 @@
                 <option value="{{ $category->id }}"
                     @if (isset($product) && $product->categories->first()) @if ($product->categories->first()->id == $category->id) 
                         selected @endif
-                    @endif>
+                    @elseif ($category->id == old('category')) selected @endif
+                    >
                     {{ __($category->name) }}
                 </option>
             @endforeach
