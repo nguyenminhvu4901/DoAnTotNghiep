@@ -416,7 +416,10 @@ class PermissionRoleSeeder extends Seeder
             'user.order.edit',
             'user.order.view',
             'user.order.disabled',
-            'user.order.detail'
+            'user.order.detail',
+
+            //Sale
+            'user.sale.view'
         ], $refreshRolePermissions);
 
         // Customer
@@ -447,7 +450,10 @@ class PermissionRoleSeeder extends Seeder
             'user.order.edit',
             'user.order.view',
             'user.order.disabled',
-            'user.order.detail'
+            'user.order.detail',
+
+            //Sale
+            'user.sale.view'
         ], $refreshRolePermissions);
 
         $this->enableForeignKeys();

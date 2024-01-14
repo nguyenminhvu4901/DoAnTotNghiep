@@ -68,7 +68,7 @@
         </div>
     </a>
 @endcanany
-@canany(['user.sale'])
+@canany(['user.sale.view'])
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.sales.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.sales.index') }}">
         <div class="d-flex align-items-center">
@@ -121,7 +121,6 @@
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Statistic')</div>
     </div>
 </a>
-
 
 <a class="d-flex mb-3 sidebar-route-normal" href="#"
    onclick="event.preventDefault();document.getElementById('logout-form').submit();">

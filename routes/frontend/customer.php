@@ -8,7 +8,7 @@ use Tabuna\Breadcrumbs\Trail;
  * All route names are prefixed with 'frontend.'.
  */
 
-Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['auth', 'permission:user.management.staff', 'is_admin']], function () {
+Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['auth', 'permission:user.management.customer', 'is_admin']], function () {
     Route::get('index', [CustomerController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())

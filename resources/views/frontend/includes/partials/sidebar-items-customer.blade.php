@@ -61,7 +61,8 @@
         </div>
     </a>
 @endcanany
-@canany(['user.sale'])
+
+@canany(['user.sale.view'])
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.sales.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.sales.index') }}">
         <div class="d-flex align-items-center">
@@ -70,6 +71,7 @@
         </div>
     </a>
 @endcanany
+
 @canany(['user.order.view'])
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.orders.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.orders.index') }}">
