@@ -53,11 +53,10 @@
             <div class="footer__copyright">
                 <div class="footer__copyright__text">
                     <div id="app">
-                        <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright by Nguyễn Minh Vũ
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
+                        <strong>
+                            @lang('Copyright') &copy; {{ date('Y') }}
+                            <x-utils.link target="_blank" :text="__(appName())" />
+                        </strong>
                     </div>
                 </div>
                 <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>

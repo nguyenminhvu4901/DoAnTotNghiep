@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\Staff\ImportStaffController;
 use \App\Http\Controllers\Frontend\Staff\StaffController;
 use Tabuna\Breadcrumbs\Trail;
 
@@ -61,4 +62,8 @@ Route::group(['as' => 'staff.', 'prefix' => 'staff', 'middleware' => ['auth', 'p
     Route::get('{id}/restore', [StaffController::class, 'restoreStaff'])->name('restore');
 
     Route::get('{id}/force-delete', [StaffController::class, 'forceDeleteStaff'])->name('forceDelete');
+
+    //Import
+
+    Route::get('/import-staff', [ImportStaffController::class, 'importStaff'])->name('importStaff');
 });

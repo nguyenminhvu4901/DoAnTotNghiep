@@ -28,7 +28,16 @@ trait UserAttribute
      */
     public function getAvatarAttribute()
     {
+        if ($this->attributes['avatar'] != null || $this->attributes['avatar'] != '') {
+            return asset('storage/images/avatars/' . $this->attributes['avatar']);
+        }
+
         return $this->getAvatar();
+    }
+
+    public function getAvatarDefaultAttribute()
+    {
+        return asset('storage/images/avatars/default/avatars-default.jpg');
     }
 
     /**
@@ -40,7 +49,7 @@ trait UserAttribute
             return 'All';
         }
 
-        if (! $this->permissions->count()) {
+        if (!$this->permissions->count()) {
             return 'None';
         }
 
@@ -57,7 +66,7 @@ trait UserAttribute
             return 'All';
         }
 
-        if (! $this->roles->count()) {
+        if (!$this->roles->count()) {
             return 'None';
         }
 

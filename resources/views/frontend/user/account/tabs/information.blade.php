@@ -1,9 +1,10 @@
-<x-forms.patch :action="route('frontend.user.profile.update')">
+<x-forms.patch :action="route('frontend.user.profile.update')" enctype="multipart/form-data">
     <div class="form-group row">
         <label for="name" class="col-md-3 col-form-label text-md-right">@lang('Name')</label>
 
         <div class="col-md-9">
-            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') ?? $logged_in_user->name }}" required autofocus autocomplete="name" />
+            <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}"
+                   value="{{ old('name') ?? $logged_in_user->name }}" required autofocus autocomplete="name"/>
         </div>
     </div><!--form-group-->
 
@@ -16,10 +17,30 @@
                     <i class="fas fa-info-circle"></i> @lang('If you change your e-mail you will be logged out until you confirm your new e-mail address.')
                 </x-utils.alert>
 
-                <input type="email" name="email" id="email" class="form-control" placeholder="{{ __('E-mail Address') }}" value="{{ old('email') ?? $logged_in_user->email }}" required autocomplete="email" />
+                <input type="email" name="email" id="email" class="form-control"
+                       placeholder="{{ __('E-mail Address') }}" value="{{ old('email') ?? $logged_in_user->email }}"
+                       required autocomplete="email"/>
             </div>
         </div><!--form-group-->
     @endif
+
+    <div class="form-group row">
+        <label for="avatar" class="col-md-3 col-form-label text-md-right">@lang('Avatar')</label>
+
+        <div class="col-md-9">
+            <input id="input-image" type="file" name="avatar" class="form-control" placeholder="{{ __('Avatar') }}"
+                   value="{{ old('avatar') }}"/>
+            <br>
+            <div id="image-preview"></div>
+            <br>
+            @isset($logged_in_user->avatar)
+                <div class="image-container">
+                    <input type="hidden" name="old-image" value="{{ $logged_in_user->avatar }}">
+                    <img id="avatar-image" class="old-image" src="{{ $logged_in_user->avatar }}">
+                </div>
+            @endisset
+        </div>
+    </div><!--form-group-->
 
     <div class="form-group row mb-0">
         <div class="col-md-12 text-right">
@@ -27,3 +48,7 @@
         </div>
     </div><!--form-group-->
 </x-forms.patch>
+
+@push('after-scripts')
+    <script src="{{ asset('js/pages/user/image.js') }}"></script>
+@endpush
