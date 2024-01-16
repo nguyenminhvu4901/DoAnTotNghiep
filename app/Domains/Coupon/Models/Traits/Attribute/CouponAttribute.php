@@ -62,7 +62,7 @@ trait CouponAttribute
     //     }
     // }
 
-    public function getFormattedTypeCouponAttribute()
+    public function getFormattedTypeCouponAttribute(): string
     {
         if ($this->attributes['type'] == 0) {
             return '%';

@@ -54,7 +54,7 @@
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.carts.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.carts.index') }}" href="{{ route('frontend.carts.index') }}">
         <div class="d-flex align-items-center">
-            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <i class="fa-solid fas fa-shopping-cart fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Cart') ({{ countProductInCart() ?? 0 }})</div>
         </div>
     </a>
@@ -63,7 +63,7 @@
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.coupons.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.coupons.index') }}">
         <div class="d-flex align-items-center">
-            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <i class="fa-solid fas fa-tags fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Coupon')</div>
         </div>
     </a>
@@ -72,7 +72,7 @@
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.sales.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.sales.index') }}">
         <div class="d-flex align-items-center">
-            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <i class="fa-solid fas fa-percent fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Sale')</div>
         </div>
     </a>
@@ -81,7 +81,7 @@
     <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.orders.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
        href="{{ route('frontend.orders.index') }}">
         <div class="d-flex align-items-center">
-            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <i class="fa-solid fas fa-shipping-fast fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Order') ({{ countOrderExist() ?? 0 }})</div>
         </div>
     </a>
@@ -90,7 +90,7 @@
     <a class="d-flex mb-3 sidebar-route-normal text-lg menu-parent" data-toggle="collapse" role="button"
        href="#account-management-items">
         <div class="d-flex align-items-center">
-            <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+            <i class="fa-solid fas fa-users fa-lg sidebar-icon"></i>
             <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Account Management')</div>
             <i class="ml-2 fa fa-angle-down " aria-hidden="true"></i>
         </div>
@@ -100,14 +100,14 @@
         <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.staff.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
            href="{{ route('frontend.staff.index') }}">
             <div class="d-flex align-items-center">
-                <i class="fas fa-box fa-lg sidebar-icon"></i>
+                <i class="fas fa-user-tie fa-lg sidebar-icon"></i>
                 <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('Staff')</div>
             </div>
         </a>
         <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.customers.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
            href="{{ route('frontend.customers.index') }}">
             <div class="d-flex align-items-center">
-                <i class="fas fa-info fa-lg sidebar-icon"></i>
+                <i class="fas fa-user-shield fa-lg sidebar-icon"></i>
                 <div class="text-sky-700 fw-bold fs-5 pl-3">@lang('Customer')</div>
             </div>
         </a>
@@ -117,7 +117,7 @@
 <a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.productChart.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
    href="{{ route('frontend.productChart.index') }}">
     <div class="d-flex align-items-center">
-        <i class="fa-solid fas fa-store fa-lg sidebar-icon"></i>
+        <i class="fa-solid fas fa-signal fa-lg sidebar-icon"></i>
         <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Statistic')</div>
     </div>
 </a>
