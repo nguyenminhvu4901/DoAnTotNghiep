@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ae3a8056d2d4e976adcd637440e16b",
+    "content-hash": "7dcbcab4d7a85a42a969e2b10d2f0d3a",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
