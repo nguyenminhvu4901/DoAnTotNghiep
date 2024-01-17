@@ -205,5 +205,12 @@
     "Order has been cancelled": "Đơn hàng đã được huỷ",
     "Payment method": "Phương thức thanh toán",
     "Payment on delivery": "Thanh toán khi nhận hàng",
-    "Statistic": "Thống kê chi tiết"
+    "Statistic": "Thống kê chi tiết",
+    "Discounted product": "Sản phẩm giảm giá",
+    "Coupon": "Mã giảm giá",
+    "COUPON": "MÃ GIẢM GIÁ",
+    "Featured Product": "Các sản phẩm đặc sắc",
+    "Search": "Tìm kiếm",
+    "Category": "Danh mục",
+    "Sale off": "Sản phẩm giảm giá"
 }

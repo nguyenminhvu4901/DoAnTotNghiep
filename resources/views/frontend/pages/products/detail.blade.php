@@ -65,7 +65,6 @@
                                     {{ !$productDetails->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}
 
                                 </div>
-                                @if(auth()->check())
                                     <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">ADD
                                         TO
                                         CARD
@@ -73,7 +72,6 @@
                                     @include('frontend.pages.products.partials.show-modal-cart', [
                                         'productId' => $product->id,
                                     ])
-                                @endif
                                 <a href="#" class="heart-icon"><i class="fas fa-heart"></i></a>
                                 <ul>
                                     <li><b>Availability</b> <span>In Stock</span></li>

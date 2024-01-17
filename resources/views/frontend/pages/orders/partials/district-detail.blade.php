@@ -5,7 +5,7 @@
             <option class="district-option-{{ $district['DistrictID'] }}" value="{{ $district['DistrictID'] }}"
                 {{ $oldDistrict == $district['DistrictID'] ? 'selected' : '' }}
                 data-url="{{ route('frontend.orders.getWardDetail', ['districtID' => $district['DistrictID']]) }}"
-                data-district-id="{{ $district['DistrictID'] }}" 
+                data-district-id="{{ $district['DistrictID'] }}"
                 data-district-name="{{ $district['DistrictName'] }}"
                 data-total-cost="{{ $totalAllProduct }}">
                 {{ $district['DistrictName'] }}</option>

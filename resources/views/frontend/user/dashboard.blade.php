@@ -17,7 +17,7 @@
                         <ul>
                             <li class=" @if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
                                 <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a></li>
-                            <li><a href="./shop-grid.html">@lang('Discounted product')</a></li>
+                            <li><a href="./shop-grid.html">@lang('Sale off')</a></li>
                             <li><a href="./contact.html">@lang('Coupon')</a></li>
                         </ul>
                     </nav>
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Featured Product</h2>
+                        <h2>@lang('Featured Product')</h2>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,14 @@
                         @include('frontend.pages.products.partials.show-modal-filter')
                     </form>
                 </div>
+                <div class="d-flex align-items-center justify-content-md-end">
+                    <a class="btn-footer-modal btn btn-warning rounded-10"
+                       href="{{ route('frontend.products.index') }}">@lang('See all') <i
+                                class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
             </div>
+
             <br>
             @include('frontend.pages.products.partials.show-tag-filter')
             <br>
@@ -92,10 +99,11 @@
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg') }}">
                                     <ul class="featured__item__pic__hover">
                                         {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                        <li>
-                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i
-                                                        class="fa fa-info-circle"></i></a></li>
-                                        {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i--}}
+{{--                                                        class="fa fa-info-circle"></i></a></li>--}}
+                                        <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i
+                                                        class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="featured__item__text">
@@ -141,12 +149,12 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/banner-1.jpg" alt="">
+                        <img src="https://images.squarespace-cdn.com/content/v1/59c406ae8a02c798d1ca155f/3d8fcdb5-3ebe-4661-b651-1cfc2d691e6c/Special+Occasion+Earring+Slider.png" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/banner-2.jpg" alt="">
+                        <img src="https://images.squarespace-cdn.com/content/v1/548fcaa5e4b00cdae11c4e35/0c093d87-8281-43de-bf01-a17416ab2a19/JUST+IN.png" alt="">
                     </div>
                 </div>
             </div>
@@ -269,10 +277,10 @@
                                      data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
                                     <ul class="featured__item__pic__hover">
                                         {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                        <li>
-                                            <a href="#"><i class="fa fa-info-circle"></i></a>
-                                        </li>
-                                        {{--                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
+{{--                                        </li>--}}
+                                                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="featured__item__text">
