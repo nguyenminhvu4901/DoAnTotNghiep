@@ -11,7 +11,7 @@
         <small id="error_name" class="error text-danger">{{ $errors->first('name') }}</small>
     </div>
 </div>
-@include('frontend.pages.partials.form.name-rule')
+{{--@include('frontend.pages.partials.form.name-rule')--}}
 
 @push('after-scripts')
     <script src="{{ asset('js/pages/formRules.js') }}"></script>

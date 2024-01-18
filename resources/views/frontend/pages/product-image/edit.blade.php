@@ -19,7 +19,7 @@
                         <div class="col-md-5">
                         </div>
                         <div class="col-md-7">
-                            <button class="btn btn-primary" type="submit">@lang('Create')</button>
+                            <button class="btn btn-primary" type="submit">@lang('Update')</button>
                             <a type="button" class="btn btn-danger ml-3" href="{{ route('frontend.productImages.index') }}">
                                 @lang('Exit')
                             </a>

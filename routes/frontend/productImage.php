@@ -13,14 +13,14 @@ Route::group(['as' => 'productImages.', 'prefix' => 'product-images', 'middlewar
     Route::get('index', [ProductImageController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product image management'), route('frontend.productImages.index'));
+                ->push(__('Product Image Management'), route('frontend.productImages.index'));
         })->middleware('permission:user.product.view');
 
     Route::get('{slug}/create', [ProductImageController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product image management'), route('frontend.productImages.index'))
-                ->push(__('Create new Option Product'));
+                ->push(__('Product Image Management'), route('frontend.productImages.index'))
+                ->push(__('Create new Image Product'));
         })->middleware('permission:user.product.create');
 
     Route::post('{id}/store', [ProductImageController::class, 'store'])->name('store')->middleware('permission:user.product.create');
@@ -28,8 +28,8 @@ Route::group(['as' => 'productImages.', 'prefix' => 'product-images', 'middlewar
     Route::get('{slug}/{id}/edit', [ProductImageController::class, 'edit'])->name('edit')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product image management'), route('frontend.productImages.index'))
-                ->push(__('Update Option Product'));
+                ->push(__('Product Image Management'), route('frontend.productImages.index'))
+                ->push(__('Update Image Product'));
         })->middleware('permission:user.product.edit');
 
     Route::put('{productId}/{productImageId}/update', [ProductImageController::class, 'update'])->name('update')->middleware('permission:user.product.edit');
@@ -39,8 +39,8 @@ Route::group(['as' => 'productImages.', 'prefix' => 'product-images', 'middlewar
     Route::get('trash', [ProductImageController::class, 'getAllProductImageInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Product image management'), route('frontend.productImages.index'))
-                ->push(__('Achieve Product Management'));
+                ->push(__('Product Image Management'), route('frontend.productImages.index'))
+                ->push(__('Achieve Product Image Management'));
         })->middleware('permission:user.product.trash');
 
     Route::get('{id}/restore', [ProductImageController::class, 'restoreProductImage'])->name('restore')->middleware('permission:user.product.trash');

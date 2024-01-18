@@ -27,11 +27,6 @@
                     </form>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                    href="{{ route('frontend.productImages.trash') }}">@lang('Product Image Archive')
-                </a>
-            </div>
         </div>
         @include('frontend.pages.product-detail.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
@@ -53,7 +48,7 @@
                                 @lang('Image')
                             </th>
                             <th class="text-center">
-                                @lang('Order')
+                                @lang('Order Image')
                             </th>
                             <th class="text-center">
                                 @lang('Restore')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Product;
 
+use App\Domains\Cart\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -16,13 +17,17 @@ class ProductController extends Controller
 {
     protected ProductService $productService;
     protected CategoryService $categoryService;
+    protected CartService $cartService;
 
     public function __construct(
-        ProductService $productService,
-        CategoryService $categoryService
-    ) {
+        ProductService  $productService,
+        CategoryService $categoryService,
+        CartService     $cartService
+    )
+    {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
+        $this->cartService = $cartService;
     }
 
     public function index(Request $request)
@@ -88,6 +93,17 @@ class ProductController extends Controller
     {
         $product = $this->productService->getById($id);
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        if (!$product->productDetail->isEmpty()) {
+            foreach ($product->productDetail as $key => $productDetail) {
+                $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
+
+                if ($productInCart != null) {
+                    $this->cartService->deleteProductFromCart($productDetail->id);
+                }
+            }
+        }
+
         $this->productService->delete($product);
 
         return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully deleted.'));

@@ -22,6 +22,7 @@ trait ImageProcess
             Storage::disk('image')->put($pathImage, $image);
             return $imageName;
         }
+
         return config('constants.image_product_default');
     }
 

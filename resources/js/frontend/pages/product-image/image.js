@@ -8,9 +8,7 @@
         if (file) {
             var reader = new FileReader();
             reader.onload = function () {
-                // Hiển thị hình ảnh trong trình xem trước
-                imagePreview.html('New Image <br /> <img src="' + reader.result +
-                    '" alt="Preview Image" width="500">');
+                imagePreview.html('New Image <br /> <img src="' + reader.result + '" alt="Preview Image" width="500">');
                 addDeleteButton();
             }
             reader.readAsDataURL(file);
