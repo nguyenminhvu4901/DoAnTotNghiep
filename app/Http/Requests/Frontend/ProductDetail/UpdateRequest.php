@@ -28,7 +28,6 @@ class UpdateRequest extends FormRequest
             'color' => ['required', 'string'],
             'quantity' => ['required', 'integer'],
             'price' => ['required', 'numeric'],
-            'sale' => ['nullable', 'numeric']
         ];
     }
 }

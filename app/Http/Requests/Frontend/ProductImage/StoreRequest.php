@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'unique:product_image,name', 'string'],
-            'image_path' => ['required', 'image', 'max:10000'],
+            'image_path' => ['required', 'image', 'max:10000', 'mimes:jpg,png,jpeg,gif'],
             'order' => [
                 'required', 'integer', Rule::unique('product_image')->where(function ($query) {
                     return $query->where('product_id', $this->id);

@@ -12,8 +12,8 @@
                 <p>@lang('Do you really want to delete record? This process cannot be undone.')</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger" id="a">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Cancel')</button>
+                <button type="submit" class="btn btn-danger" id="a">@lang('Delete')</button>
             </div>
         </div>
     </div>

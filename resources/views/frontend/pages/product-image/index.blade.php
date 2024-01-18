@@ -53,7 +53,7 @@
                                 @lang('Image')
                             </th>
                             <th class="text-center">
-                                @lang('Order')
+                                @lang('Order Image')
                             </th>
                             <th class="text-center">
                                 @lang('Add New Image')

@@ -19,6 +19,8 @@ class CartService extends BaseService
     protected Product $product;
     protected Coupon $coupon;
     protected CouponUser $couponUser;
+
+
     /**
      * CartService constructor.
      * @param Cart $cart
@@ -28,12 +30,13 @@ class CartService extends BaseService
      * @param CouponUser $couponUser
      */
     public function __construct(
-        Cart $cart,
+        Cart          $cart,
         ProductDetail $productDetail,
-        Product $product,
-        Coupon $coupon,
-        CouponUser $couponUser
-    ) {
+        Product       $product,
+        Coupon        $coupon,
+        CouponUser    $couponUser
+    )
+    {
         $this->model = $cart;
         $this->productDetail = $productDetail;
         $this->product = $product;
@@ -49,6 +52,11 @@ class CartService extends BaseService
             ->get();
     }
 
+    public function getProductInCartByProductDetailId(int $id)
+    {
+        return $this->model->where('product_detail_id', $id)->get();
+    }
+
     public function addToCart(array $data)
     {
         foreach ($data['productDetail'] as $item) {
@@ -57,7 +65,7 @@ class CartService extends BaseService
                 $productInCart->update([
                     'user_id' => auth()->user()->id,
                     'product_detail_id' => $item['productDetailId'],
-                    'product_quantity' => $productInCart->product_quantity + (int) $item['quantity'],
+                    'product_quantity' => $productInCart->product_quantity + (int)$item['quantity'],
                 ]);
             } else {
                 $this->model->create([
@@ -68,7 +76,7 @@ class CartService extends BaseService
             }
             $productDetail = $this->getProductDetail($item['productDetailId']);
             $productDetail->update([
-                'quantity' => $productDetail->quantity - (int) $item['quantity']
+                'quantity' => $productDetail->quantity - (int)$item['quantity']
             ]);
         }
     }
@@ -89,7 +97,7 @@ class CartService extends BaseService
             ]);
 
             $productDetail->update([
-                'quantity' => $productDetail->quantity - (int) $excessQuantity
+                'quantity' => $productDetail->quantity - (int)$excessQuantity
             ]);
         } else if ($data['newQuantity'] < $data['oldQuantity']) { //Dec quantity
             $excessQuantity = $data['oldQuantity'] - $data['newQuantity'];
@@ -98,14 +106,18 @@ class CartService extends BaseService
             ]);
 
             $productDetail->update([
-                'quantity' => $productDetail->quantity + (int) $excessQuantity
+                'quantity' => $productDetail->quantity + (int)$excessQuantity
             ]);
         }
     }
 
-    public function deleteProductFromCart(int $productDetailId, int $cartId)
+    public function deleteProductFromCart(int $productDetailId, int $cartId = 0)
     {
-        $productDetailInCart = $this->getExistProductInCartByCartId($productDetailId, $cartId);
+        if ($cartId == 0) {
+            $productDetailInCart = $this->getProductInCartByPDId($productDetailId);
+        } else {
+            $productDetailInCart = $this->getExistProductInCartByCartId($productDetailId, $cartId);
+        }
 
         abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
         $productDetail = $this->getProductDetail($productDetailId);
@@ -120,6 +132,13 @@ class CartService extends BaseService
     {
         return $this->model
             ->where('user_id', auth()->user()->id)
+            ->where('product_detail_id', $productDetailId)
+            ->first();
+    }
+
+    public function getProductInCartByPDId(int $productDetailId)
+    {
+        return $this->model
             ->where('product_detail_id', $productDetailId)
             ->first();
     }
@@ -169,7 +188,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 } else {
-                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -181,7 +200,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 } else {
-                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -207,7 +226,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 } else {
-                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -219,7 +238,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 } else {
-                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -227,7 +246,6 @@ class CartService extends BaseService
             } else {
                 $cart->productDetail->salePrice = $cart->productDetail->price;
             }
-
             return $carry + ($quantity * $cart->productDetail->salePrice);
         }, 0);
 
@@ -241,7 +259,7 @@ class CartService extends BaseService
                     $subtotal = 0;
                 }
             } else if ($couponType == config('constants.coupon.number')) {
-                $subtotal =  $subtotal - session('coupon_value');
+                $subtotal = $subtotal - session('coupon_value');
                 if ($subtotal < 0) {
                     $subtotal = 0;
                 }
@@ -279,7 +297,7 @@ class CartService extends BaseService
         $coupon = $this->coupon->firstWithExpiryDate($name);
 
         $coupon->update([
-            'quantity' => (int) $coupon->quantity - 1
+            'quantity' => (int)$coupon->quantity - 1
         ]);
 
         $coupon->syncUser(auth()->user()->id);
@@ -292,7 +310,7 @@ class CartService extends BaseService
         $coupon = $this->getCouponByName($name);
 
         $coupon->update([
-            'quantity' => (int) $coupon->quantity + 1
+            'quantity' => (int)$coupon->quantity + 1
         ]);
 
         $coupon->detachUser(auth()->user()->id);
@@ -310,7 +328,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 } else {
-                    $cart->productDetail->salePrice =  $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->saleOption->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -325,7 +343,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePriceGlobal = 0;
                     }
                 } else {
-                    $cart->productDetail->salePriceGlobal =  $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    $cart->productDetail->salePriceGlobal = $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
                     if ($cart->productDetail->salePriceGlobal < 0) {
                         $cart->productDetail->salePriceGlobal = 0;
                     }
