@@ -11,9 +11,10 @@ trait ProductImageScope
      */
     public function scopeSearch($query, $term): mixed
     {
-        return $query->whereHas('product', function ($query) use ($term) {
-            $query->where('name', 'like', '%' . $term . '%');
-        });
+        return $query->where(fn($query) => $query->where('name', 'like', '%' . $term . '%'))
+            ->orwhereHas('product', function ($query) use ($term) {
+                $query->where('name', 'like', '%' . $term . '%');
+            });
     }
 
     /**

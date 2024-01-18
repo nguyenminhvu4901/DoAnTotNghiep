@@ -23,9 +23,10 @@ class ProductService extends BaseService
      * @param Category $category
      */
     public function __construct(
-        Product $product,
+        Product  $product,
         Category $category
-    ) {
+    )
+    {
         $this->model = $product;
         $this->category = $category;
     }
@@ -43,7 +44,18 @@ class ProductService extends BaseService
             })
             ->with('categories', 'productDetail')
             ->latest('id')
-            ->paginate(config('constants.paginate'));
+            ->paginate(config('constants.paginate-dashboard'));
+    }
+
+    public function searchInDashboard(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search-product'] ?? ''))
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
+            ->with('categories', 'productDetail', 'productImages')
+            ->latest('id')
+            ->paginate(config('constants.paginate-dashboard'));
     }
 
     public function searchWithTrash(array $data = [])
@@ -111,7 +123,7 @@ class ProductService extends BaseService
         DB::beginTransaction();
         try {
             $product->delete();
-            $product->syncCategories([]);
+//            $product->syncCategories([]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();

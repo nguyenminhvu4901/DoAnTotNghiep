@@ -39,7 +39,7 @@
         @lang('Quantity') <span class="text-danger">*</span>
     </label>
     <div class="col-sm-5">
-        <input type="text" class="form-control rounded {{ checkDisplayError($errors, 'quantity') }}" id="input_name"
+        <input type="number" class="form-control rounded {{ checkDisplayError($errors, 'quantity') }}" id="input_name"
             name="quantity" placeholder="@lang('Quantity')"
             value="{{ old('quantity') ?? (isset($productDetail) ? $productDetail->quantity : '') }}">
         <small id="error_quantity" class="error text-danger">{{ $errors->first('quantity') }}</small>
@@ -51,7 +51,7 @@
         @lang('Price') <span class="text-danger">*</span>
     </label>
     <div class="col-sm-5">
-        <input type="text" class="form-control rounded {{ checkDisplayError($errors, 'price') }}" id="input_name"
+        <input type="number" class="form-control rounded {{ checkDisplayError($errors, 'price') }}" id="input_name"
             name="price" placeholder="@lang('Price')"
             value="{{ old('price') ?? (isset($productDetail) ? $productDetail->price : '') }}">
         <small id="error_price" class="error text-danger">{{ $errors->first('price') }}</small>

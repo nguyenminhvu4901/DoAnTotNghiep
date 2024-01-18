@@ -8,6 +8,13 @@ use App\Http\Controllers\Frontend\Product\ProductController;
  * All route names are prefixed with 'frontend.'.
  */
 
+Route::get('products/{id}/detail', [ProductController::class, 'detail'])->name('products.detail')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->parent(homeRoute())
+            ->push(__('Product management'), route('frontend.products.index'))
+            ->push(__('Product Information'));
+    });
+
 Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['auth']], function () {
     Route::get('index', [ProductController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
@@ -30,13 +37,6 @@ Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['aut
                 ->push(__('Product management'), route('frontend.products.index'))
                 ->push(__('Update Product'));
         })->middleware('permission:user.product.edit');
-
-    Route::get('{id}/detail', [ProductController::class, 'detail'])->name('detail')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent(homeRoute())
-                ->push(__('Product management'), route('frontend.products.index'))
-                ->push(__('Product Information'));
-        })->middleware('permission:user.product.detail');
 
     Route::put('{slug}/update', [ProductController::class, 'update'])->name('update')->middleware('permission:user.product.edit');
 

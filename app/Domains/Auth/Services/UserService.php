@@ -8,19 +8,25 @@ use App\Domains\Auth\Events\User\UserDestroyed;
 use App\Domains\Auth\Events\User\UserRestored;
 use App\Domains\Auth\Events\User\UserStatusChanged;
 use App\Domains\Auth\Events\User\UserUpdated;
+use App\Domains\Auth\Models\Traits\ProcessImage;
 use App\Domains\Auth\Models\User;
 use App\Domains\Session\Services\SessionService;
 use App\Exceptions\GeneralException;
 use App\Services\BaseService;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 /**
  * Class UserService.
  */
 class UserService extends BaseService
 {
+    use ProcessImage;
+
     protected SessionService $sessionService;
 
     /**
@@ -33,6 +39,41 @@ class UserService extends BaseService
     {
         $this->model = $user;
         $this->sessionService = $sessionService;
+    }
+
+    public function searchCustomerUser(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->whereHas('roles', function ($query) {
+                $query->where('name',User::ROLE_CUSTOMER);
+        })
+            ->latest('id')->paginate(config('constants.paginate'));
+    }
+
+    public function customerStore(array $data = [])
+    {
+        return $this->registerUser($data);
+    }
+
+    public function customerUpdate(array $data = [], $customerId)
+    {
+        $customer = $this->model->findOrFail($customerId);
+
+        return $this->updateUserFromMemberData($customer, $data);
+    }
+
+    public function customerDelete($customerId)
+    {
+        $customer = $this->model->findOrFail($customerId);
+
+        $this->delete($customer);
+    }
+
+    public function searchWithTrash(array $data = [])
+    {
+        return $this->model->searchIncludingTrash($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->onlyTrashed()
+            ->latest('id')->paginate(config('constants.paginate'));
     }
 
     /**
@@ -57,7 +98,6 @@ class UserService extends BaseService
      */
     public function registerUser(array $data = []): User
     {
-
         DB::beginTransaction();
 
         try {
@@ -93,6 +133,7 @@ class UserService extends BaseService
             'name' => $data['name'],
             'email' => $data['email']
         ];
+
         if (!$data['password']) {
             unset($data['password']);
         } else {
@@ -254,7 +295,7 @@ class UserService extends BaseService
      * @param array $data
      * @return User
      */
-    public function updateProfile(User $user, array $data = []): User
+    public function updateProfile(User $user, array $data = [], Request $request): User
     {
         $user->name = $data['name'] ?? null;
 
@@ -265,9 +306,15 @@ class UserService extends BaseService
             session()->flash('resent', true);
         }
 
+        if ($request->hasFile('avatar')) {
+            $avatarName = $this->updateImage($request, 'avatar');
+
+            $user->avatar = $avatarName;
+        }
+
         return tap($user)->save();
     }
-    
+
     /**
      * @param User $user
      * @param $status

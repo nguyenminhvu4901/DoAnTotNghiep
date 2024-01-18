@@ -3,6 +3,8 @@
 return [
     'paginate' => 10,
 
+    'paginate-dashboard' => 12,
+
     'image_product_default' => 'default/ProductImageDefault.jpg',
 
     'save_image' => [

@@ -30,7 +30,7 @@
                         <div class="col-lg-6 col-md-6">
                             <h3>{{ $coupon->name }}</h3>
                             <div class="voucher_detail">
-                                {{ $coupon->value}}{{$coupon->formatted_type_coupon_at}}
+                                {{ $coupon->value}}{{$coupon->formatted_type_coupon}}
                             </div>
                             <ul>
                                 <li><b>@lang('Start date')</b> <span>{{ $coupon->formatted_start_date_at }}</span></li>

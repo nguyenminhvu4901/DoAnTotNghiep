@@ -50,15 +50,21 @@
                         <th class="text-center">
                             @lang('Remain')
                         </th>
+                        @hasPermission('user.sale.edit')
                         <th class="text-center">
                             @lang('Update')
                         </th>
+                        @endhasPermission
+                        @hasPermission('user.sale.delete')
                         <th class="text-center">
                             @lang('Delete')
                         </th>
+                        @endhasPermission
+                        @hasPermission('user.sale.edit')
                         <th class="text-center">
                             @lang('Active')
                         </th>
+                        @endhasPermission
                     </tr>
                     </thead>
                     <tbody>
@@ -91,11 +97,14 @@
                             <td class="text-center align-middle">
                                 {{ $sale->remain }}
                             </td>
+                            @hasPermission('user.sale.edit')
                             <td class="text-center align-middle">
                                 <a href="{{ route('frontend.sales.edit', ['id' => $sale->id]) }}">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </td>
+                            @endhasPermission
+                            @hasPermission('user.sale.delete')
                             <td class="text-center align-middle">
                                 <form action="{{ route('frontend.sales.destroy', ['saleId' => $sale->id]) }}"
                                       method="POST">
@@ -110,6 +119,8 @@
                                     ])
                                 </form>
                             </td>
+                            @endhasPermission
+                            @hasPermission('user.sale.edit')
                             <td class="text-center align-middle">
                                 <label class="switch">
                                     <input class="is-active-sale"
@@ -119,10 +130,11 @@
                                     <span class="slider round"></span>
                                 </label>
                             </td>
+                            @endhasPermission
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">@lang('Not found data')</td>
+                            <td colspan="9" class="text-center">@lang('Not found data')</td>
                         </tr>
                     @endforelse
                     </tbody>

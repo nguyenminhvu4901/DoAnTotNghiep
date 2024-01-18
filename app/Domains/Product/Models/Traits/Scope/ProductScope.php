@@ -11,7 +11,7 @@ trait ProductScope
      */
     public function scopeSearch($query, $term): mixed
     {
-        return $query->where(fn ($query) => $query->where('name', 'like', '%' . $term . '%'));
+        return $query->where(fn($query) => $query->where('name', 'like', '%' . $term . '%'));
     }
 
     /**
@@ -25,5 +25,19 @@ trait ProductScope
         return $query->whereHas('categories', function ($query) use ($categories) {
             $query->whereIn('categories.slug', $categories);
         });
+    }
+
+    /**
+     * @param $query
+     * @param array $category
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterProductDashboardByCategories($query, string $category, $operator = null)
+    {
+        return $category == "all" ? $query :
+            $query->whereHas('categories', function ($query) use ($category) {
+                $query->where('categories.slug', $category);
+            });
     }
 }

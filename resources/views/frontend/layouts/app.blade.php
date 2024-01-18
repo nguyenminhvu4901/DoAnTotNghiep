@@ -86,7 +86,6 @@
             $(".owl-carousel").owlCarousel();
         });
     </script>
-    <livewire:scripts />
     @stack('after-scripts')
 </body>
 

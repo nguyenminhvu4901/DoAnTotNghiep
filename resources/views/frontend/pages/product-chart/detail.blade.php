@@ -15,7 +15,9 @@
         </li>
     </ul>
     <div class="tab-content">
+        tab-content
         <div class="tab-pane fade show active" id="group-by-size" role="tabpanel" aria-labelledby="group-by-size">
+            tab-pane 1
             <select class="form-control cursor-pointer selection" id="size-selection" data-selection="size">
                 @foreach($product->productDetail->unique('size') as $detail)
                     <option class="cursor-pointer" value="{{ $detail->size }}">{{ $detail->size }}</option>
@@ -23,6 +25,7 @@
             </select>
         </div>
         <div class="tab-pane fade" id="group-by-color" role="tabpanel" aria-labelledby="group-by-color">
+            tab-pane 2
             <select class="form-control cursor-pointer selection" id="color-selection" data-selection="color">
                 @foreach($product->productDetail->unique('color') as $detail)
                     <option class="cursor-pointer" value="{{ $detail->color }}">{{ $detail->color }}</option>

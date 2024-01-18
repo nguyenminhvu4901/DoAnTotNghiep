@@ -12,7 +12,6 @@
         <small id="error_email" class="error text-danger">{{ $errors->first('email') }}</small>
     </div>
 </div>
-
 {{--PASSWORD--}}
 <div class="form-group row">
     <label for="input_password" class="col-sm-2 col-form-label">

@@ -115,7 +115,6 @@ class StaffService extends BaseService
                 'phone' => $updateData['phone'],
                 'bio' => $updateData['bio'],
             ]);
-
             event(new UserUpdated($staff->user));
 
             DB::commit();

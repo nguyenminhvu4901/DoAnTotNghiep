@@ -9,7 +9,7 @@ use Tabuna\Breadcrumbs\Trail;
  * All route names are prefixed with 'frontend.'.
  */
 
-Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth', 'permission:user.sale']], function () {
+Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth']], function () {
     Route::get('index', [SaleController::class, 'index'])->name('index')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())

@@ -28,17 +28,16 @@ trait ImageProcess
     public function updateImage(Request $request, String $currentImage): String
     {
         if ($this->verify($request, $currentImage)) {
-            $this->deleteImage($request->old_image);
+            $this->deleteImage($request->get('old_image'));
             return $this->saveImage($request, $currentImage);
         }
-        return $request->old_image;
+        return $request->get('old_image');
     }
 
     public function deleteImage($name): void
     {
-        if ($this->exitsImage($name) && !empty($name)) {
-            Storage::disk('image')->delete($this->getPathSave($name));
-        }
+        $oldImage = basename($name);
+        Storage::disk('image')->delete($this->getPathSave($oldImage));
     }
 
     public function exitsImage($name): bool

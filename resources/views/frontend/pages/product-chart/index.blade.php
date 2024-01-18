@@ -87,17 +87,14 @@
         );
 
         async function getPieChart(productId) {
-          try {
-            const response = await actions.ajaxCall({
-              url: $('#js-data').data('detail-url'),
-              method: 'GET',
-              data: {'id': productId}
+            const response = actions.ajaxCall({
+                url: $('#js-data').data('detail-url') + '?id=' + productId,
+            }).done(function (response) {
+                $('#display-product-detail').html(response.html);
+                $('.selection').first().trigger('change');
+            }).fail(function (response) {
+                console.log(response);
             });
-            $('#display-product-detail').html(response.html);
-            $('.selection').first().trigger('change');
-          } catch (e) {
-            alert('There were a problem fetching data on server, please try again later')
-          }
         }
 
         $('#best-seller-chart').on('click', async function (e) {
