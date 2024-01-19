@@ -28,10 +28,11 @@ trait UserAttribute
      */
     public function getAvatarAttribute()
     {
-        if ($this->attributes['avatar'] != null || $this->attributes['avatar'] != '') {
-            return asset('storage/images/avatars/' . $this->attributes['avatar']);
+        if (isset($this->attibutes['avatar'])) {
+            if ($this->attributes['avatar'] != null || $this->attributes['avatar'] != '') {
+                return asset('storage/images/avatars/' . $this->attributes['avatar']);
+            }
         }
-
         return $this->getAvatar();
     }
 
