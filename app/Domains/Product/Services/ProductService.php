@@ -130,8 +130,7 @@ class ProductService extends BaseService
                 ->where('product_id', $product->id)
                 ->get();
 
-            foreach($productGlobalSale as $productSale)
-            {
+            foreach ($productGlobalSale as $productSale) {
                 $productSale->update([
                     'type_sale' => 1 //Ẩn sản phẩm giảm giá
                 ]);
@@ -157,8 +156,7 @@ class ProductService extends BaseService
                 ->where('product_id', $product->id)
                 ->get();
 
-            foreach($productGlobalSale as $productSale)
-            {
+            foreach ($productGlobalSale as $productSale) {
                 $productSale->update([
                     'type_sale' => 0 //Ẩn sản phẩm giảm giá
                 ]);

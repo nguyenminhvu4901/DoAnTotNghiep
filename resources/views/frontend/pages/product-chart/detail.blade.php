@@ -3,7 +3,7 @@
 </h4>
 <div>
     <p>
-        <span> {{ __('Sale figure') .':' }} </span>
+        <span> {{ __('Unit sold') .':' }} </span>
         <span> {{ $product->getSaleCount() . '!!'}}</span>
     </p>
     <ul class="nav nav-tabs" id="tab-selection" role="tablist">

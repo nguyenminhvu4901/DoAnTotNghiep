@@ -13,9 +13,18 @@
             <div class="row">
                 <div class="col-6">
                     <p>
-                        <strong>@lang('Top :number sellings', ['number' => config('constants.top_best_seller_amount')])</strong>
+                        <strong>@lang('Top :number sellings (unit)', ['number' => config('constants.top_best_seller_amount')])</strong>
                     </p>
                     <canvas id="best-seller-chart" class="border cursor-pointer"></canvas>
+                    <hr>
+                    <p>
+                        <strong>@lang('Monthly sale (unit)')</strong>
+                    </p>
+                    <label for="month-selection">{{ __('Select a month') }}</label>
+                    <input type="month" id="month-selection" class="form-control" name="month_selection"
+                           data-get-monthly-sale-url="{{ route('frontend.productChart.monthlySales') }}"
+                    />
+                    <canvas id="daily-sale-chart" class="border cursor-pointer"></canvas>
                 </div>
                 <div class="col-6">
                     <div id="display-product-detail">
@@ -86,15 +95,77 @@
           }
         );
 
-        async function getPieChart(productId) {
-            const response = actions.ajaxCall({
-                url: $('#js-data').data('detail-url') + '?id=' + productId,
-            }).done(function (response) {
-                $('#display-product-detail').html(response.html);
-                $('.selection').first().trigger('change');
-            }).fail(function (response) {
-                console.log(response);
+        window.dailySaleChart = undefined;
+
+        $('#month-selection').on('change', async function () {
+          const date = $(this).val();
+          const url = $(this).data('get-monthly-sale-url');
+          try {
+            const response = await actions.ajaxCall({
+              url: url,
+              data: {
+                month_selection: date
+              }
             });
+            const monthlySales = response.monthly_sales;
+            if (window.dailySaleChart !== undefined) {
+              window.dailySaleChart.destroy()
+            }
+            window.dailySaleChart = new Chart(
+              document.getElementById('daily-sale-chart'),
+              {
+                type: 'bar',
+                options: {
+                  animation: true,
+                  responsive: true,
+                  scales: {
+                    y: {
+                      ticks: {
+                        stepSize: 1,
+                        beginAtZero: true,
+                      },
+                      title: {
+                        display: true,
+                        text: 'sales'
+                      }
+                    }
+                  },
+                  plugins: {
+                    legend: {
+                      display: false
+                    },
+                    tooltip: {
+                      enabled: true
+                    }
+                  },
+                  indexAxis: 'x',
+                },
+                data: {
+                  labels: Object.keys(monthlySales).map(row => row),
+                  datasets: [
+                    {
+                      label: 'sale',
+                      data: Object.values(monthlySales).map(row => row),
+                    }
+                  ]
+                }
+              }
+            );
+
+          } catch (e) {
+            console.error(e);
+          }
+        })
+
+        async function getPieChart(productId) {
+          const response = actions.ajaxCall({
+            url: $('#js-data').data('detail-url') + '?id=' + productId,
+          }).done(function (response) {
+            $('#display-product-detail').html(response.html);
+            $('.selection').first().trigger('change');
+          }).fail(function (response) {
+            console.log(response);
+          });
         }
 
         $('#best-seller-chart').on('click', async function (e) {
@@ -200,6 +271,9 @@
         if (ids.length > 0) {
           await getPieChart(ids[0]);
         }
+
+        $('#month-selection').val('{{ $currentYearMonth }}')
+        $('#month-selection').trigger('change');
 
       }));
     </script>
