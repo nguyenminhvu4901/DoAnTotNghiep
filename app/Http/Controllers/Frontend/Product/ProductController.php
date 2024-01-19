@@ -95,10 +95,10 @@ class ProductController extends Controller
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         if (!$product->productDetail->isEmpty()) {
-            foreach ($product->productDetail as $key => $productDetail) {
+            foreach ($product->productDetail as $productDetail) {
                 $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
 
-                if ($productInCart != null) {
+                if (!$productInCart->isEmpty()) {
                     $this->cartService->deleteProductFromCart($productDetail->id);
                 }
             }

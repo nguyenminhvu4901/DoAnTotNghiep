@@ -20,12 +20,14 @@ class SaleService extends BaseService
     protected Product $product;
     protected ProductDetail $productDetail;
     protected ProductSale $productSale;
+
     public function __construct(
-        Sale $sale,
-        Product $product,
+        Sale          $sale,
+        Product       $product,
         ProductDetail $productDetail,
-        ProductSale $productSale
-    ) {
+        ProductSale   $productSale
+    )
+    {
         $this->model = $sale;
         $this->product = $product;
         $this->productDetail = $productDetail;
@@ -42,6 +44,12 @@ class SaleService extends BaseService
                 $query->filterByProduct($data['products']);
             })->whereHas('product', function ($query) {
                 $query->whereNotNull('product_id');
+            })
+            ->where(function ($query) {
+                $query->whereHas('productSale', function ($query) {
+                    $query->where('type_sale', '!=', 1);
+                })
+                    ->orWhereDoesntHave('productSale');
             })
             ->latest('id')->paginate(config('constants.paginate'));
     }
@@ -117,10 +125,9 @@ class SaleService extends BaseService
 
     public function updateActive($data = [], Sale $sale)
     {
-        if($data['isActive'] == config('constants.is_active.true'))
-        {
+        if ($data['isActive'] == config('constants.is_active.true')) {
             $data['isActive'] = config('constants.is_active.false');
-        }else{
+        } else {
             $data['isActive'] = config('constants.is_active.true');
         }
         $sale->update([

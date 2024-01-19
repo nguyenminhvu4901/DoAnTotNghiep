@@ -2,6 +2,7 @@
 
 namespace App\Domains\ProductDetail\Services;
 
+use App\Domains\ProductSale\Models\ProductSale;
 use Exception;
 use App\Services\BaseService;
 use App\Domains\Sale\Models\Sale;
@@ -15,10 +16,13 @@ use App\Domains\ProductDetail\Models\ProductDetail;
 class ProductDetailService extends BaseService
 {
     protected Sale $sale;
-    public function __construct(ProductDetail $productDetail, Sale $sale)
+    protected ProductSale $productSale;
+
+    public function __construct(ProductDetail $productDetail, Sale $sale, ProductSale $productSale)
     {
         $this->model = $productDetail;
         $this->sale = $sale;
+        $this->productSale = $productSale;
     }
 
     public function search(array $data = [])
@@ -111,6 +115,12 @@ class ProductDetailService extends BaseService
     {
         DB::beginTransaction();
         try {
+            $productDetailSale = $this->productSale->where('product_detail_id', $productDetail->id)->first();
+
+            $productDetailSale->update([
+                'type_sale' => 1//Ẩn sản phẩm
+            ]);
+
             $productDetail->delete();
 
             DB::commit();
@@ -127,6 +137,12 @@ class ProductDetailService extends BaseService
     {
         DB::beginTransaction();
         try {
+            $productDetailSale = $this->productSale->where('product_detail_id', $productDetail->id)->first();
+
+            $productDetailSale->update([
+                'type_sale' => 0//Hiển thị sản phẩm giảm giá
+            ]);
+
             $productDetail->restore();
 
             DB::commit();
@@ -167,7 +183,7 @@ class ProductDetailService extends BaseService
                         $productDetail->salePrice = 0;
                     }
                 } else {
-                    $productDetail->salePrice =  $productDetail->price - $productDetail->saleOption->first()->value;
+                    $productDetail->salePrice = $productDetail->price - $productDetail->saleOption->first()->value;
                     if ($productDetail->salePrice < 0) {
                         $productDetail->salePrice = 0;
                     }
@@ -181,7 +197,7 @@ class ProductDetailService extends BaseService
                         $productDetail->salePriceGlobal = 0;
                     }
                 } else {
-                    $productDetail->salePriceGlobal =  $productDetail->price - $productDetail->product->saleGlobal->first()->value;
+                    $productDetail->salePriceGlobal = $productDetail->price - $productDetail->product->saleGlobal->first()->value;
                     if ($productDetail->salePriceGlobal < 0) {
                         $productDetail->salePriceGlobal = 0;
                     }
@@ -204,7 +220,7 @@ class ProductDetailService extends BaseService
                         $productDetail->salePrice = 0;
                     }
                 } else {
-                    $productDetail->salePrice =  $productDetail->price - $productDetail->saleOption->first()->value;
+                    $productDetail->salePrice = $productDetail->price - $productDetail->saleOption->first()->value;
                     if ($productDetail->salePrice < 0) {
                         $productDetail->salePrice = 0;
                     }
@@ -218,7 +234,7 @@ class ProductDetailService extends BaseService
                         $productDetail->salePriceGlobal = 0;
                     }
                 } else {
-                    $productDetail->salePriceGlobal =  $productDetail->price - $productDetail->product->saleGlobal->first()->value;
+                    $productDetail->salePriceGlobal = $productDetail->price - $productDetail->product->saleGlobal->first()->value;
                     if ($productDetail->salePriceGlobal < 0) {
                         $productDetail->salePriceGlobal = 0;
                     }

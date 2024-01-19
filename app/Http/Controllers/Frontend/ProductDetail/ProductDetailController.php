@@ -86,11 +86,12 @@ class ProductDetailController extends Controller
     public function destroy(int $productDetailId)
     {
         $productDetail = $this->productDetailService->getById($productDetailId);
+
         abort_if(!$productDetail, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
 
-        if ($productInCart != null) {
+        if (!$productInCart->isEmpty()) {
             $this->cartService->deleteProductFromCart($productDetail->id);
         }
 
