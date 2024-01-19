@@ -118,7 +118,6 @@ class CartService extends BaseService
         } else {
             $productDetailInCart = $this->getExistProductInCartByCartId($productDetailId, $cartId);
         }
-
         abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
         $productDetail = $this->getProductDetail($productDetailId);
         $productDetail->update([

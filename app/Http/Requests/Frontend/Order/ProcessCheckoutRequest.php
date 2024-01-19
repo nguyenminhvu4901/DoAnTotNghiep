@@ -25,10 +25,11 @@ class ProcessCheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_name' => ['required'],
-            'customer_email' => ['required'],
-            'customer_phone' => ['required'],
-            'customer_address' => ['required'],
+            'customer_name' => ['required', 'string', 'min:2'],
+            'customer_email' => ['required', 'email'],
+            'customer_phone' => ['required', 'numeric', 'regex:/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/u'],
+            'customer_address' => ['required', 'string', 'min:2'],
+            'note' => ['nullable', 'string'],
             'province' => ['required', Rule::notIn(['default'])],
             'district' => ['required', Rule::notIn(['default'])],
             'ward' => ['required', Rule::notIn(['default'])],

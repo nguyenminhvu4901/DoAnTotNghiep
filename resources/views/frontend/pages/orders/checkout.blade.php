@@ -3,14 +3,14 @@
 @section('title', __('Cart'))
 
 @section('content')
-    <div class="fade-in">
-        @include('includes.partials.messages')
-    </div>
+{{--    <div class="fade-in">--}}
+{{--        @include('includes.partials.messages')--}}
+{{--    </div>--}}
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
             <div class="checkout__form">
-                <h4>Billing Details</h4>
+                <h4>@lang('Billing Details')</h4>
                 <form action="{{ route('frontend.orders.processCheckout') }}" method="POST" id="form-checkout">
                     @csrf
                     @method('POST')
@@ -21,18 +21,21 @@
                                     <div class="checkout__input">
                                         <p>@lang('Name')<span>*</span></p>
                                         <input type="text" name="customer_name" value=" {{ old('customer_name') }}">
+                                        <small id="error_order" class="error text-danger">{{ $errors->first('customer_name') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout__input">
                                         <p>@lang('Email')<span>*</span></p>
                                         <input type="email" name="customer_email" value=" {{ old('customer_email') }}">
+                                        <small id="error_order" class="error text-danger">{{ $errors->first('customer_email') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="checkout__input">
                                         <p>@lang('Phone Number')<span>*</span></p>
                                         <input type="number" name="customer_phone" value=" {{ old('customer_phone') }}">
+                                        <small id="error_order" class="error text-danger">{{ $errors->first('customer_phone') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -88,6 +91,7 @@
                                         <p>@lang('Address')<span>*</span></p>
                                         <input type="text" name="customer_address"
                                                value="{{ old('customer_address') }}">
+                                        <small id="error_order" class="error text-danger">{{ $errors->first('customer_address') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -110,6 +114,7 @@
                                                   class="form-control rounded {{ checkDisplayError($errors, 'note') }}">
                                         {{ old('note') ?? (isset($product) ? $product->description : '') }}
                                     </textarea>
+                                        <small id="error_order" class="error text-danger">{{ $errors->first('note') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +122,7 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="checkout__order">
                                 <h4>@lang('Your Order')</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                <div class="checkout__order__products">@lang('Products') <span>@lang('Total')</span></div>
                                 @forelse($productDetails as $key => $product)
                                     <ul>
                                         <li>{{ $product->quantity }}x
@@ -160,11 +165,11 @@
                                     <input type="hidden" name="couponName" value="{{ $couponName }}">
                                 @endif
                                 <div id="fee-ship">
-                                    <div class="checkout__order__total">Total
+                                    <div class="checkout__order__total">@lang('Total')
                                         <span>{{ formatMoney($totalAllProduct) }}</span>
                                     </div>
                                 </div>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
+                                <button type="submit" class="site-btn">@lang('PLACE ORDER')</button>
                             </div>
                         </div>
                     </div>

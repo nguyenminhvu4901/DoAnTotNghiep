@@ -69,7 +69,7 @@ trait SaleRelationship
     public function syncProductDetailWithProductGlobal($productId, $productDetailId)
     {
         $this->productDetail()->sync([$productDetailId => [
-            'product_id' => $productId
+            'product_id' => $productId,
         ]]);
     }
 }

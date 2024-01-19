@@ -2,6 +2,7 @@
 
 namespace App\Domains\Product\Services;
 
+use App\Domains\ProductSale\Models\ProductSale;
 use Exception;
 use App\Services\BaseService;
 use Illuminate\Support\Collection;
@@ -16,6 +17,7 @@ use App\Domains\Category\Models\Category;
 class ProductService extends BaseService
 {
     protected Category $category;
+    protected ProductSale $productSale;
 
     /**
      * ProductService constructor.
@@ -23,12 +25,14 @@ class ProductService extends BaseService
      * @param Category $category
      */
     public function __construct(
-        Product  $product,
-        Category $category
+        Product     $product,
+        Category    $category,
+        ProductSale $productSale
     )
     {
         $this->model = $product;
         $this->category = $category;
+        $this->productSale = $productSale;
     }
 
     public function getLatestCategory()
@@ -122,9 +126,15 @@ class ProductService extends BaseService
     {
         DB::beginTransaction();
         try {
-            foreach($product->productDetail as $productDetail)
-            {
+            $productGlobalSale = $this->productSale
+                ->where('product_id', $product->id)
+                ->get();
 
+            foreach($productGlobalSale as $productSale)
+            {
+                $productSale->update([
+                    'type_sale' => 1 //Ẩn sản phẩm giảm giá
+                ]);
             }
 
             $product->delete();
@@ -143,6 +153,17 @@ class ProductService extends BaseService
     {
         DB::beginTransaction();
         try {
+            $productGlobalSale = $this->productSale
+                ->where('product_id', $product->id)
+                ->get();
+
+            foreach($productGlobalSale as $productSale)
+            {
+                $productSale->update([
+                    'type_sale' => 0 //Ẩn sản phẩm giảm giá
+                ]);
+            }
+
             $product->restore();
 
             DB::commit();

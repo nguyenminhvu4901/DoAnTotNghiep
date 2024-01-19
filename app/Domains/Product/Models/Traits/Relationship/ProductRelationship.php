@@ -48,10 +48,11 @@ trait ProductRelationship
     public function saleGlobal(): BelongsToMany
     {
         return $this->belongsToMany(Sale::class, ProductSale::class)
-                    ->whereNull('product_sale.product_detail_id')
-                    ->where('start_date', '<=', Carbon::now())
-                    ->where('expiry_date', '>=', Carbon::now())
-                    ->where('is_active', '!=' , config('constants.is_active.false'));
+            ->whereNull('product_sale.product_detail_id')
+            ->where('start_date', '<=', Carbon::now())
+            ->where('expiry_date', '>=', Carbon::now())
+            ->where('is_active', '!=', config('constants.is_active.false'))
+            ->where('product_sale.type_sale', '!=', 1);
     }
 
     public function attachCategories(array $categories): void

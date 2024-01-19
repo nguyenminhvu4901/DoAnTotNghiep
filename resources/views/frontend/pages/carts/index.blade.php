@@ -31,9 +31,9 @@
                                 @csrf
                                 <div id="checkDeleteCouponInCart"></div>
                                 <input type="hidden" name="old_coupon_name"
-                                    value="{{ session()->get('coupon_name') ?? null }}">
-                                <input type="text" name="coupon_code" placeholder="Enter your coupon code" >
-                                <button type="submit" class="site-btn">APPLY COUPON</button>
+                                       value="{{ session()->get('coupon_name') ?? null }}">
+                                <input type="text" name="coupon_code" placeholder="@lang('Enter your coupon code')">
+                                <button type="submit" class="site-btn">@lang('APPLY COUPON')</button>
                             </form>
                         </div>
                     </div>
@@ -53,83 +53,86 @@
                             <div class="shoping__cart__table">
                                 <table>
                                     <thead>
-                                        <tr>
-                                            <th class="shoping__product">Products</th>
-                                            <th>Color</th>
-                                            <th>Size</th>
-                                            <th>Sale</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th></th>
-                                        </tr>
+                                    <tr>
+                                        <th class="shoping__product">@lang('Products')</th>
+                                        <th>@lang('Color')</th>
+                                        <th>@lang('Size')</th>
+                                        <th>@lang('Sale')</th>
+                                        <th>@lang('Price')</th>
+                                        <th>@lang('Quantity')</th>
+                                        <th>@lang('Total')</th>
+                                        <th></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($carts as $key => $cart)
-                                            <tr>
-                                                <td class="shoping__cart__item">
-                                                    <input type="hidden" name="productDetail[{{ $key }}][name]"
-                                                        value="{{ optional($cart->product())->first()->name }}">
-                                                    <input type="hidden" name="productDetail[{{ $key }}][productId]"
-                                                        value="{{ $cart->productDetail->product_id }}">
-                                                    <h5>{{ optional($cart->product())->first()->name }}</h5>
-                                                </td>
-                                                <td class="shoping__cart__price">
-                                                    <input type="hidden" name="productDetail[{{ $key }}][color]"
-                                                        value="{{ $cart->productDetail->color }}">
-                                                    {{ $cart->productDetail->color }}
-                                                </td>
-                                                <td class="shoping__cart__price">
-                                                    <input type="hidden" name="productDetail[{{ $key }}][size]"
-                                                        value="{{ $cart->productDetail->size }}">
-                                                    {{ $cart->productDetail->size }}
-                                                </td>
-                                                <td class="shoping__cart__price">
-                                                    @if (isset($cart->productDetail->salePrice))
-                                                        <span>
+                                    @forelse($carts as $key => $cart)
+                                        <tr>
+                                            <td class="shoping__cart__item">
+                                                <input type="hidden" name="productDetail[{{ $key }}][name]"
+                                                       value="{{ optional($cart->product())->first()->name }}">
+                                                <input type="hidden" name="productDetail[{{ $key }}][productId]"
+                                                       value="{{ $cart->productDetail->product_id }}">
+                                                <h4>{{ optional($cart->product())->first()->name }}</h4>
+                                                <br>
+                                                <img src="{{ $cart->image_product_in_cart}}"
+                                                     width="150px" height="150px">
+                                            </td>
+                                            <td class="shoping__cart__price">
+                                                <input type="hidden" name="productDetail[{{ $key }}][color]"
+                                                       value="{{ $cart->productDetail->color }}">
+                                                {{ $cart->productDetail->color }}
+                                            </td>
+                                            <td class="shoping__cart__price">
+                                                <input type="hidden" name="productDetail[{{ $key }}][size]"
+                                                       value="{{ $cart->productDetail->size }}">
+                                                {{ $cart->productDetail->size }}
+                                            </td>
+                                            <td class="shoping__cart__price">
+                                                @if (isset($cart->productDetail->salePrice))
+                                                    <span>
                                                             {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
-                                                    @elseif(isset($cart->productDetail->salePriceGlobal))
-                                                        <span>
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    <span>
                                                             {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
-                                                    @else
-                                                        @lang('There are no sale price')
-                                                    @endif
-                                                </td>
-                                                <td class="shoping__cart__price">
-                                                    @if (isset($cart->productDetail->salePrice))
-                                                        <span style="text-decoration: line-through">
+                                                @else
+                                                    @lang('There are no sale price')
+                                                @endif
+                                            </td>
+                                            <td class="shoping__cart__price">
+                                                @if (isset($cart->productDetail->salePrice))
+                                                    <span style="text-decoration: line-through">
                                                             {{ formatMoney($cart->productDetail->price) }}
                                                         </span>
-                                                        <br>
-                                                        {{ formatMoney($cart->productDetail->salePrice) }}
-                                                    @elseif(isset($cart->productDetail->salePriceGlobal))
-                                                        <span style="text-decoration: line-through">
+                                                    <br>
+                                                    {{ formatMoney($cart->productDetail->salePrice) }}
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    <span style="text-decoration: line-through">
                                                             {{ formatMoney($cart->productDetail->price) }}
                                                         </span>
-                                                        <br>
-                                                        {{ formatMoney($cart->productDetail->salePriceGlobal) }}
-                                                    @else
-                                                        {{ formatMoney($cart->productDetail->price) }}
-                                                    @endif
-                                                </td>
-                                                <td class="shoping__cart__quantity">
-                                                    <div class="quantity">
-                                                        <div class="pro-qty">
-                                                            <input type="hidden"
-                                                                name="productDetail[{{ $key }}][productDetailId]"
-                                                                value="{{ $cart->product_detail_id }}">
-                                                            <input type="hidden" name="productId"
-                                                                value="{{ optional($cart->product())->first()->id }}">
-                                                            <span class="dec qtybtn dec-{{ $cart->product_detail_id }}"
-                                                                data-product-id="{{ $cart->product_detail_id }}"
-                                                                data-initial-quantity="{{ $cart->product_quantity }}"
-                                                                data-max-quantity="{{ $cart->productDetail->quantity + $cart->product_quantity }}"
-                                                                data-cart-id="{{ $cart->id }}"
-                                                                data-action="{{ route('frontend.carts.updateProductInCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
-                                                                data-action-delete-single="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}">-</span>
-                                                            <input
+                                                    <br>
+                                                    {{ formatMoney($cart->productDetail->salePriceGlobal) }}
+                                                @else
+                                                    {{ formatMoney($cart->productDetail->price) }}
+                                                @endif
+                                            </td>
+                                            <td class="shoping__cart__quantity">
+                                                <div class="quantity">
+                                                    <div class="pro-qty">
+                                                        <input type="hidden"
+                                                               name="productDetail[{{ $key }}][productDetailId]"
+                                                               value="{{ $cart->product_detail_id }}">
+                                                        <input type="hidden" name="productId"
+                                                               value="{{ optional($cart->product())->first()->id }}">
+                                                        <span class="dec qtybtn dec-{{ $cart->product_detail_id }}"
+                                                              data-product-id="{{ $cart->product_detail_id }}"
+                                                              data-initial-quantity="{{ $cart->product_quantity }}"
+                                                              data-max-quantity="{{ $cart->productDetail->quantity + $cart->product_quantity }}"
+                                                              data-cart-id="{{ $cart->id }}"
+                                                              data-action="{{ route('frontend.carts.updateProductInCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
+                                                              data-action-delete-single="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}">-</span>
+                                                        <input
                                                                 class="quantityInput-{{ $cart->product_detail_id }} input-quantity"
                                                                 type="number" value="{{ $cart->product_quantity }}"
                                                                 name="productDetail[{{ $key }}][quantity]"
@@ -140,65 +143,66 @@
                                                                 data-cart-id="{{ $cart->id }}"
                                                                 data-action="{{ route('frontend.carts.updateProductInCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
                                                                 data-action-delete="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}">
-                                                            <span class="inc qtybtn inc-{{ $cart->product_detail_id }}"
-                                                                data-product-id="{{ $cart->product_detail_id }}"
-                                                                data-initial-quantity="{{ $cart->product_quantity }}"
-                                                                data-max-quantity="{{ $cart->productDetail->quantity + $cart->product_quantity }}"
-                                                                data-cart-id="{{ $cart->id }}"
-                                                                data-action="{{ route('frontend.carts.updateProductInCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
-                                                                data-action-delete-single="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}">+</span>
-                                                            @include(
-                                                                'frontend.pages.carts.partials.show-modal-delete',
-                                                                [
-                                                                    'cartId' => $cart->id,
-                                                                ]
-                                                            )
+                                                        <span class="inc qtybtn inc-{{ $cart->product_detail_id }}"
+                                                              data-product-id="{{ $cart->product_detail_id }}"
+                                                              data-initial-quantity="{{ $cart->product_quantity }}"
+                                                              data-max-quantity="{{ $cart->productDetail->quantity + $cart->product_quantity }}"
+                                                              data-cart-id="{{ $cart->id }}"
+                                                              data-action="{{ route('frontend.carts.updateProductInCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
+                                                              data-action-delete-single="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}">+</span>
+                                                        @include(
+                                                            'frontend.pages.carts.partials.show-modal-delete',
+                                                            [
+                                                                'cartId' => $cart->id,
+                                                            ]
+                                                        )
 
-                                                            @include(
-                                                                'frontend.pages.carts.partials.show-modal-max-quantity',
-                                                                [
-                                                                    'cartId' => $cart->id,
-                                                                    'maxQuantity' =>
-                                                                        $cart->productDetail->quantity +
-                                                                        $cart->product_quantity,
-                                                                ]
-                                                            )
-                                                        </div>
+                                                        @include(
+                                                            'frontend.pages.carts.partials.show-modal-max-quantity',
+                                                            [
+                                                                'cartId' => $cart->id,
+                                                                'maxQuantity' =>
+                                                                    $cart->productDetail->quantity +
+                                                                    $cart->product_quantity,
+                                                            ]
+                                                        )
                                                     </div>
-                                                </td>
-                                                <td class="shoping__cart__total">
+                                                </div>
+                                            </td>
+                                            <td class="shoping__cart__total">
+                                                @php
+                                                    $price = 0;
+                                                @endphp
+                                                @if (isset($cart->productDetail->salePrice))
                                                     @php
-                                                        $price = 0;
+                                                        $price = $cart->productDetail->salePrice * $cart->product_quantity;
                                                     @endphp
-                                                    @if (isset($cart->productDetail->salePrice))
-                                                        @php
-                                                            $price = $cart->productDetail->salePrice * $cart->product_quantity;
-                                                        @endphp
-                                                    @elseif(isset($cart->productDetail->salePriceGlobal))
-                                                        @php
-                                                            $price = $cart->productDetail->salePriceGlobal * $cart->product_quantity;
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $price = $cart->productDetail->price * $cart->product_quantity;
-                                                        @endphp
-                                                    @endif
-                                                    {{ formatMoney($price) }}
-                                                    <input type="hidden" name="productDetail[{{ $key }}][price]"
-                                                        value="{{ $price }}">
-                                                </td>
-                                                <td class="shoping__cart__item__close">
+                                                @elseif(isset($cart->productDetail->salePriceGlobal))
+                                                    @php
+                                                        $price = $cart->productDetail->salePriceGlobal * $cart->product_quantity;
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $price = $cart->productDetail->price * $cart->product_quantity;
+                                                    @endphp
+                                                @endif
+                                                {{ formatMoney($price) }}
+                                                <input type="hidden" name="productDetail[{{ $key }}][price]"
+                                                       value="{{ $price }}">
+                                            </td>
+                                            <td class="shoping__cart__item__close">
                                                     <span class="delete-product" data-cart-id="{{ $cart->id }}"
-                                                        data-action="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
-                                                        data-product-id="{{ $cart->product_detail_id }}"><i
-                                                            class="fas fa-times"></i></span>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="8" class="text-center">@lang('There are no products in the cart')</td>
-                                            </tr>
-                                        @endforelse
+                                                          data-action="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
+                                                          data-product-id="{{ $cart->product_detail_id }}"><i
+                                                                class="fas fa-times"></i></span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="8"
+                                                class="text-center">@lang('There are no products in the cart')</td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -207,7 +211,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="shoping__checkout">
-                                <h5>Cart Total</h5>
+                                <h5>@lang('Cart Total')</h5>
                                 <ul>
                                     <li>@lang('Subtotal') <span>{{ formatMoney($subPriceAllProductInCart) }}</span></li>
                                     <input type="hidden" name="subAllProduct" value="{{ $subPriceAllProductInCart }}">
@@ -231,10 +235,12 @@
                                         <input type="hidden" name="couponId" value="{{ session('coupon_id') }}">
                                     @endif
                                     <input type="hidden" name="totalAllProduct" value="{{ $priceAllProductInCart }}">
-                                    <li style="color:red">@lang('Total') <span>{{ formatMoney($priceAllProductInCart) }}</span>
+                                    <li style="color:red">@lang('Total')
+                                        <span>{{ formatMoney($priceAllProductInCart) }}</span>
                                     </li>
                                 </ul>
-                                <button type="submit" class="btn primary-btn right-align ">@lang('PROCEED TO CHECKOUT')</button>
+                                <button type="submit"
+                                        class="btn primary-btn right-align ">@lang('PROCEED TO CHECKOUT')</button>
                             </div>
                         </div>
                     </div>
@@ -248,6 +254,6 @@
     <script src="{{ asset('js/pages/product/cart.js') }}"></script>
     <script src="{{ asset('js/pages/cart/ajaxCart.js') }}"></script>
     <script src="{{ asset('js/pages/cart/filter.js') }}"></script>
-@endpush
+    @endpush
 
-</div>
+    </div>
