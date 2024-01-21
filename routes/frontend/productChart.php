@@ -10,7 +10,21 @@ use Tabuna\Breadcrumbs\Trail;
  */
 
 Route::group(['as' => 'productChart.', 'prefix' => 'product-chart', 'middleware' => ['auth', 'permission:user.product.create']], function () {
-    Route::get('/detail', [ProductChartController::class, 'show'])->name('show');
-    Route::get('/monthly-sales', [ProductChartController::class, 'monthlySales'])->name('monthlySales');
-    Route::get('/', [ProductChartController::class, 'index'])->name('index');
+    Route::get('/detail', [ProductChartController::class, 'show'])->name('show')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Statistic management'), route('frontend.productChart.index'));
+        });
+
+    Route::get('/monthly-sales', [ProductChartController::class, 'monthlySales'])->name('monthlySales')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Statistic management'), route('frontend.productChart.index'));
+        });
+
+    Route::get('/', [ProductChartController::class, 'index'])->name('index')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Statistic management'), route('frontend.productChart.index'));
+        });
 });

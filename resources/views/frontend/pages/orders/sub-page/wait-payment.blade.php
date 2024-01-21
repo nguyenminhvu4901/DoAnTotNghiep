@@ -38,7 +38,7 @@
     <button type="submit" id="click-btn" name="click-btn"></button>
 </form>
 
-<h1 style="text-align: center">@lang('Đang chuyển hướng đến trang VNPAY')</h1>
+<h1 style="text-align: center">@lang('Redirect to VNPAY page')</h1>
 
 <div class="loading-container">
     <div class="loading"></div>
