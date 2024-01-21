@@ -1,11 +1,11 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Update Information Staff'))
+@section('title', __('Update Staff Information'))
 
 @section('content')
     <div class="mt-4 p-3 container-fluid card-school">
         <div class="p-3 pl-2 font-weight-bold">
-            <h3><strong>@lang('Update Information Staff')</strong></h3>
+            <h3><strong>@lang('Update Staff Information')</strong></h3>
         </div><!--row-->
 
         <div class="container-fluid p-3 form-school">

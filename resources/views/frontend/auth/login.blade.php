@@ -3,6 +3,9 @@
 @section('title', __('Login'))
 
 @section('content')
+    <div class="fade-in">
+        @include('includes.partials.messages')
+    </div><!--fade-in-->
     <div>
         <section class="vh-100">
             <div class="container-fluid h-custom">

@@ -24,7 +24,7 @@ class GoogleLoginController extends Controller
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
-        $user = User::where('email', $googleUser->email)->first();
+        $user = User::withTrashed()->where('email', $googleUser->email)->first();
 
         if (!$user) {
             $temporaryPassword = rand(100000, 999999);
@@ -42,7 +42,13 @@ class GoogleLoginController extends Controller
 
             Auth::attempt(['email' => $user->email, 'password' => $temporaryPassword]);
         } else {
-            Auth::login($user);
+            if($user->deleted_at == null)
+            {
+                Auth::login($user);
+            }else{
+                return redirect()->route('frontend.auth.login')
+                    ->withFlashDanger(__('Your account has been locked, please try again later.'));
+            }
         }
         return redirect(RouteServiceProvider::HOME);
     }

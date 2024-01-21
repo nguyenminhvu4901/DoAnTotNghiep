@@ -5,6 +5,7 @@ namespace App\Http\Requests\Frontend\Customer;
 use App\Domains\Auth\Services\UserService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 class UpdateRequest extends FormRequest
 {
@@ -15,6 +16,7 @@ class UpdateRequest extends FormRequest
     {
         $this->userService = $userService;
     }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -38,8 +40,8 @@ class UpdateRequest extends FormRequest
                 'email:rfc',
                 Rule::unique('users', 'email')->ignore($this->id)
             ],
-            'name' => ['required'],
-            'password' => ['nullable'],
+            'name' => ['required', 'string', 'min:2'],
+            'password' => ['required', PasswordRules::register($data['email'] ?? null), 'min:8', 'max:16']
         ];
     }
 }

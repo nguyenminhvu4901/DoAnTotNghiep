@@ -5,6 +5,7 @@ namespace App\Http\Requests\Frontend\Staff;
 use App\Domains\Staff\Services\StaffService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 class UpdateRequest extends FormRequest
 {
@@ -41,9 +42,10 @@ class UpdateRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($targetUser->id)
             ],
             'birthday' => ['required', 'date', 'before:today'],
-            'name' => ['required'],
-            'password' => ['nullable'],
-            'phone' => ['required', 'regex:/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/u']
+            'name' => ['required', 'string', 'min:2'],
+            'password' => ['required', PasswordRules::register($data['email'] ?? null), 'min:8', 'max:16'],
+            'phone' => ['required', 'regex:/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/u'],
+            'bio' => ['nullable', 'string'],
         ];
     }
 }

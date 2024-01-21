@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
  */
 class HomeController
 {
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function index()
     {
         return redirect()->route('frontend.user.dashboard');

@@ -111,7 +111,7 @@
                                             @if (config('constants.status_order_text.Cancel order') == $order->status)
                                                 <option value="{{ $value }}"
                                                         @if ($order->status == $value) selected @endif>
-                                                    {{ $key }}
+                                                    {{ __($key) }}
                                                 </option>
                                                 @break
 
@@ -119,7 +119,7 @@
                                                 <option
                                                         value="{{ config('constants.status_order_text.Successful delivery') }}"
                                                         @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>
-                                                    {{ array_search('5', config('constants.status_order_text')) }}
+                                                    {{ __(array_search('5', config('constants.status_order_text'))) }}
                                                 </option>
                                                 @break
 
@@ -127,7 +127,8 @@
                                                 @continue
                                             @endif
                                             <option value="{{ $value }}"
-                                                    @if ($order->status == $value) selected @endif>{{ $key }}
+                                                    @if ($order->status == $value) selected @endif>
+                                                {{ __($key) }}
                                             </option>
                                         @endforeach
                                     </select>
