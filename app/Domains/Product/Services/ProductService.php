@@ -212,4 +212,9 @@ class ProductService extends BaseService
             'sales' => $product->getSaleCount()
         ]);
     }
+
+    public function isExistByName(string $name)
+    {
+        return $this->model->where('name', $name)->first();
+    }
 }
