@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\Data;
 
-use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Domains\ProductImage\Models\ProductImage;
 use Illuminate\Database\Seeder;
 
@@ -1502,8 +1501,379 @@ class ProductImageSeeder extends Seeder
             ],
         ];
 
-        $dataKhuyenTai = [];
-        $dataDongHo = [];
+        $dataKhuyenTai = [
+            //Khuyen tai 41
+            [
+                'id' => 201,
+                'name' => "Khuyen tai 1",
+                'product_id' => 41,
+                'image_path' => 'khuyentai1.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 202,
+                'name' => "Khuyen tai 2",
+                'product_id' => 41,
+                'image_path' => 'khuyentai2.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 203,
+                'name' => "Khuyen tai 3",
+                'product_id' => 41,
+                'image_path' => 'khuyentai3.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 204,
+                'name' => "Khuyen tai 4",
+                'product_id' => 41,
+                'image_path' => 'khuyentai4.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 205,
+                'name' => "Khuyen tai 5",
+                'product_id' => 41,
+                'image_path' => 'khuyentai5.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 42
+            [
+                'id' => 206,
+                'name' => "Khuyen tai 6",
+                'product_id' => 42,
+                'image_path' => 'khuyentai6.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 207,
+                'name' => "Khuyen tai 7",
+                'product_id' => 42,
+                'image_path' => 'khuyentai7.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 208,
+                'name' => "Khuyen tai 8",
+                'product_id' => 42,
+                'image_path' => 'khuyentai8.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 209,
+                'name' => "Khuyen tai 9",
+                'product_id' => 42,
+                'image_path' => 'khuyentai9.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 210,
+                'name' => "Khuyen tai 10",
+                'product_id' => 42,
+                'image_path' => 'khuyentai10.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 43
+            [
+                'id' => 211,
+                'name' => "Khuyen tai 11",
+                'product_id' => 43,
+                'image_path' => 'khuyentai11.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 212,
+                'name' => "Khuyen tai 12",
+                'product_id' => 43,
+                'image_path' => 'khuyentai12.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 213,
+                'name' => "Khuyen tai 13",
+                'product_id' => 43,
+                'image_path' => 'khuyentai13.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 214,
+                'name' => "Khuyen tai 14",
+                'product_id' => 43,
+                'image_path' => 'khuyentai14.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 215,
+                'name' => "Khuyen tai 15",
+                'product_id' => 43,
+                'image_path' => 'khuyentai15.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 44
+            [
+                'id' => 216,
+                'name' => "Khuyen tai 16",
+                'product_id' => 44,
+                'image_path' => 'khuyentai16.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 217,
+                'name' => "Khuyen tai 17",
+                'product_id' => 44,
+                'image_path' => 'khuyentai17.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 218,
+                'name' => "Khuyen tai 18",
+                'product_id' => 44,
+                'image_path' => 'khuyentai18.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 219,
+                'name' => "Khuyen tai 19",
+                'product_id' => 44,
+                'image_path' => 'khuyentai19.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 220,
+                'name' => "Khuyen tai 20",
+                'product_id' => 43,
+                'image_path' => 'khuyentai20.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 45
+            [
+                'id' => 221,
+                'name' => "Khuyen tai 21",
+                'product_id' => 45,
+                'image_path' => 'khuyentai21.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 222,
+                'name' => "Khuyen tai 22",
+                'product_id' => 45,
+                'image_path' => 'khuyentai22.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 223,
+                'name' => "Khuyen tai 23",
+                'product_id' => 45,
+                'image_path' => 'khuyentai23.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 224,
+                'name' => "Khuyen tai 24",
+                'product_id' => 45,
+                'image_path' => 'khuyentai24.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 225,
+                'name' => "Khuyen tai 25",
+                'product_id' => 45,
+                'image_path' => 'khuyentai25.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 46
+            [
+                'id' => 226,
+                'name' => "Khuyen tai 26",
+                'product_id' => 46,
+                'image_path' => 'khuyentai26.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 227,
+                'name' => "Khuyen tai 27",
+                'product_id' => 46,
+                'image_path' => 'khuyentai27.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 228,
+                'name' => "Khuyen tai 28",
+                'product_id' => 46,
+                'image_path' => 'khuyentai28.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 229,
+                'name' => "Khuyen tai 29",
+                'product_id' => 46,
+                'image_path' => 'khuyentai29.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 230,
+                'name' => "Khuyen tai 30",
+                'product_id' => 46,
+                'image_path' => 'khuyentai30.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 47
+            [
+                'id' => 231,
+                'name' => "Khuyen tai 31",
+                'product_id' => 47,
+                'image_path' => 'khuyentai31.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 232,
+                'name' => "Khuyen tai 32",
+                'product_id' => 47,
+                'image_path' => 'khuyentai32.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 233,
+                'name' => "Khuyen tai 33",
+                'product_id' => 47,
+                'image_path' => 'khuyentai33.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 234,
+                'name' => "Khuyen tai 34",
+                'product_id' => 47,
+                'image_path' => 'khuyentai34.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 235,
+                'name' => "Khuyen tai 35",
+                'product_id' => 47,
+                'image_path' => 'khuyentai35.jpg',
+                'order' => 5,
+            ],
+
+            //Khuyen tai 48
+            [
+                'id' => 236,
+                'name' => "Khuyen tai 36",
+                'product_id' => 48,
+                'image_path' => 'khuyentai36.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 237,
+                'name' => "Khuyen tai 37",
+                'product_id' => 48,
+                'image_path' => 'khuyentai37.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 238,
+                'name' => "Khuyen tai 38",
+                'product_id' => 48,
+                'image_path' => 'khuyentai38.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 239,
+                'name' => "Khuyen tai 39",
+                'product_id' => 48,
+                'image_path' => 'khuyentai39.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 240,
+                'name' => "Khuyen tai 40",
+                'product_id' => 48,
+                'image_path' => 'khuyentai40.jpg',
+                'order' => 5,
+            ],
+        ];
+
+        $dataDongHo = [
+            //Dong Ho 49
+            [
+                'id' => 241,
+                'name' => "Dong ho 1",
+                'product_id' => 49,
+                'image_path' => 'dongho1.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 242,
+                'name' => "Dong ho 2",
+                'product_id' => 49,
+                'image_path' => 'dongho2.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 243,
+                'name' => "Dong ho 3",
+                'product_id' => 49,
+                'image_path' => 'dongho3.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 244,
+                'name' => "Dong ho 4",
+                'product_id' => 49,
+                'image_path' => 'dongho4.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 245,
+                'name' => "Dong ho 5",
+                'product_id' => 50,
+                'image_path' => 'dongho5.jpg',
+                'order' => 5,
+            ],
+
+            //Dong Ho 50
+            [
+                'id' => 246,
+                'name' => "Dong ho 6",
+                'product_id' => 50,
+                'image_path' => 'dongho6.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 247,
+                'name' => "Dong ho 7",
+                'product_id' => 50,
+                'image_path' => 'dongho7.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 248,
+                'name' => "Dong ho 8",
+                'product_id' => 50,
+                'image_path' => 'dongho8.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 249,
+                'name' => "Dong ho 9",
+                'product_id' => 50,
+                'image_path' => 'dongho9.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 250,
+                'name' => "Dong ho 10",
+                'product_id' => 50,
+                'image_path' => 'dongho10.jpg',
+                'order' => 5,
+            ],
+        ];
 
         $data = array_merge($dataNhan, $dataDayChuyen, $dataVongtay, $dataKhuyenTai, $dataDongHo);
 
