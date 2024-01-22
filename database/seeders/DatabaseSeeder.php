@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Domains\ProductDetail\Models\ProductDetail;
+use App\Domains\ProductImage\Models\ProductImage;
 use Database\Seeders\Data\CategorySeeder;
+use Database\Seeders\Data\CouponSeeder;
 use Database\Seeders\Data\ProductDetailSeeder;
+use Database\Seeders\Data\ProductImageSeeder;
 use Database\Seeders\Data\ProductSeeder;
 use Database\Seeders\Traits\TruncateTable;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +38,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
         $this->call(ProductDetailSeeder::class);
+        $this->call(ProductImageSeeder::class);
+        $this->call(CouponSeeder::class);
 
         Model::reguard();
     }
