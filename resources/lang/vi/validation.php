@@ -190,7 +190,8 @@ return [
         'order' => 'thứ tự',
         'value' => 'giá trị',
         'start_date' => 'ngày bắt đầu',
-        'expiry_date' => 'ngày kết thúc'
+        'expiry_date' => 'ngày kết thúc',
+        'image_path' => 'ảnh'
     ],
 
 ];
