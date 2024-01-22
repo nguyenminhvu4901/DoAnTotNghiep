@@ -48,7 +48,7 @@ function ImageMessage({ url }) {
                 >
                     <Fade in={open}>
                         <ZoomImage>
-                            <img src={url} />
+                            <img src={url} width="100%" height="100%" />
                         </ZoomImage>
                     </Fade>
                 </Modal>

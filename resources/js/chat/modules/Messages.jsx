@@ -1,6 +1,5 @@
 import { Box, styled } from '@mui/material';
 import Message from '../components/Message';
-import { TroubleshootTwoTone } from '@mui/icons-material';
 
 const BoxMessages = styled(Box)({
     height: '100%',
