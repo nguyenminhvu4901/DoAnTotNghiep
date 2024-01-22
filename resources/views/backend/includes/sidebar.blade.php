@@ -71,8 +71,12 @@
         @endif
 
         <li class="">
-            <x-utils.link href="{{ route('frontend.user.dashboard')}}" icon="c-sidebar-nav-icon cil-list" class="c-sidebar-nav-link"
-                :text="__('Manager')" />
+            <x-utils.link href="{{ route('frontend.user.dashboard') }}" icon="c-sidebar-nav-icon cil-list"
+                class="c-sidebar-nav-link" :text="__('Manager')" />
+        </li>
+        <li class="">
+            <x-utils.link href="{{ route('admin.chat.index') }}" icon="c-sidebar-nav-icon cil-chat-bubble"
+                class="c-sidebar-nav-link" :text="__('Messages')" />
         </li>
     </ul>
 
