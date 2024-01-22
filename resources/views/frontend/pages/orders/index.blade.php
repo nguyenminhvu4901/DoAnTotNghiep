@@ -106,7 +106,9 @@
                                 <td class="text-center align-middle" style="width: 200px;">
                                     <select class="form-control status-order" style="width: 100%;" name="status"
                                             data-current-status="{{ $order->status }}"
-                                            data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}">
+                                            data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}"
+                                            >
+{{--                                        data-sub="{{ json_encode([ád, sdhk]) }}"--}}
                                         @foreach (config('constants.status_order_text') as $key => $value)
                                             @if (config('constants.status_order_text.Cancel order') == $order->status)
                                                 <option value="{{ $value }}"

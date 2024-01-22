@@ -22,4 +22,14 @@ trait CategoryRelationship
     {
         return $this->belongsToMany(Product::class, CategoryProduct::class);
     }
+
+    public function syncProducts($products): void
+    {
+        $this->products()->sync($products);
+    }
+
+    public function attachProducts($products): void
+    {
+        $this->products()->attach($products);
+    }
 }
