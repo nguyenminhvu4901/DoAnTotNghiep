@@ -1130,7 +1130,378 @@ class ProductImageSeeder extends Seeder
         ];
 
 
-        $dataDayChuyen = [];
+        $dataDayChuyen = [
+            //Day chuyen 16
+            [
+                'id' => 151,
+                'name' => "Day chuyen 1",
+                'product_id' => 16,
+                'image_path' => 'daychuyen1.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 152,
+                'name' => "Day chuyen 2",
+                'product_id' => 16,
+                'image_path' => 'daychuyen2.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 153,
+                'name' => "Day chuyen 3",
+                'product_id' => 16,
+                'image_path' => 'daychuyen3.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 154,
+                'name' => "Day chuyen 4",
+                'product_id' => 16,
+                'image_path' => 'daychuyen4.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 155,
+                'name' => "Day chuyen 5",
+                'product_id' => 16,
+                'image_path' => 'daychuyen5.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 17
+            [
+                'id' => 156,
+                'name' => "Day chuyen 6",
+                'product_id' => 17,
+                'image_path' => 'daychuyen6.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 157,
+                'name' => "Day chuyen 7",
+                'product_id' => 17,
+                'image_path' => 'daychuyen7.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 158,
+                'name' => "Day chuyen 8",
+                'product_id' => 17,
+                'image_path' => 'daychuyen8.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 159,
+                'name' => "Day chuyen 9",
+                'product_id' => 17,
+                'image_path' => 'daychuyen9.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 160,
+                'name' => "Day chuyen 10",
+                'product_id' => 17,
+                'image_path' => 'daychuyen10.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 18
+            [
+                'id' => 161,
+                'name' => "Day chuyen 11",
+                'product_id' => 18,
+                'image_path' => 'daychuyen11.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 162,
+                'name' => "Day chuyen 12",
+                'product_id' => 18,
+                'image_path' => 'daychuyen12.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 163,
+                'name' => "Day chuyen 13",
+                'product_id' => 18,
+                'image_path' => 'daychuyen13.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 164,
+                'name' => "Day chuyen 14",
+                'product_id' => 18,
+                'image_path' => 'daychuyen14.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 165,
+                'name' => "Day chuyen 15",
+                'product_id' => 18,
+                'image_path' => 'daychuyen15.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 19
+            [
+                'id' => 166,
+                'name' => "Day chuyen 16",
+                'product_id' => 19,
+                'image_path' => 'daychuyen16.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 167,
+                'name' => "Day chuyen 17",
+                'product_id' => 19,
+                'image_path' => 'daychuyen17.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 168,
+                'name' => "Day chuyen 18",
+                'product_id' => 19,
+                'image_path' => 'daychuyen18.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 169,
+                'name' => "Day chuyen 19",
+                'product_id' => 19,
+                'image_path' => 'daychuyen19.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 170,
+                'name' => "Day chuyen 20",
+                'product_id' => 19,
+                'image_path' => 'daychuyen20.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 20
+            [
+                'id' => 171,
+                'name' => "Day chuyen 21",
+                'product_id' => 20,
+                'image_path' => 'daychuyen21.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 172,
+                'name' => "Day chuyen 22",
+                'product_id' => 20,
+                'image_path' => 'daychuyen22.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 173,
+                'name' => "Day chuyen 23",
+                'product_id' => 20,
+                'image_path' => 'daychuyen23.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 174,
+                'name' => "Day chuyen 24",
+                'product_id' => 20,
+                'image_path' => 'daychuyen24.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 175,
+                'name' => "Day chuyen 25",
+                'product_id' => 20,
+                'image_path' => 'daychuyen25.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 21
+            [
+                'id' => 176,
+                'name' => "Day chuyen 26",
+                'product_id' => 21,
+                'image_path' => 'daychuyen26.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 177,
+                'name' => "Day chuyen 27",
+                'product_id' => 21,
+                'image_path' => 'daychuyen27.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 178,
+                'name' => "Day chuyen 28",
+                'product_id' => 21,
+                'image_path' => 'daychuyen28.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 179,
+                'name' => "Day chuyen 29",
+                'product_id' => 21,
+                'image_path' => 'daychuyen29.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 180,
+                'name' => "Day chuyen 30",
+                'product_id' => 21,
+                'image_path' => 'daychuyen30.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 22
+            [
+                'id' => 181,
+                'name' => "Day chuyen 31",
+                'product_id' => 22,
+                'image_path' => 'daychuyen31.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 182,
+                'name' => "Day chuyen 32",
+                'product_id' => 22,
+                'image_path' => 'daychuyen32.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 183,
+                'name' => "Day chuyen 33",
+                'product_id' => 22,
+                'image_path' => 'daychuyen33.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 184,
+                'name' => "Day chuyen 34",
+                'product_id' => 22,
+                'image_path' => 'daychuyen34.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 185,
+                'name' => "Day chuyen 35",
+                'product_id' => 22,
+                'image_path' => 'daychuyen35.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 23
+            [
+                'id' => 186,
+                'name' => "Day chuyen 36",
+                'product_id' => 23,
+                'image_path' => 'daychuyen36.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 187,
+                'name' => "Day chuyen 37",
+                'product_id' => 23,
+                'image_path' => 'daychuyen37.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 188,
+                'name' => "Day chuyen 38",
+                'product_id' => 23,
+                'image_path' => 'daychuyen38.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 189,
+                'name' => "Day chuyen 39",
+                'product_id' => 23,
+                'image_path' => 'daychuyen39.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 190,
+                'name' => "Day chuyen 40",
+                'product_id' => 23,
+                'image_path' => 'daychuyen40.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 24
+            [
+                'id' => 191,
+                'name' => "Day chuyen 41",
+                'product_id' => 24,
+                'image_path' => 'daychuyen41.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 192,
+                'name' => "Day chuyen 42",
+                'product_id' => 24,
+                'image_path' => 'daychuyen42.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 193,
+                'name' => "Day chuyen 43",
+                'product_id' => 24,
+                'image_path' => 'daychuyen43.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 194,
+                'name' => "Day chuyen 44",
+                'product_id' => 24,
+                'image_path' => 'daychuyen44.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 195,
+                'name' => "Day chuyen 45",
+                'product_id' => 24,
+                'image_path' => 'daychuyen45.jpg',
+                'order' => 5,
+            ],
+
+            //Day chuyen 25
+            [
+                'id' => 196,
+                'name' => "Day chuyen 46",
+                'product_id' => 25,
+                'image_path' => 'daychuyen46.jpg',
+                'order' => 1,
+            ],
+            [
+                'id' => 197,
+                'name' => "Day chuyen 47",
+                'product_id' => 25,
+                'image_path' => 'daychuyen47.jpg',
+                'order' => 2,
+            ],
+            [
+                'id' => 198,
+                'name' => "Day chuyen 48",
+                'product_id' => 25,
+                'image_path' => 'daychuyen48.jpg',
+                'order' => 3,
+            ],
+            [
+                'id' => 199,
+                'name' => "Day chuyen 49",
+                'product_id' => 25,
+                'image_path' => 'daychuyen49.jpg',
+                'order' => 4,
+            ],
+            [
+                'id' => 200,
+                'name' => "Day chuyen 50",
+                'product_id' => 25,
+                'image_path' => 'daychuyen50.jpg',
+                'order' => 5,
+            ],
+        ];
+
         $dataKhuyenTai = [];
         $dataDongHo = [];
 
