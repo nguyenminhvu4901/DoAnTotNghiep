@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Domains\ProductDetail\Models\ProductDetail;
 use Database\Seeders\Data\CategorySeeder;
+use Database\Seeders\Data\ProductDetailSeeder;
 use Database\Seeders\Data\ProductSeeder;
 use Database\Seeders\Traits\TruncateTable;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +34,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategorySeeder::class);
         $this->call(ProductSeeder::class);
+        $this->call(ProductDetailSeeder::class);
 
         Model::reguard();
     }
