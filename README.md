@@ -69,4 +69,9 @@ npm run production
 phpunit
 php artisan storage:link
 ```
+Notice
+```
+Mỗi khi chạy seed sẽ chạy hết các lệnh seed đã lưu ở trên
+```
+
 
