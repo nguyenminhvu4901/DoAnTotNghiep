@@ -63,6 +63,8 @@ npm install
 yarn
 php artisan key:generate
 php artisan migrate --seed
+art db:seed --class=Database\\Seeders\\Data\\StaffSeeder
+art db:seed --class=Database\\Seeders\\Data\\CustomerSeeder
 npm run production
 phpunit
 php artisan storage:link
