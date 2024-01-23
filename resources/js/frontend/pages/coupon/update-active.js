@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var sub = $('.sub-js').data('sub');
     $('.is-active-coupon').click(function () {
         let url = $(this).data('url');
         let isActive = $(this).val();
@@ -11,15 +12,15 @@ $(document).ready(function () {
         }).done(function (response) {
             Swal.fire({
                 icon: 'success',
-                title: 'Cập nhật thành công',
-                confirmButtonText: "Rất giỏi",
+                title: sub['success'],
+                confirmButtonText: "OK",
             }).then(function () {
                 location.reload();
             });
         }).fail(function (error) {
             Swal.fire({
                 icon: 'error',
-                title: "Cập nhật không thành công",
+                title: sub['unsuccess'],
                 text: "Rất non",
             }).then(function () {
                 location.reload();

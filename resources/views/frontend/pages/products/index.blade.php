@@ -75,11 +75,9 @@
                             @lang('Add Image')
                         </th>
                         @endhasPermission
-                        @hasPermission('user.product.detail')
                         <th class="text-center">
                             @lang('Product Information')
                         </th>
-                        @endhasPermission
                         @hasPermission('user.product.edit')
                         <th class="text-center">
                             @lang('Update')
@@ -148,13 +146,11 @@
                                 </a>
                             </td>
                             @endhasPermission
-                            @hasPermission('user.product.detail')
                             <td class="text-center align-middle">
                                 <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
-                            @endhasPermission
                             @hasPermission('user.product.edit')
                             <td class="text-center align-middle">
                                 <a href="{{ route('frontend.products.edit', ['slug' => $product->slug]) }}">

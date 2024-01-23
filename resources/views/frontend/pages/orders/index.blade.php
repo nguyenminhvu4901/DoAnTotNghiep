@@ -6,6 +6,11 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div><!--fade-in-->
+    <input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'success' => __('Status update successful.'),
+        'unsuccess' => __('An error occurred, please try again.'),
+        'done5' => __('The order has been successfully delivered, so you cannot update')
+    ]) }}">
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>

@@ -8,14 +8,13 @@ use Tabuna\Breadcrumbs\Trail;
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'.
  */
+Route::get('sales/index', [SaleController::class, 'index'])->name('sales.index')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->parent(homeRoute())
+            ->push(__('Sale management'), route('frontend.sales.index'));
+    });
 
 Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth']], function () {
-    Route::get('index', [SaleController::class, 'index'])->name('index')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent(homeRoute())
-                ->push(__('Sale management'), route('frontend.sales.index'));
-        })->middleware('permission:user.sale.view');
-
     Route::get('{productId}/{level}/create', [SaleController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())

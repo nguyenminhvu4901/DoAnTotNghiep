@@ -15,10 +15,15 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class=" @if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a></li>
-                            <li><a href="./shop-grid.html">@lang('Sale off')</a></li>
-                            <li><a href="./contact.html">@lang('Coupon')</a></li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
+                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
+                            </li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.sales.index')) active @endif">
+                                <a href="{{ route('frontend.sales.index') }}">@lang('Sale off')</a>
+                            </li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.coupons.index')) active @endif">
+                                <a href="{{ route('frontend.coupons.index') }}">@lang('Coupon')</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -99,9 +104,9 @@
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg') }}">
                                     <ul class="featured__item__pic__hover">
                                         {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-{{--                                        <li>--}}
-{{--                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i--}}
-{{--                                                        class="fa fa-info-circle"></i></a></li>--}}
+                                        {{--                                        <li>--}}
+                                        {{--                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i--}}
+                                        {{--                                                        class="fa fa-info-circle"></i></a></li>--}}
                                         <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i
                                                         class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
@@ -149,78 +154,36 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="https://images.squarespace-cdn.com/content/v1/59c406ae8a02c798d1ca155f/3d8fcdb5-3ebe-4661-b651-1cfc2d691e6c/Special+Occasion+Earring+Slider.png" alt="">
+                        <img src="{{ asset('storage/images/dashboard/banner1.jpg') }}"
+                             alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="https://images.squarespace-cdn.com/content/v1/548fcaa5e4b00cdae11c4e35/0c093d87-8281-43de-bf01-a17416ab2a19/JUST+IN.png" alt="">
+                        <img src="{{ asset('storage/images/dashboard/banner2.jpg') }}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="{{ asset('storage/images/dashboard/banner3.jpg') }}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="{{ asset('storage/images/dashboard/banner4.jpg') }}" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Banner End -->
-
-    <!-- Blog Section Begin -->
-    <section class="from-blog spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title from-blog__title">
-                        <h2>@lang('Blogs')</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="img/blog/blog-1.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="img/blog/blog-2.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="img/blog/blog-3.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">Visit the clean farm in the US</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Featured Section Begin -->
     <section class="featured spad">
@@ -244,7 +207,14 @@
                         </div>
                     </form>
                 </div>
+                <div class="d-flex align-items-center justify-content-md-end">
+                    <a class="btn-footer-modal btn btn-warning rounded-10"
+                       href="{{ route('frontend.coupons.index') }}">@lang('See all') <i
+                                class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
             </div>
+
             <br>
             <div class="render-product-dashboard">
                 <div class="row featured__filter">
@@ -277,10 +247,10 @@
                                      data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
                                     <ul class="featured__item__pic__hover">
                                         {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-{{--                                        <li>--}}
-{{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
-{{--                                        </li>--}}
-                                                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        {{--                                        <li>--}}
+                                        {{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
+                                        {{--                                        </li>--}}
+                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="featured__item__text">
@@ -300,6 +270,130 @@
         </div>
     </section>
     <!-- Featured Section End -->
+
+    <!-- Blog Section Begin -->
+    <section class="from-blog spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title from-blog__title">
+                        <h2>@lang('Blogs')</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog1.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5>
+                                <a href="https://heliosjewels.vn/blogs/tin-tuc/5-dia-chi-ban-trang-suc-bac-ca-tinh-trong-dip-black-friday-ma-ban-khong-nen-bo-qua">5
+                                    Địa chỉ bán trang sức bạc cá tính trong dịp back friday mà bạn không nên bỏ qua</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog2.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhan-trang-suc-nam-co-gi-dac-biet">Nhẫn
+                                    trang sức nam có gì đặc biệt? Vì sao nam giới nên đeo nhẫn?</a></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog3.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhung-mau-khuyen-tai-vang-ma-ban-nen-co">Những
+                                    mẫu khuyên tai vàng mà bạn nam nên có</a></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog4.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/lac-tay-bac-phong-cach-va-y-nghia">
+                                    Lắc Tay Bạc: Phong Cách và Ý Nghĩa
+                                </a></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog6.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5>
+                                <a href="https://heliosjewels.vn/blogs/tin-tuc/deo-nhan-tay-phai-tin-hieu-cua-su-thanh-cong-va-quyen-luc">
+                                    Đeo nhẫn tay phải: Tín hiệu của sự thành công và quyền lực
+                                </a></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ asset('storage/images/dashboard/blog5.jpg') }}" alt="" width="300px"
+                                 height="300px">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fas fa-calendar"></i> May 4,2019</li>
+                                <li><i class="fas fa-comment"></i> 5</li>
+                            </ul>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/chon-nhan-cho-nguoi-co-ngon-tay-ngan">
+                                    Chọn nhẫn cho người ngón tay ngắn
+                                </a></h5>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn-footer-modal btn btn-success rounded-10 ml-auto"
+                   href="https://heliosjewels.vn/blogs/tin-tuc">@lang('See more')
+                </a>
+            </div>
+        </div>
+
+    </section>
 @endsection
 
 @push('after-scripts')

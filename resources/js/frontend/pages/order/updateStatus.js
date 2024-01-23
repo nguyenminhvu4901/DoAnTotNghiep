@@ -1,11 +1,12 @@
 $(document).ready(function () {
+    var sub = $('.sub-js').data('sub');
     $('.status-order').on('change', function (e) {
         let currentStatus = $(this).data('current-status');
 
         if (currentStatus == 5) {
             Swal.fire({
                 icon: 'error',
-                title: "The order has been successfully delivered, so you cannot update",
+                title: sub['done5'],
                 confirmButtonText: "OK",
             }).then(function () {
                 location.reload();
@@ -24,7 +25,7 @@ $(document).ready(function () {
         }).done(function (response) {
             Swal.fire({
                 icon: 'success',
-                title: 'Update status successfully',
+                title: sub['success'],
                 confirmButtonText: "OK",
             }).then(function () {
                 location.reload();
@@ -32,7 +33,7 @@ $(document).ready(function () {
         }).fail(function (error) {
             Swal.fire({
                 icon: 'error',
-                title: "Update failed",
+                title: sub['unsuccess'],
                 text: "OK",
             }).then(function () {
                 location.reload();

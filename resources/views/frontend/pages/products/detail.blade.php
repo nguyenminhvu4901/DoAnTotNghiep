@@ -59,31 +59,30 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star-half-o"></i>
-                                    <span>(18 reviews)</span>
+                                    <span>@lang('(18 reviews)')</span>
                                 </div>
                                 <div class="product__details__price">
                                     {{ !$productDetails->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}
 
                                 </div>
-                                    <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">ADD
-                                        TO
-                                        CARD
-                                    </a>
-                                    @include('frontend.pages.products.partials.show-modal-cart', [
-                                        'productId' => $product->id,
-                                    ])
+                                <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">
+                                    @lang('ADD TO CART')
+                                </a>
+                                @include('frontend.pages.products.partials.show-modal-cart', [
+                                    'productId' => $product->id,
+                                ])
                                 <a href="#" class="heart-icon"><i class="fas fa-heart"></i></a>
                                 <ul>
-                                    <li><b>Availability</b> <span>In Stock</span></li>
-                                    <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span>
+                                    <li><b>@lang('Availability')</b> <span>@lang('In Stock')</span></li>
+                                    <li><b>@lang('Shipping')</b> <span>@lang('01 day shipping.')</span>
                                     </li>
-                                    <li><b>Weight</b> <span>0.5 kg</span></li>
-                                    <li><b>Share on</b>
+                                    <li><b>@lang('Weight')</b> <span>@lang('0.5 kg')</span></li>
+                                    <li><b>@lang('Share on')</b>
                                         <div class="share">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-instagram"></i></a>
-                                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                                            <a href="#"><i class="fab fa-facebook"></i></a>
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                            <a href="#"><i class="fab fa-pinterest"></i></a>
                                         </div>
                                     </li>
                                 </ul>
@@ -94,11 +93,11 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                           aria-selected="true">Information</a>
+                                           aria-selected="true">@lang('Information')</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                           aria-selected="false">Reviews</a>
+                                           aria-selected="false">@lang('Reviews')</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content">
@@ -111,6 +110,7 @@
                                     <div class="tab-pane" id="tabs-2" role="tabpanel">
                                         <div class="product__details__tab__desc">
                                             <h6>@lang('Reviews')</h6>
+                                            <h6>@lang('This functionality is under development!')</h6>
                                             <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
                                                 Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
                                                 Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac
