@@ -15,13 +15,13 @@ Route::get('products/{id}/detail', [ProductController::class, 'detail'])->name('
             ->push(__('Product Information'));
     });
 
-Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['auth']], function () {
-    Route::get('index', [ProductController::class, 'index'])->name('index')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent(homeRoute())
-                ->push(__('Product management'), route('frontend.products.index'));
-        })->middleware('permission:user.product.view');
+Route::get('products/index', [ProductController::class, 'index'])->name('products.index')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->parent(homeRoute())
+            ->push(__('Product management'), route('frontend.products.index'));
+    });
 
+Route::group(['as' => 'products.', 'prefix' => 'products', 'middleware' => ['auth']], function () {
     Route::get('create', [ProductController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())

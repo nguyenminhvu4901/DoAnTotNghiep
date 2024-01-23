@@ -1,4 +1,7 @@
 {{-- NAME --}}
+<input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'preview_image' => __('New Image'),
+    ]) }}">
 <div class="form-group row">
     <label for="input_name" class="col-sm-2 col-form-label">
         @lang('Product name')

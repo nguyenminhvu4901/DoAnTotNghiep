@@ -1,5 +1,6 @@
 $(document).ready(function () {
     let proQty = $('.pro-qty');
+    var sub = $('.sub-js').data('sub');
 
     $('.delete-product').click(function () {
         var productDetailIdToDelete = $(this).data('product-id');
@@ -86,16 +87,16 @@ $(document).ready(function () {
 
             Swal.fire({
                 icon: 'success',
-                title: 'Xoá thành công',
-                confirmButtonText: "Rất giỏi",
+                title: sub['delete_success'],
+                confirmButtonText: "OK",
             }).then(function () {
                 location.reload();
             });
         }).fail(function (error) {
             Swal.fire({
                 icon: 'error',
-                title: "Xoá không thành công",
-                text: "Rất non",
+                title: sub['delete_unsuccess'],
+                text: "OK",
             }).then(function () {
                 location.reload();
             });

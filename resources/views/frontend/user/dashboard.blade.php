@@ -15,10 +15,15 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class=" @if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a></li>
-                            <li><a href="./shop-grid.html">@lang('Sale off')</a></li>
-                            <li><a href="./contact.html">@lang('Coupon')</a></li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
+                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
+                            </li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.sales.index')) active @endif">
+                                <a href="{{ route('frontend.sales.index') }}">@lang('Sale off')</a>
+                            </li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.coupons.index')) active @endif">
+                                <a href="{{ route('frontend.coupons.index') }}">@lang('Coupon')</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -202,7 +207,14 @@
                         </div>
                     </form>
                 </div>
+                <div class="d-flex align-items-center justify-content-md-end">
+                    <a class="btn-footer-modal btn btn-warning rounded-10"
+                       href="{{ route('frontend.coupons.index') }}">@lang('See all') <i
+                                class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
             </div>
+
             <br>
             <div class="render-product-dashboard">
                 <div class="row featured__filter">
@@ -273,42 +285,50 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog1.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog1.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fas fa-calendar"></i> May 4,2019</li>
                                 <li><i class="fas fa-comment"></i> 5</li>
                             </ul>
-                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/5-dia-chi-ban-trang-suc-bac-ca-tinh-trong-dip-black-friday-ma-ban-khong-nen-bo-qua">5 Địa chỉ bán trang sức bạc cá tính trong dịp back friday mà bạn không nên bỏ qua</a></h5>
+                            <h5>
+                                <a href="https://heliosjewels.vn/blogs/tin-tuc/5-dia-chi-ban-trang-suc-bac-ca-tinh-trong-dip-black-friday-ma-ban-khong-nen-bo-qua">5
+                                    Địa chỉ bán trang sức bạc cá tính trong dịp back friday mà bạn không nên bỏ qua</a>
+                            </h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog2.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog2.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fas fa-calendar"></i> May 4,2019</li>
                                 <li><i class="fas fa-comment"></i> 5</li>
                             </ul>
-                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhan-trang-suc-nam-co-gi-dac-biet">Nhẫn trang sức nam có gì đặc biệt? Vì sao nam giới nên đeo nhẫn?</a></h5>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhan-trang-suc-nam-co-gi-dac-biet">Nhẫn
+                                    trang sức nam có gì đặc biệt? Vì sao nam giới nên đeo nhẫn?</a></h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog3.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog3.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fas fa-calendar"></i> May 4,2019</li>
                                 <li><i class="fas fa-comment"></i> 5</li>
                             </ul>
-                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhung-mau-khuyen-tai-vang-ma-ban-nen-co">Những mẫu khuyên tai vàng mà bạn nam nên có</a></h5>
+                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/nhung-mau-khuyen-tai-vang-ma-ban-nen-co">Những
+                                    mẫu khuyên tai vàng mà bạn nam nên có</a></h5>
                         </div>
                     </div>
                 </div>
@@ -318,7 +338,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog4.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog4.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>
@@ -334,14 +355,16 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog6.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog6.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>
                                 <li><i class="fas fa-calendar"></i> May 4,2019</li>
                                 <li><i class="fas fa-comment"></i> 5</li>
                             </ul>
-                            <h5><a href="https://heliosjewels.vn/blogs/tin-tuc/deo-nhan-tay-phai-tin-hieu-cua-su-thanh-cong-va-quyen-luc">
+                            <h5>
+                                <a href="https://heliosjewels.vn/blogs/tin-tuc/deo-nhan-tay-phai-tin-hieu-cua-su-thanh-cong-va-quyen-luc">
                                     Đeo nhẫn tay phải: Tín hiệu của sự thành công và quyền lực
                                 </a></h5>
                         </div>
@@ -350,7 +373,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{ asset('storage/images/dashboard/blog5.jpg') }}" alt="" width="300px" height="300px">
+                            <img src="{{ asset('storage/images/dashboard/blog5.jpg') }}" alt="" width="300px"
+                                 height="300px">
                         </div>
                         <div class="blog__item__text">
                             <ul>

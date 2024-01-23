@@ -1,6 +1,7 @@
 (function (yourcode) {
     yourcode(window.jQuery, window, document);
 }(function ($, window, document) {
+    var sub = $('.sub-js').data('sub');
 
     function ajaxRenderDistrict(element) {
         let provinceId = $(element).val();
@@ -9,10 +10,10 @@
         if (provinceId == "default") {
             let totalCost = $(`#select-province`).data('total-cost');
             $('#district-render').html(`<select class="form-control filter-select" id="select-district">
-            <option value="default">Choose District</option>
+            <option value="default">${sub['district']}</option>
         </select>`);
             $('#ward-render').html(`<select class="form-control filter-select" id="select-ward">
-            <option value="default">Choose Ward</option>
+              <option value="default">${sub['ward']}</option>
         </select>`);
             $('#fee-ship').html(`<div class="checkout__order__total">Total
             <span>${Math.round(totalCost).toLocaleString('en-US').replace(/,/g, '.')}</span>
@@ -48,8 +49,8 @@
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: "Cập nhật không thành công",
-                    text: "Rất non",
+                    title: sub['unsuccess'],
+                    text: "OK",
                 }).then(function () {
                     location.reload();
                 });
@@ -59,7 +60,7 @@
 
     function ajaxRenderWard(element) {
         let districtId = $(element).val();
-        
+
         districtIdInLocalStorage = null;
         const storedData = localStorage.getItem('formData');
 
@@ -73,7 +74,7 @@
 
         if (districtId == "default" && districtIdInLocalStorage == null) {
             $('#ward-render').html(`<select class="form-control filter-select" id="select-ward">
-                <option value="default">Choose Ward</option>
+                <option value="default">${sub['ward']}</option>
             </select>`);
             $('#fee-ship').html(`<div class="checkout__order__total">Total
             <span>${Math.round(totalCost).toLocaleString('en-US').replace(/,/g, '.')}</span>
@@ -104,14 +105,14 @@
                     }
                 } else {
                     $('#ward-render').html(`<select class="form-control filter-select" id="select-ward">
-                    <option value="default">Choose Ward</option>
+                    <option value="default">${sub['ward']}</option>
                 </select>`);
                 }
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: "Cập nhật không thành công",
-                    text: "Rất non",
+                    title: sub['unsuccess'],
+                    text: "OK",
                 }).then(function () {
                     location.reload();
                 });
@@ -139,8 +140,8 @@
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: "Cập nhật không thành công",
-                    text: "Rất non",
+                    title: sub['unsuccess'],
+                    text: "OK",
                 }).then(function () {
                     location.reload();
                 });
@@ -173,8 +174,8 @@
             }).fail(function (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: "Cập nhật không thành công",
-                    text: "Rất non",
+                    title: sub['unsuccess'],
+                    text: "OK",
                 }).then(function () {
                     location.reload();
                 });

@@ -6,6 +6,10 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div>
+    <input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'delete_success' => __('Successfully removed product from cart.'),
+        'delete_unsuccess' => __('An error occurred, please try again.')
+    ]) }}">
     <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/images/carts/default/default.jpg') }}">
         <div class="container">
             <div class="row">
@@ -193,8 +197,10 @@
                                             <td class="shoping__cart__item__close">
                                                     <span class="delete-product" data-cart-id="{{ $cart->id }}"
                                                           data-action="{{ route('frontend.carts.deleteProductFromCart', ['productDetailId' => $cart->product_detail_id, 'cartId' => $cart->id]) }}"
-                                                          data-product-id="{{ $cart->product_detail_id }}"><i
-                                                                class="fas fa-times"></i></span>
+                                                          data-product-id="{{ $cart->product_detail_id }}"
+                                                    >
+                                                        <i class="fas fa-times"></i>
+                                                    </span>
                                             </td>
                                         </tr>
                                     @empty

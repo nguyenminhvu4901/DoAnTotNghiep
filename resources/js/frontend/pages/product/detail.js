@@ -1,12 +1,3 @@
-/*  ---------------------------------------------------
-    Template Name: Ogani
-    Description:  Ogani eCommerce  HTML Template
-    Author: Colorlib
-    Author URI: https://colorlib.com
-    Version: 1.0
-    Created: Colorlib
----------------------------------------------------------  */
-
 'use strict';
 var headerMessage = document.querySelector('.alert.header-message');
 setTimeout(() => {
@@ -14,14 +5,9 @@ setTimeout(() => {
         headerMessage.style.display = 'none';
     }
 }, 5000);
-/*------------------
-    Preloader
---------------------*/
+
 $(window).on('load', function () {
 
-    /*------------------
-        Gallery filter
-    --------------------*/
     $('.featured__controls li').on('click', function () {
         $('.featured__controls li').removeClass('active');
         $(this).addClass('active');
@@ -32,9 +18,6 @@ $(window).on('load', function () {
     }
 });
 
-/*------------------
-    Background Set
---------------------*/
 $('.set-bg').each(function () {
     var bg = $(this).data('setbg');
     $(this).css('background-image', 'url(' + bg + ')');
@@ -52,17 +35,11 @@ $(".humberger__menu__overlay").on('click', function () {
     $("body").removeClass("over_hid");
 });
 
-/*------------------
-    Navigation
---------------------*/
 $(".mobile-menu").slicknav({
     prependTo: '#mobile-menu-wrap',
     allowParentLinks: true
 });
 
-/*-----------------------
-    Categories Slider
-------------------------*/
 $(".categories__slider").owlCarousel({
     loop: true,
     margin: 0,
@@ -100,9 +77,6 @@ $('.hero__categories__all').on('click', function () {
     $('.hero__categories ul').slideToggle(400);
 });
 
-/*--------------------------
-    Latest Product Slider
-----------------------------*/
 $(".latest-product__slider").owlCarousel({
     loop: true,
     margin: 0,
@@ -115,9 +89,6 @@ $(".latest-product__slider").owlCarousel({
     autoplay: true
 });
 
-/*-----------------------------
-    Product Discount Slider
--------------------------------*/
 $(".product__discount__slider").owlCarousel({
     loop: true,
     margin: 0,
@@ -146,9 +117,6 @@ $(".product__discount__slider").owlCarousel({
     }
 });
 
-/*---------------------------------
-    Product Details Pic Slider
-----------------------------------*/
 $(".product__details__pic__slider").owlCarousel({
     loop: true,
     margin: 20,
@@ -159,9 +127,6 @@ $(".product__details__pic__slider").owlCarousel({
     autoplay: true
 });
 
-/*-----------------------
-    Price Range Slider
------------------------- */
 var rangeSlider = $(".price-range"),
     minamount = $("#minamount"),
     maxamount = $("#maxamount"),
@@ -180,14 +145,6 @@ rangeSlider.slider({
 minamount.val('$' + rangeSlider.slider("values", 0));
 maxamount.val('$' + rangeSlider.slider("values", 1));
 
-/*--------------------------
-    Select
-----------------------------*/
-
-
-/*------------------
-    Single Product
---------------------*/
 $('.product__details__pic__slider img').on('click', function () {
     var imgurl = $(this).data('imgbigurl');
     var bigImg = $('.product__details__pic__item--large').attr('src');
