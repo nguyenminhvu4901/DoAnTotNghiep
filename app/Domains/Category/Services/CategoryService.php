@@ -143,4 +143,9 @@ class CategoryService extends BaseService
 
         return $category;
     }
+
+    public function isExistByName(string $name)
+    {
+        return $this->model->where('name', $name)->first();
+    }
 }

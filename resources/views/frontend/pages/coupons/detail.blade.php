@@ -44,13 +44,13 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                        aria-selected="true">Information</a>
+                                        aria-selected="true">@lang('Information')</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                     <div class="product__details__tab__desc">
-                                        <h6>@lang('Coupon Infomation')</h6>
+                                        <h6>@lang('Coupon Information')</h6>
                                         <p>{!! $coupon->description !!}</p>
                                     </div>
                                 </div>

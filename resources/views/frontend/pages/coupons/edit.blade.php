@@ -1,11 +1,11 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('UPDATE NEW COUPON'))
+@section('title', __('UPDATE COUPON'))
 
 @section('content')
     <div class="mt-4 p-3 container">
         <div class="p-3 pl-2 font-weight-bold">
-            <h3><strong>@lang('Update New Coupon')</strong></h3>
+            <h3><strong>@lang('Update Coupon')</strong></h3>
         </div><!--row-->
 
         <div class="container p-3">

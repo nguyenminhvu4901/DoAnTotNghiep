@@ -54,9 +54,6 @@
                                 @lang('Price')
                             </th>
                             <th class="text-center">
-                                @lang('Sale')
-                            </th>
-                            <th class="text-center">
                                 @lang('Restore')
                             </th>
                             <th class="text-center">
@@ -86,10 +83,27 @@
                                     {{ $productDetail->quantity }}
                                 </td>
                                 <td class="text-center align-middle">
-                                    {{ $productDetail->price }} $
-                                </td>
-                                <td class="text-center align-middle">
-                                    {{ $productDetail->sale ?? __('This product is not discounted') }}
+                                    @if (isset($productDetail->salePrice))
+                                        <span style="text-decoration: line-through">
+                                            {{ formatMoney($productDetail->price) }}
+                                        </span>
+                                        <span>
+                                            (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'đ' : '%' }})
+                                        </span>
+                                        <br>
+                                        {{ formatMoney($productDetail->salePrice) }}
+                                    @elseif(isset($productDetail->salePriceGlobal))
+                                        <span style="text-decoration: line-through">
+                                            {{ formatMoney($productDetail->price) }}
+                                        </span>
+                                        <span>
+                                            (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'đ' : '%' }})
+                                        </span>
+                                        <br>
+                                        {{ formatMoney($productDetail->salePriceGlobal) }}
+                                    @else
+                                        {{ formatMoney($productDetail->price) }}
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
                                     <form
@@ -126,7 +140,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="11" class="text-center">@lang('Not found data')</td>
+                                <td colspan="10" class="text-center">@lang('Not found data')</td>
                             </tr>
                         @endforelse
                     </tbody>

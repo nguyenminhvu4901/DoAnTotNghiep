@@ -1,4 +1,7 @@
 {{-- NAME --}}
+<input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'preview_image' => __('New Image'),
+    ]) }}">
 <div class="form-group row">
     <label for="input_name" class="col-sm-2 col-form-label">
         @lang('Product name')
@@ -22,11 +25,11 @@
 
 <div class="form-group row">
     <label for="input_order" class="col-sm-2 col-form-label">
-        @lang('Order') <span class="text-danger">*</span>
+        @lang('Order Image') <span class="text-danger">*</span>
     </label>
     <div class="col-sm-5">
         <input type="text" class="form-control rounded {{ checkDisplayError($errors, 'order') }}" id="input_order"
-            name="order" placeholder="@lang('Order')" value="{{ old('order') }}">
+            name="order" placeholder="@lang('Order Image')" value="{{ old('order') }}">
         <small id="error_order" class="error text-danger">{{ $errors->first('order') }}</small>
     </div>
 </div>

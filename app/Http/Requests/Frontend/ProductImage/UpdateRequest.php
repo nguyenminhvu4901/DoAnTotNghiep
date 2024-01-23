@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', Rule::unique('product_image', 'name')->ignore($this->productImageId, 'id')],
-            'image_path' => ['image', 'mimes:jpeg,png,jpg,gif,svg', 'max:10000'],
+            'image_path' => ['image', 'mimes:jpg,png,jpeg,gif', 'max:10000'],
             'order' => [
                 'required', 'integer', Rule::unique('product_image')->where(function ($query) {
                     return $query->where('product_id', $this->productId);

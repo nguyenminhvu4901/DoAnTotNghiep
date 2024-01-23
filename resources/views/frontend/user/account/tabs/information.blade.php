@@ -7,7 +7,9 @@
                    value="{{ old('name') ?? $logged_in_user->name }}" required autofocus autocomplete="name"/>
         </div>
     </div><!--form-group-->
-
+    <input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'preview_image' => __('New Image'),
+    ]) }}">
     @if ($logged_in_user->canChangeEmail())
         <div class="form-group row">
             <label for="email" class="col-md-3 col-form-label text-md-right">@lang('E-mail Address')</label>

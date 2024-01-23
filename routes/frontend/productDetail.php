@@ -40,7 +40,7 @@ Route::group(['as' => 'productDetails.', 'prefix' => 'product-details', 'middlew
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
                 ->push(__('Product detail management'), route('frontend.productDetails.index'))
-                ->push(__('Achieve Product Management'));
+                ->push(__('Achieve Product Detail Management'));
         })->middleware('permission:user.product.trash');
 
     Route::get('{id}/restore', [ProductDetailController::class, 'restoreProductDetail'])->name('restore')->middleware('permission:user.product.trash');

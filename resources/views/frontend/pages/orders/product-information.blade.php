@@ -10,7 +10,7 @@
     <section class="">
         <div class="container-fluid">
             <div class="checkout__form">
-                <h4>Billing Details</h4>
+                <h4>@lang('Billing Details')</h4>
                 <form action="{{ route('frontend.orders.processCheckout') }}" method="POST" id="form-checkout">
                     @csrf
                     @method('POST')
@@ -71,7 +71,7 @@
                         <div class="col-lg-3 col-md-3">
                             <div class="checkout__order">
                                 <h4>@lang('Your Order')</h4>
-                                <div class="checkout__order__total">Subtotal <span
+                                <div class="checkout__order__total">@lang('Subtotal')<span
                                         style="color:black">{{ formatMoney($order->sub_total) }}</span>
                                 </div>
                                 @if ($order->coupons->isNotEmpty())

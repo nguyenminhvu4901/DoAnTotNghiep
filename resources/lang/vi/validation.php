@@ -183,6 +183,15 @@ return [
         'message' => 'lời nhắn',
         'available' => 'có sẵn',
         'size' => 'kích thước',
+        'category' => 'danh mục',
+        'color' => 'màu sắc',
+        'quantity' => 'số lượng',
+        'price' => 'giá',
+        'order' => 'thứ tự',
+        'value' => 'giá trị',
+        'start_date' => 'ngày bắt đầu',
+        'expiry_date' => 'ngày kết thúc',
+        'image_path' => 'ảnh'
     ],
 
 ];

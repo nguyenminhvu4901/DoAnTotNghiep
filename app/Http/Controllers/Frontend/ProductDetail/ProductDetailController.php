@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\ProductDetail;
 
+use App\Domains\Cart\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -16,14 +17,19 @@ class ProductDetailController extends Controller
     protected ProductDetailService $productDetailService;
     protected ProductService $productService;
     protected CategoryService $categoryService;
+    protected CartService $cartService;
+
     public function __construct(
         ProductDetailService $productDetailService,
-        CategoryService $categoryService,
-        ProductService $productService
-    ) {
+        CategoryService      $categoryService,
+        ProductService       $productService,
+        CartService          $cartService
+    )
+    {
         $this->productDetailService = $productDetailService;
         $this->categoryService = $categoryService;
         $this->productService = $productService;
+        $this->cartService = $cartService;
     }
 
     public function index(Request $request)
@@ -80,7 +86,14 @@ class ProductDetailController extends Controller
     public function destroy(int $productDetailId)
     {
         $productDetail = $this->productDetailService->getById($productDetailId);
+
         abort_if(!$productDetail, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
+
+        if (!$productInCart->isEmpty()) {
+            $this->cartService->deleteProductFromCart($productDetail->id);
+        }
 
         $this->productDetailService->delete($productDetail);
 

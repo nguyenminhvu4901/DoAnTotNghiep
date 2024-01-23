@@ -2,15 +2,14 @@
     yourcode(window.jQuery, window, document);
 }(function ($, window, document) {
     var imagePreview = $('#image-preview');
+    var sub = $('.sub-js').data('sub');
 
     $('#input_image_product').on('change', function () {
         var file = $(this).get(0).files[0];
         if (file) {
             var reader = new FileReader();
             reader.onload = function () {
-                // Hiển thị hình ảnh trong trình xem trước
-                imagePreview.html('New Image <br /> <img src="' + reader.result +
-                    '" alt="Preview Image" width="500">');
+                imagePreview.html(`${sub.preview_image}<br /> <img src="${reader.result}" alt="Preview Image" width="500">`);
                 addDeleteButton();
             }
             reader.readAsDataURL(file);

@@ -37,7 +37,12 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 
 
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 
-    Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty');
+    Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Cart'), route('frontend.carts.index'))
+                ->push(__('Product Information In Order'));
+        });
 
     Route::get('get-district-detail/{provinceID}', [OrderController::class, 'getDistrictDetailByProvinceId'])->name('getDistrictDetail');
 

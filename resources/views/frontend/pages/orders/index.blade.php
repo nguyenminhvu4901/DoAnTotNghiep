@@ -6,6 +6,11 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div><!--fade-in-->
+    <input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'success' => __('Status update successful.'),
+        'unsuccess' => __('An error occurred, please try again.'),
+        'done5' => __('The order has been successfully delivered, so you cannot update')
+    ]) }}">
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
@@ -106,12 +111,14 @@
                                 <td class="text-center align-middle" style="width: 200px;">
                                     <select class="form-control status-order" style="width: 100%;" name="status"
                                             data-current-status="{{ $order->status }}"
-                                            data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}">
+                                            data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}"
+                                            >
+{{--                                        data-sub="{{ json_encode([ád, sdhk]) }}"--}}
                                         @foreach (config('constants.status_order_text') as $key => $value)
                                             @if (config('constants.status_order_text.Cancel order') == $order->status)
                                                 <option value="{{ $value }}"
                                                         @if ($order->status == $value) selected @endif>
-                                                    {{ $key }}
+                                                    {{ __($key) }}
                                                 </option>
                                                 @break
 
@@ -119,7 +126,7 @@
                                                 <option
                                                         value="{{ config('constants.status_order_text.Successful delivery') }}"
                                                         @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>
-                                                    {{ array_search('5', config('constants.status_order_text')) }}
+                                                    {{ __(array_search('5', config('constants.status_order_text'))) }}
                                                 </option>
                                                 @break
 
@@ -127,7 +134,8 @@
                                                 @continue
                                             @endif
                                             <option value="{{ $value }}"
-                                                    @if ($order->status == $value) selected @endif>{{ $key }}
+                                                    @if ($order->status == $value) selected @endif>
+                                                {{ __($key) }}
                                             </option>
                                         @endforeach
                                     </select>

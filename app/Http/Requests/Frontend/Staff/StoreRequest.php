@@ -4,6 +4,7 @@ namespace App\Http\Requests\Frontend\Staff;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use LangleyFoxall\LaravelNISTPasswordRules\PasswordRules;
 
 class StoreRequest extends FormRequest
 {
@@ -26,12 +27,12 @@ class StoreRequest extends FormRequest
     {
         return [
             'gender' => ['required', 'numeric'],
-            'email' => ['sometimes', 'email:rfc', Rule::unique('users')],
+            'email' => ['required', 'email:rfc', Rule::unique('users')],
             'birthday' => ['required', 'date', 'before:today'],
-            'name' => ['required'],
+            'name' => ['required', 'string', 'min:2'],
             'phone' => ['required', 'regex:/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/u'],
-            'bio' => ['nullable'],
-            'password' => ['required']
+            'bio' => ['nullable', 'string'],
+            'password' => ['required', PasswordRules::register($data['email'] ?? null), 'min:8', 'max:16']
         ];
     }
 }

@@ -131,7 +131,7 @@ class UserService extends BaseService
     {
         $updateData = [
             'name' => $data['name'],
-            'email' => $data['email']
+            'email' => $data['email'],
         ];
 
         if (!$data['password']) {

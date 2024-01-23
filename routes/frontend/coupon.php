@@ -7,14 +7,20 @@ use Tabuna\Breadcrumbs\Trail;
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'.
  */
+Route::get('coupons/index', [CouponController::class, 'index'])->name('coupons.index')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->parent(homeRoute())
+            ->push(__('Coupon management'), route('frontend.coupons.index'));
+    });
+
+Route::get('coupons/{slug}/detail', [CouponController::class, 'detail'])->name('coupons.detail')
+    ->breadcrumbs(function (Trail $trail) {
+        $trail->parent(homeRoute())
+            ->push(__('Coupon management'), route('frontend.coupons.index'))
+            ->push(__('Coupon Information'));
+    });
 
 Route::group(['as' => 'coupons.', 'prefix' => 'coupons', 'middleware' => ['auth']], function () {
-    Route::get('index', [CouponController::class, 'index'])->name('index')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent(homeRoute())
-                ->push(__('Coupon management'), route('frontend.coupons.index'));
-        })->middleware('permission:user.coupon.view');
-
     Route::get('create', [CouponController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
@@ -30,13 +36,6 @@ Route::group(['as' => 'coupons.', 'prefix' => 'coupons', 'middleware' => ['auth'
                 ->push(__('Coupon management'), route('frontend.coupons.index'))
                 ->push(__('Update coupon'));
         })->middleware('permission:user.coupon.edit');
-
-    Route::get('{slug}/detail', [CouponController::class, 'detail'])->name('detail')
-        ->breadcrumbs(function (Trail $trail) {
-            $trail->parent(homeRoute())
-                ->push(__('Coupon management'), route('frontend.coupons.index'))
-                ->push(__('Coupon Information'));
-        })->middleware('permission:user.coupon.detail');
 
     Route::put('{slug}/update', [CouponController::class, 'update'])->name('update')->middleware('permission:user.coupon.edit');
 

@@ -18,7 +18,8 @@ Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['a
     Route::get('create', [CustomerController::class, 'create'])->name('create')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Customer management'), route('frontend.customers.index'));
+                ->push(__('Customer management'), route('frontend.customers.index'))
+                ->push(__('Create New Customer'));
         });
 
     Route::post('', [CustomerController::class, 'store'])
@@ -27,13 +28,15 @@ Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['a
     Route::get('{id}/show', [CustomerController::class, 'show'])->name('show')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Customer management'), route('frontend.customers.index'));
+                ->push(__('Customer management'), route('frontend.customers.index'))
+                ->push(__('Customer Information'));
         });
 
     Route::get('{id}/edit', [CustomerController::class, 'edit'])->name('edit')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Customer management'), route('frontend.customers.index'));
+                ->push(__('Customer management'), route('frontend.customers.index'))
+                ->push(__('Edit Customer Information'));
         });
 
     Route::put('{id}/update', [CustomerController::class, 'update'])->name('update');
@@ -43,7 +46,8 @@ Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['a
     Route::get('trash', [CustomerController::class, 'getAllCustomerInTrash'])->name('trash')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Customer management'), route('frontend.customers.index'));
+                ->push(__('Customer management'), route('frontend.customers.index'))
+                ->push(__('Customer Information in trash'));
         });
 
     Route::get('{id}/restore', [CustomerController::class, 'restoreCustomer'])->name('restore');

@@ -12,8 +12,8 @@
                 <p>@lang('Do you want to remove the product from the shopping cart? This process cannot be undone.')</p>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" id="cancelDelete" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-secondary" id="cancelDelete" data-dismiss="modal">@lang('Cancel')</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete" data-dismiss="modal">@lang('Delete')</button>
             </div>
         </div>
     </div>
