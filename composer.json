@@ -27,6 +27,7 @@
         "rappasoft/laravel-livewire-tables": "^1.0",
         "rappasoft/lockout": "^3.0",
         "spatie/laravel-activitylog": "^3.14",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-permission": "^3.11",
         "spatie/laravel-sluggable": "^3.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
