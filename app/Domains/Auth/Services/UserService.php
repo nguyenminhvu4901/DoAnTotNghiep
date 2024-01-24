@@ -415,4 +415,13 @@ class UserService extends BaseService
             'active' => $data['active'] ?? true,
         ]);
     }
+
+    /**
+     * @param array $emails
+     * @return mixed
+     */
+    public function getActiveUsersByEmails(array $emails): mixed
+    {
+        return $this->model->whereIn('email', $emails)->get();
+    }
 }

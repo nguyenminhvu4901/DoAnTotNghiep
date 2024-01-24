@@ -42,6 +42,8 @@ return [
         'Other' => 2
     ],
 
+    'password-default' => 'nhanvien123',
+
     'ghn' => [
         'url_address' => 'https://online-gateway.ghn.vn/shiip/public-api/master-data/',
         'url_fee' => 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',

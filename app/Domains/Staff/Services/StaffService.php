@@ -2,10 +2,12 @@
 
 namespace App\Domains\Staff\Services;
 
+use App\Domains\Auth\Events\User\UserCreated;
 use App\Domains\Auth\Events\User\UserUpdated;
 use App\Domains\Auth\Models\User;
 use App\Domains\Auth\Services\UserService;
 use App\Domains\Staff\Models\Staff;
+use Carbon\Carbon;
 use Exception;
 use App\Services\BaseService;
 use Illuminate\Database\Eloquent\Model;
@@ -178,4 +180,65 @@ class StaffService extends BaseService
         return $staff;
     }
 
+    public function importStaff(array $saveData)
+    {
+        try {
+            $staff = $this->model->withEmail($saveData['email'])->first();
+            if (!$staff) {
+                DB::beginTransaction();
+                $userStaff = $this->saveStaff($saveData);
+                DB::commit();
+
+                return $userStaff;
+            }else{
+                DB::beginTransaction();
+                $userStaff = $this->updateStaff($saveData, $staff);
+                DB::commit();
+
+                return $userStaff;
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new GeneralException(__('There was a problem import this staff. Please try again.'));
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array $saveData
+     * @return Student
+     * @throws GeneralException
+     * @throws Throwable
+     */
+    public function saveStaff(array $saveData = []): Staff
+    {
+        DB::beginTransaction();
+        try {
+            try {
+                $saveData['email_verified_at'] = Carbon::now();
+                $user = $this->userService->registerUserWithoutTryCatch($saveData);
+                $user->assignRole(User::ROLE_STAFF);
+            } catch (Exception $e) {
+                throw new GeneralException(
+                    __('There was a problem creating new corresponding user for this student')
+                );
+            }
+
+            $staff = $this->model::create([
+                'user_id' => $user->id,
+                'gender' => $saveData['gender'],
+                'birthday' => $saveData['birthday'],
+                'phone' => $saveData['phone'],
+                'bio' => $saveData['bio']
+            ]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new GeneralException(__('There was a problem creating this student. Please try again.'));
+        }
+
+        event(new UserCreated($user));
+        return $staff;
+    }
 }

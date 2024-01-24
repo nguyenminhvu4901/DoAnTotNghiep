@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\Staff\ImportStaffController;
 use \App\Http\Controllers\Frontend\Staff\StaffController;
 use Tabuna\Breadcrumbs\Trail;
+use \App\Http\Controllers\Frontend\Staff\ExportStaffController;
 
 /*
  * Frontend Controllers
@@ -64,6 +65,20 @@ Route::group(['as' => 'staff.', 'prefix' => 'staff', 'middleware' => ['auth', 'p
     Route::get('{id}/force-delete', [StaffController::class, 'forceDeleteStaff'])->name('forceDelete');
 
     //Import
+    Route::get('downloadTemplate', [ImportStaffController::class, 'downloadTemplate'])
+        ->name('downloadTemplate');
 
-    Route::get('/import-staff', [ImportStaffController::class, 'importStaff'])->name('importStaff');
+    Route::post('check-staff-email-exists', [ImportStaffController::class, 'checkStaffEmailExists'])
+        ->name('checkStaffEmailExists');
+
+    Route::get('/import-staff', [ImportStaffController::class, 'importStaff'])->name('importStaff')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Staff management'), route('frontend.staff.index'))
+                ->push(__('Import Staff'));
+        });
+
+    Route::post('/store-import', [ImportStaffController::class, 'store'])->name('store');
+
+    Route::get('/export-staff', [ExportStaffController::class, 'exportStaff'])->name('exportStaff');
 });

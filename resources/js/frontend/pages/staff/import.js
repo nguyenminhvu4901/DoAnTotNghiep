@@ -42,7 +42,6 @@ const ImportStudent = (function () {
                     }
                     /* Gets all the sheetNames of Excel in to a variable */
                     const sheet_name_list = workBook.SheetNames;
-
                     let cnt = 0; /* This is used for restricting the script to consider only first sheet of Excel */
                     sheet_name_list.forEach(function (y) {
                         let excelJson;
@@ -65,7 +64,7 @@ const ImportStudent = (function () {
                                 data: {
                                     checkEmails: checkEmails
                                 },
-                                type: constants.METHOD_POST
+                                type: 'POST',
                             }).then(function (data) {
                                 const existEmails = data.data
                                 modules.bindTable(excelJson, existEmails, '#excelTable');
@@ -150,7 +149,7 @@ const ImportStudent = (function () {
 }(window.jQuery, window, document))
 
 $(function () {
-    $('#file-student').on('change', function () {
+    $('#file-staff').on('change', function () {
         ImportStudent.exportToTable($(this));
     })
 })
