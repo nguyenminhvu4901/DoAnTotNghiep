@@ -407,3 +407,16 @@ if (!function_exists('formatDateTimeReadable')) {
         return $time ? date($format, strtotime($time)) : null;
     }
 }
+
+if (!function_exists('formatDateYMD')) {
+    /**
+     * @param string|null $time
+     * @param bool $isDateType
+     * @return string|null
+     */
+    function formatDateYMD(string|null $time, bool $isDateType = false): ?string
+    {
+        $format = $isDateType ? 'Y-m-d' : 'Y-m-d H:i:s';
+        return $time ? date($format, strtotime($time)) : null;
+    }
+}

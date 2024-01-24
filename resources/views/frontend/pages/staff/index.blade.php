@@ -30,7 +30,7 @@
                 <a class="btn-footer-modal btn btn-success rounded-10  ml-3"
                    href="{{ route('frontend.staff.importStaff') }}">@lang('Import Staff')</a>
                 <a class="btn-footer-modal btn btn-outline-secondary rounded-10  ml-3"
-                   href="{{ route('frontend.staff.trash') }}">@lang('Export Staff')</a>
+                   href="{{ route('frontend.staff.exportStaff') }}">@lang('Export Staff')</a>
                 <a class="btn-footer-modal btn btn-primary rounded-10 ml-3"
                    href="{{ route('frontend.staff.create') }}">@lang('Create New Staff')</a>
                 <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"

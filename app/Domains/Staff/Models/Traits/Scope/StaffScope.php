@@ -34,4 +34,14 @@ trait StaffScope
             );
         })->withTrashed();
     }
+
+    /**
+     * @param $query
+     * @param $email
+     * @return mixed
+     */
+    public function scopeWithEmail($query, $email): mixed
+    {
+        return $query->whereRelation('user', 'email', $email);
+    }
 }

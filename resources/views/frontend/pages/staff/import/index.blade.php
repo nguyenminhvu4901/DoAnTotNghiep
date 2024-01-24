@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('Import student'))
+@section('title', __('Import staff'))
 
 @push('after-styles')
     <style>
@@ -62,16 +62,16 @@
             text-align: center;
         }
 
-        .wrapper-input #file-student {
+        .wrapper-input #file-staff {
             display: none;
         }
 
-        .wrapper-input label[for='file-student'] * {
+        .wrapper-input label[for='file-staff'] * {
             vertical-align: middle;
             cursor: pointer;
         }
 
-        .wrapper-input label[for='file-student'] span {
+        .wrapper-input label[for='file-staff'] span {
             margin-left: 10px
         }
 
@@ -82,7 +82,7 @@
     <div class="mt-4 rounded bg-white shadow-sm">
         <div class="p-3 pl-2 ">
             <h4 class="font-weight-bold">
-                @lang('Import student')
+                @lang('Import staff')
             </h4>
         </div>
         <div class="p-3">
@@ -121,46 +121,48 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item pl-1">
                                         <h5>
-                                            @lang("Provide a list of students by uploading a excel file with the following fields:")
+                                            @lang("Provide a list of staff by uploading a excel file with the following fields:")
                                         </h5>
                                     </li>
                                     <li class="list-group-item">
-                                        - <span class="font-bold">Email</span>: @lang("Student's email")
+                                        - <span class="font-bold">@lang('Email')</span>: @lang("Staff's email")
                                     </li>
                                     <li class="list-group-item">
                                         -
-                                        <span class="font-bold">Password</span>: @lang("Student's password (leave blank will automatically get default password: Nix@123456)")
+                                        <span class="font-bold">@lang('Password')</span>: @lang("Staff's password (leave blank will automatically get default password: nhanvien123)")
                                     </li>
                                     <li class="list-group-item">
-                                        - <span class="font-bold">Name</span>: @lang("Student's name")
-                                    </li>
-                                    <li class="list-group-item">
-                                        -
-                                        <span class="font-bold">Gender</span>: @lang("Student's gender (Male, Female, Other)")
+                                        - <span class="font-bold">@lang('Name')</span>: @lang("Staff's name")
                                     </li>
                                     <li class="list-group-item">
                                         -
-                                        <span class="font-bold">Birthday</span>: @lang("Student's date of birth (YYYY-MM-DD)")
+                                        <span class="font-bold">@lang('Gender')</span>: @lang("Staff's gender (Male, Female, Other)")
                                     </li>
                                     <li class="list-group-item">
                                         -
-                                        <span class="font-bold">Phone</span>: @lang("Student's phone number")
+                                        <span class="font-bold">@lang('Birthday')</span>: @lang("Staff's date of birth (YYYY-MM-DD)")
+                                    </li>
+                                    <li class="list-group-item">
+                                        -
+                                        <span class="font-bold">@lang('Phone')</span>: @lang("Staff's phone number")
+                                    </li>
+                                    <li class="list-group-item">
+                                        -
+                                        <span class="font-bold">@lang('Bio')</span>: @lang("Staff's bio")
                                     </li>
                                 </ul>
 
                                 <div>
                                     <p class="font-italic">
-                                        @lang("Note"): <span class="font-bold">Email</span> @lang('and') <span
-                                                class="font-bold">Password</span>
-                                        @lang("is used to create an account for students in case students do not have an account.")
+                                        @lang("Note"): <span class="font-bold">@lang('Email')</span> @lang('and') <span
+                                                class="font-bold">@lang('Password')</span>
+                                        @lang("is used to create an account for staff in case staff do not have an account.")
                                         <br/>
-                                        @lang("If the student already has an account, the system will not create a new account, the student's name and password will remain the same.")
-                                        <br/>
-                                        @lang("If a student already has an account but hasn't joined this class, the student will be automatically added to the class.")
+                                        @lang("If the staff already has an account, the system will not create a new account, the staff's name and password will remain the same.")
                                     </p>
                                 </div>
 
-                                <a href="#"
+                                <a href="{{ route('frontend.staff.downloadTemplate') }}"
                                    class="btn btn-outline-secondary mb-3">
                                     <i class="fa-solid fa-file-arrow-down"></i> @lang('Download template excel')
                                 </a>
@@ -180,14 +182,14 @@
                             </div>
                             <div>
                                 <i class="fa-solid fa-triangle-exclamation ml-2"></i>
-                                <span>@lang(": Email existed, the record will not affect current user's data")</span>
+{{--                                <span>@lang(": Email existed, the record will not affect current user's data")</span>--}}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="px-3">
-                    <form action="#" method="POST"
+                    <form action="{{ route('frontend.staff.store') }}" method="POST"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="row">
@@ -195,9 +197,9 @@
                                 <div class="wrapper-input d-flex align-items-center mb-2">
                                     <div class="mr-2">@lang('Choose file')</div>
                                     <div>
-                                        <input type="file" class="file-upload-field" name="file-student"
-                                               id="file-student" data-check-student-url="#">
-                                        <label class="m-0" for="file-student">
+                                        <input type="file" class="file-upload-field" name="file-staff"
+                                               id="file-staff" data-check-student-url="{{ route('frontend.staff.checkStaffEmailExists') }}">
+                                        <label class="m-0" for="file-staff">
                                             <i class="fa fa-paperclip fa-xl"></i>
                                             <span></span>
                                         </label>
@@ -209,7 +211,7 @@
                             </button>
                         </div>
                         <small class="text-danger d-none error-file"></small>
-                        @error('file-student')
+                        @error('file-staff')
                         <small class="text-danger">
                             {{ $message }}
                         </small>
@@ -230,5 +232,6 @@
         const errorHTML5 = @json(__('Sorry! Your browser does not support HTML5!'));
     </script>
     <script src="{{ asset('js/assets/vendor/xlsx/dist/xlsx.full.min.js') }} "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="{{ asset('js/pages/staff/import.js') }}"></script>
 @endpush
