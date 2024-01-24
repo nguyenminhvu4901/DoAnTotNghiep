@@ -71,7 +71,12 @@ Route::group(['as' => 'staff.', 'prefix' => 'staff', 'middleware' => ['auth', 'p
     Route::post('check-staff-email-exists', [ImportStaffController::class, 'checkStaffEmailExists'])
         ->name('checkStaffEmailExists');
 
-    Route::get('/import-staff', [ImportStaffController::class, 'importStaff'])->name('importStaff');
+    Route::get('/import-staff', [ImportStaffController::class, 'importStaff'])->name('importStaff')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Staff management'), route('frontend.staff.index'))
+                ->push(__('Import Staff'));
+        });
 
     Route::post('/store-import', [ImportStaffController::class, 'store'])->name('store');
 
