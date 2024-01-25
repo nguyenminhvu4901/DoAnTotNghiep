@@ -88,7 +88,7 @@
                                             </div>
                                         </div>
                                         @include(
-                                            'frontend.pages.products.partials.show-modal-max-quantity',
+                                            'frontend.customers.products.partials.show-modal-max-quantity',
                                             [
                                                 'productDetailId' => $productDetail->id,
                                                 'maxQuantity' => $productDetail->quantity,
@@ -107,18 +107,17 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary close-add-to-cart"
                                 data-dismiss="modal">@lang('Close')</button>
-
                         @if(auth()->check())
                             @if(auth()->user()->isRoleCustomer())
                                 <button type="submit" class="btn btn-primary">
                                     @lang('Add to cart')
                                 </button>
                             @endif
-{{--                                <button type="submit" class="btn btn-primary check-login"--}}
-{{--                                        data-check-login="{{ auth()->check() }}">--}}
-{{--                                    @lang('Add to cart')--}}
-{{--                                </button>--}}
-{{--                                @include('frontend.pages.products.partials.show-modal-login')--}}
+                            {{--                                <button type="submit" class="btn btn-primary check-login"--}}
+                            {{--                                        data-check-login="{{ auth()->check() }}">--}}
+                            {{--                                    @lang('Add to cart')--}}
+                            {{--                                </button>--}}
+                            {{--                                @include('frontend.pages.products.partials.show-modal-login')--}}
                         @endif
                     </div>
 

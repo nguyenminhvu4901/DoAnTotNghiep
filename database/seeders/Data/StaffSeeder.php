@@ -67,7 +67,7 @@ class StaffSeeder extends Seeder
 
             if (!$existingStaff) {
                 $createdStaff = User::create($staff);
-                $createdStaff->assignRole(User::ROLE_CUSTOMER);
+                $createdStaff->assignRole(User::ROLE_STAFF);
 
                 Staff::create([
                     'user_id' => $createdStaff->id,

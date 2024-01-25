@@ -18,11 +18,7 @@
                 </div>
             </div>
             <div class="mb-5 px-xl-5 px-3 sidebar-show overflow-hidden sidebar-item">
-                @if(auth()->user()->isRoleCustomer())
-                    @include('frontend.includes.partials.sidebar-items-customer')
-                @else
-                    @include('frontend.includes.partials.sidebar-items-staff')
-                @endif
+                @include('frontend.includes.partials.sidebar-items-staff')
             </div>
         </div>
     </div>

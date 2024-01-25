@@ -10,24 +10,33 @@
     <header class="header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-                </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12 d-flex justify-content-center">
                     <nav class="header__menu">
                         <ul>
                             <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
                                 <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
                             </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.sales.index')) active @endif">
-                                <a href="{{ route('frontend.sales.index') }}">@lang('Sale off')</a>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.products.*')) active @endif">
+                                <a href="{{ route('frontend.dashboard.products.index') }}">@lang('Product')</a>
                             </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.coupons.index')) active @endif">
-                                <a href="{{ route('frontend.coupons.index') }}">@lang('Coupon')</a>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.coupons.*')) active @endif">
+                                <a href="{{ route('frontend.dashboard.coupons.index') }}">@lang('Coupon')</a>
                             </li>
+                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.sales.*')) active @endif">
+                                <a href="{{ route('frontend.dashboard.sales.index') }}">@lang('Sale off')</a>
+                            </li>
+                            @auth
+                                <li class="@if (isCurrentRouteInRoutes('frontend.orders.*')) active @endif">
+                                    <a href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
+                                </li>
+                                @if(auth()->user()->isRoleCustomer())
+                                    <li class="@if (isCurrentRouteInRoutes('frontend.carts.*')) active @endif">
+                                        <a href="{{ route('frontend.carts.index') }}">@lang('Cart')</a>
+                                    </li>
+                                @endif
+                            @endauth
                         </ul>
                     </nav>
-                </div>
-                <div class="col-lg-3">
                 </div>
             </div>
             <div class="humberger__open">
@@ -84,7 +93,7 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-md-end">
                     <a class="btn-footer-modal btn btn-warning rounded-10"
-                       href="{{ route('frontend.products.index') }}">@lang('See all') <i
+                       href="{{ route('frontend.dashboard.products.index') }}">@lang('See all') <i
                                 class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -107,13 +116,14 @@
                                         {{--                                        <li>--}}
                                         {{--                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i--}}
                                         {{--                                                        class="fa fa-info-circle"></i></a></li>--}}
-                                        <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i
+                                        <li>
+                                            <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}"><i
                                                         class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="featured__item__text">
                                     <h6>
-                                        <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
+                                        <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
                                     </h6>
                                     <h5> {{ !$product->productDetail->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}</h5>
                                 </div>
@@ -226,7 +236,7 @@
                                     <ul class="featured__item__pic__hover">
                                         {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
                                         <li>
-                                            <a href="{{ route('frontend.coupons.detail', ['slug' => $coupon->slug]) }}"><i
+                                            <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}"><i
                                                         class="fa fa-info-circle"></i></a>
                                         </li>
                                         {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
@@ -234,7 +244,10 @@
                                 </div>
                                 <div class="featured__item__text">
                                     <h6>
-                                        <a href="{{ route('frontend.coupons.detail', ['slug' => $coupon->id]) }}">{{ __($coupon->name) }}</a>
+                                        <a class="name-coupon"
+                                           href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}">
+                                            {{ __($coupon->name) }}
+                                        </a>
                                     </h6>
                                     <h5>  {{ $coupon->value}}{{$coupon->formatted_type_coupon}}</h5>
                                 </div>

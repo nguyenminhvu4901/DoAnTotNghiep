@@ -130,10 +130,12 @@ class ProductService extends BaseService
                 ->where('product_id', $product->id)
                 ->get();
 
-            foreach ($productGlobalSale as $productSale) {
-                $productSale->update([
-                    'type_sale' => 1 //Ẩn sản phẩm giảm giá
-                ]);
+            if ($productGlobalSale->isNotEmpty()) {
+                foreach ($productGlobalSale as $productSale) {
+                    $productSale->update([
+                        'type_sale' => 1 //Ẩn sản phẩm giảm giá
+                    ]);
+                }
             }
 
             $product->delete();
@@ -155,11 +157,12 @@ class ProductService extends BaseService
             $productGlobalSale = $this->productSale
                 ->where('product_id', $product->id)
                 ->get();
-
-            foreach ($productGlobalSale as $productSale) {
-                $productSale->update([
-                    'type_sale' => 0 //Ẩn sản phẩm giảm giá
-                ]);
+            if ($productGlobalSale->isNotEmpty()) {
+                foreach ($productGlobalSale as $productSale) {
+                    $productSale->update([
+                        'type_sale' => 0 //Ẩn sản phẩm giảm giá
+                    ]);
+                }
             }
 
             $product->restore();
@@ -216,5 +219,20 @@ class ProductService extends BaseService
     public function isExistByName(string $name)
     {
         return $this->model->where('name', $name)->first();
+    }
+
+    public function getAllProductsByCategory(Product $product)
+    {
+        $category = $product->categories()->first();
+
+        if ($category) {
+            $productsInCategory = $this->model->whereHas('categories', function ($query) use ($category) {
+                $query->where('slug', $category->slug);
+            })->where('id', '!=', $product->id)->limit(4)->get();
+        } else {
+            $productsInCategory = collect();
+        }
+
+        return $productsInCategory;
     }
 }

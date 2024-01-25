@@ -40,7 +40,6 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 
     Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty')
         ->breadcrumbs(function (Trail $trail) {
             $trail->parent(homeRoute())
-                ->push(__('Cart'), route('frontend.carts.index'))
                 ->push(__('Product Information In Order'));
         });
 

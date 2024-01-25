@@ -314,7 +314,6 @@
   "Remain": "Thời lượng",
   "Discount until the end of the day": "Giảm giá đến hết ngày",
   "Update Product Discounts": "Thay đổi thông tin sản phẩm giảm giá",
-  "Sale": "Sản phẩm giảm giá",
   "SALE MANAGEMENT": "Quản lý sản phẩm giảm giá",
   "Cart management": "Quản lý giỏ hàng",
   "Shopping Cart": "Giỏ Hàng",
@@ -486,5 +485,11 @@
   "Import data": "Nhập dữ liệu",
   "Please upload a valid excel file!": "Vui lòng tải lên một tệp excel hợp lệ!",
   "Sorry! Your browser does not support HTML5!": "Xin lỗi! Trình duyệt của bạn không hỗ trợ HTML5!",
-  "Import success": "Nhập thành công"
+  "Import success": "Nhập thành công",
+  "List Of Product": "Danh sách sản phẩm",
+  "List Of Coupon": "Danh sách mã giảm giá",
+  "Copied to Clipboard": "Sao chép vào bảng nhớ tạm",
+  "List Of Sale Product": "Danh sách sản phẩm giảm giá",
+  "Sale": "Giảm",
+  "The product is out of stock": "Sản phẩm đã hết hàng"
 }

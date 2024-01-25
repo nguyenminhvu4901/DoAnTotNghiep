@@ -53,4 +53,5 @@ Route::group(['as' => 'customers.', 'prefix' => 'customers', 'middleware' => ['a
     Route::get('{id}/restore', [CustomerController::class, 'restoreCustomer'])->name('restore');
 
     Route::get('{id}/force-delete', [CustomerController::class, 'forceDeleteCustomer'])->name('forceDelete');
+
 });

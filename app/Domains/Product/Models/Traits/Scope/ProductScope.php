@@ -20,7 +20,7 @@ trait ProductScope
      * @param $operator
      * @return mixed|void
      */
-    public function scopeFilterByCategories($query, array $categories, $operator = null)
+    public function scopeFilterByCategories($query, $categories, $operator = null)
     {
         return $query->whereHas('categories', function ($query) use ($categories) {
             $query->whereIn('categories.slug', $categories);
