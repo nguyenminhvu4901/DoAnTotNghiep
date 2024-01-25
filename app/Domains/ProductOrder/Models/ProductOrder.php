@@ -19,6 +19,7 @@ class ProductOrder extends Model
         'user_id',
         'product_id',
         'order_id',
+        'product_name',
         'product_quantity',
         'product_size',
         'product_color',

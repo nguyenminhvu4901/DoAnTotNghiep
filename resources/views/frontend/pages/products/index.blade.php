@@ -110,7 +110,7 @@
                                 @endif
                             </td>
                             <td class="text-center align-middle">
-                                {{ $product->created_by }}
+                                {{ $product->created_by ?? __('There is no creator') }}
                             </td>
                             <td class="text-center align-middle">
                                 {{ $product->formatted_created_at }}

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Order\Services;
 
+use App\Domains\CouponOrder\Models\CouponOrder;
 use Exception;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
@@ -24,6 +25,7 @@ class OrderService extends BaseService
     protected Coupon $coupon;
     protected CouponUser $couponUser;
     protected Cart $cart;
+    protected CouponOrder $couponOrder;
 
     /**
      * OrderService constructor.
@@ -34,7 +36,8 @@ class OrderService extends BaseService
         ProductOrder $productOrder,
         Coupon       $coupon,
         CouponUser   $couponUser,
-        Cart         $cart
+        Cart         $cart,
+        CouponOrder  $couponOrder
     )
     {
         $this->model = $order;
@@ -43,6 +46,7 @@ class OrderService extends BaseService
         $this->coupon = $coupon;
         $this->couponUser = $couponUser;
         $this->cart = $cart;
+        $this->couponOrder = $couponOrder;
     }
 
     public function search($data = [])
@@ -87,7 +91,7 @@ class OrderService extends BaseService
         return $addressOrder;
     }
 
-    public function createOrder($data = [], $addressId)
+    public function createOrder($data = [], $addressId, $couponId)
     {
         DB::beginTransaction();
         try {
@@ -104,6 +108,7 @@ class OrderService extends BaseService
                 'customer_email' => $data['customer_email'],
                 'customer_phone' => $data['customer_phone'],
                 'note' => $data['note'] ?? '',
+                'coupon_order_id' => isset($couponId) ? $couponId : null
             ]);
 
             DB::commit();
@@ -123,6 +128,7 @@ class OrderService extends BaseService
                 'user_id' => auth()->user()->id,
                 'product_id' => $product['productId'],
                 'order_id' => $orderId,
+                'product_name' => $product['name'],
                 'product_quantity' => $product['quantity'],
                 'product_size' => $product['size'],
                 'product_color' => $product['color'],
@@ -155,5 +161,25 @@ class OrderService extends BaseService
         }
 
         return $couponUser;
+    }
+
+    public function createCouponOrder($data)
+    {
+        DB::beginTransaction();
+        try {
+            $couponOrder = $this->couponOrder->create([
+                'name' => $data['couponName'],
+                'type' => $data['couponType'],
+                'value' => $data['couponValue'],
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem creating coupon order. Please try again.'));
+        }
+
+        return $couponOrder;
     }
 }

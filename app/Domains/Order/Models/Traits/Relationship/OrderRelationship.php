@@ -5,6 +5,7 @@ namespace App\Domains\Order\Models\Traits\Relationship;
 use App\Domains\AddressOrder\Models\AddressOrder;
 use App\Domains\Auth\Models\User;
 use App\Domains\Coupon\Models\Coupon;
+use App\Domains\CouponOrder\Models\CouponOrder;
 use App\Domains\CouponUser\Models\CouponUser;
 use App\Domains\ProductOrder\Models\ProductOrder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,11 @@ trait OrderRelationship
     public function addressOrder(): BelongsTo
     {
         return $this->belongsTo(AddressOrder::class);
+    }
+
+    public function couponOrder(): BelongsTo
+    {
+        return $this->belongsTo(CouponOrder::class);
     }
 
     public function productOrder(): HasMany

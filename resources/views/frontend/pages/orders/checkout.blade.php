@@ -209,6 +209,7 @@
                                 @if (isset($couponName))
                                     <input type="hidden" name="couponValue" value="{{ $couponValue }}">
                                     <input type="hidden" name="couponId" value="{{ $couponId }}">
+                                    <input type="hidden" name="couponType" value="{{ $couponType }}">
                                     <div class="checkout__order__total">@lang('Coupon') <span
                                                 style="color:black">{{ $couponName }}
                                             ({{ $couponValue }}{{ $couponType == config('constants.coupon.percent') ? '%' : 'VND' }})</span>

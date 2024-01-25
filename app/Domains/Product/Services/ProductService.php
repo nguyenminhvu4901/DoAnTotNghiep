@@ -187,7 +187,7 @@ class ProductService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem delete product. Please try again.'));
         }
 
         return $product;

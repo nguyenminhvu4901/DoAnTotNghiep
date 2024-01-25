@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', __('COUPON MANAGEMENT'))
+@section('title', __('COUPON MANAGEMENT IN TRASH'))
 
 @section('content')
     <div class="fade-in">
@@ -13,7 +13,7 @@
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
-                @lang('COUPON MANAGEMENT')
+                @lang('COUPON MANAGEMENT IN TRASH')
             </h3>
         </div>
         <div class="px-3 pb-3 d-flex justify-content-between">
@@ -29,17 +29,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-md-end">
-                @hasPermission('user.coupon.create')
-                <a class="btn-footer-modal btn btn-primary rounded-10"
-                   href="{{ route('frontend.coupons.create') }}">@lang('Create New Coupon')
-                </a>
-                @endhasPermission
-                @hasPermission('user.coupon.disable')
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                   href="{{ route('frontend.coupons.trash') }}">@lang('Category Archive')</a>
-                @endhasPermission
             </div>
         </div>
         <div class="px-3 pb-3 pt-0">
@@ -71,19 +60,14 @@
                         <th class="text-center">
                             @lang('Detail')
                         </th>
-                        @hasPermission('user.coupon.edit')
+                        @hasPermission('user.coupon.disable')
                         <th class="text-center">
-                            @lang('Update')
+                            @lang('Restore')
                         </th>
                         @endhasPermission
                         @hasPermission('user.coupon.disable')
                         <th class="text-center">
                             @lang('Delete')
-                        </th>
-                        @endhasPermission
-                        @hasPermission('user.coupon.edit')
-                        <th class="text-center">
-                            @lang('Active')
                         </th>
                         @endhasPermission
                     </tr>
@@ -118,36 +102,32 @@
                             </td>
                             @hasPermission('user.coupon.edit')
                             <td class="text-center align-middle">
-                                <a href="{{ route('frontend.coupons.edit', ['slug' => $coupon->slug]) }}">
-                                    <i class="fas fa-pen"></i>
-                                </a>
-                            </td>
-                            @endhasPermission
-                            @hasPermission('user.coupon.disable')
-                            <td class="text-center align-middle">
-                                <form action="{{ route('frontend.coupons.destroy', ['slug' => $coupon->slug]) }}"
-                                      method="POST">
+                                <form action="{{ route('frontend.coupons.restore', ['id' => $coupon->id]) }}"
+                                      method="GET">
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-link" href="#modalDelete-{{ $coupon->id }}"
+                                    <button type="button" class="btn btn-link" href="#modalRestore-{{ $coupon->id }}"
                                             class="trigger-btn" data-toggle="modal">
-                                        <i class="fas fa-trash" style="color: #ff0000;"></i>
+                                        <i class="fas fa-trash-restore"></i>
                                     </button>
-                                    @include('frontend.pages.coupons.partials.show-modal-delete', [
+                                    @include('frontend.pages.coupons.partials.show-modal-restore', [
                                         'couponId' => $coupon->id,
                                     ])
                                 </form>
                             </td>
                             @endhasPermission
-                            @hasPermission('user.coupon.edit')
+                            @hasPermission('user.coupon.disable')
                             <td class="text-center align-middle">
-                                <label class="switch">
-                                    <input class="is-active-coupon"
-                                           data-url="{{ route('frontend.coupons.updateActive', ['couponId' => $coupon->id]) }}"
-                                           type="checkbox" name="is_active" value="{{ $coupon->is_active }}"
-                                            {{ $coupon->is_active == 1 ? 'checked' : '' }}>
-                                    <span class="slider round"></span>
-                                </label>
+                                <form action="{{ route('frontend.coupons.forceDelete', ['id' => $coupon->id]) }}"
+                                      method="GET">
+                                    @csrf
+                                    <button type="button" class="btn btn-link" href="#modalForceDelete-{{ $coupon->id }}"
+                                            class="trigger-btn" data-toggle="modal">
+                                        <i class="fas fa-trash" style="color: #ff0000;"></i>
+                                    </button>
+                                    @include('frontend.pages.coupons.partials.show-modal-force-delete', [
+                                         'couponId' => $coupon->id,
+                                    ])
+                                </form>
                             </td>
                             @endhasPermission
                         </tr>

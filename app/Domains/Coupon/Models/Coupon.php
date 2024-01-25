@@ -2,6 +2,7 @@
 
 namespace App\Domains\Coupon\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,8 @@ class Coupon extends Model
         HasSlug,
         CouponScope,
         CouponAttribute,
-        CouponRelationship;
+        CouponRelationship,
+        SoftDeletes;
 
     protected $table = "coupons";
 
