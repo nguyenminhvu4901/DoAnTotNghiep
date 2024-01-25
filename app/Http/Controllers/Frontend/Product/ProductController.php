@@ -58,7 +58,7 @@ class ProductController extends Controller
         abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
         $productDetails = app()->make(ProductDetailService::class)->getProductDetails($product->id);
         $productImages = app()->make(ProductImageService::class)->getProductDetails($product->id);
-
+        $similarProducts = $this->productService->getAllProductsByCategory($product);
 
         return view(
             'frontend.pages.products.detail',
@@ -67,6 +67,7 @@ class ProductController extends Controller
                 'categories' => $categories,
                 'productDetails' => $productDetails,
                 'productImages' => $productImages,
+                'similarProducts' => $similarProducts
             ]
         );
     }

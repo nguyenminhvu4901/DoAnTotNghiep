@@ -25,8 +25,8 @@ class CartController extends Controller
         $carts = $this->cartService->getProductInCartByUserId();
         $priceAllProductInCart = $this->cartService->getPriceProductInCart();
         $subPriceProductInCart = $this->cartService->getSubPriceProductInCart();
-       
-        $carts =  $this->cartService->getDiscount($carts);
+
+        $carts = $this->cartService->getDiscount($carts);
 
         $data = [
             'carts' => $carts,
@@ -42,7 +42,11 @@ class CartController extends Controller
         $data = $request->all();
         $this->cartService->addToCart($request->all());
 
-        return redirect(route('frontend.products.detail', ['id' => $data['productId']]))->withFlashSuccess(__('Successfully add to cart.'));
+        if (auth()->user()->isRoleCustomer()) {
+            return redirect(route('frontend.dashboard.products.detail', ['id' => $data['productId']]))->withFlashSuccess(__('Successfully add to cart.'));
+        } else {
+            return redirect(route('frontend.products.detail', ['id' => $data['productId']]))->withFlashSuccess(__('Successfully add to cart.'));
+        }
     }
 
     public function updateProductInCart(Request $request, int $productDetailId, int $cartId)

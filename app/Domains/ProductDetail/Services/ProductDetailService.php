@@ -116,10 +116,11 @@ class ProductDetailService extends BaseService
         DB::beginTransaction();
         try {
             $productDetailSale = $this->productSale->where('product_detail_id', $productDetail->id)->first();
-
-            $productDetailSale->update([
-                'type_sale' => 1//Ẩn sản phẩm
-            ]);
+            if ($productDetailSale != null) {
+                $productDetailSale->update([
+                    'type_sale' => 1//Ẩn sản phẩm
+                ]);
+            }
 
             $productDetail->delete();
 
@@ -139,9 +140,11 @@ class ProductDetailService extends BaseService
         try {
             $productDetailSale = $this->productSale->where('product_detail_id', $productDetail->id)->first();
 
-            $productDetailSale->update([
-                'type_sale' => 0//Hiển thị sản phẩm giảm giá
-            ]);
+            if ($productDetailSale != null) {
+                $productDetailSale->update([
+                    'type_sale' => 0//Hiển thị sản phẩm giảm giá
+                ]);
+            }
 
             $productDetail->restore();
 
