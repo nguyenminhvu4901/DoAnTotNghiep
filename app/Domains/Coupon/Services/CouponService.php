@@ -62,7 +62,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem creating coupon. Please try again.'));
         }
 
         return $product;
@@ -87,7 +87,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem updating coupon. Please try again.'));
         }
 
         return $coupon;
@@ -102,7 +102,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem delete product. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting coupon. Please try again.'));
         }
 
         return $coupon;
@@ -130,7 +130,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem restoring coupon. Please try again.'));
         }
 
         return $coupon;
@@ -146,7 +146,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem force delete coupon. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting coupon. Please try again.'));
         }
 
         return $coupon;

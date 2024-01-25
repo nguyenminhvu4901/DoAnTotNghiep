@@ -70,7 +70,7 @@ class ProductDetailService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem creating product detail. Please try again.'));
         }
 
         return $productDetail;
@@ -105,7 +105,7 @@ class ProductDetailService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem updating product detail. Please try again.'));
         }
 
         return $productDetail;
@@ -128,7 +128,7 @@ class ProductDetailService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting product detail. Please try again.'));
         }
 
         return $productDetail;
@@ -152,7 +152,7 @@ class ProductDetailService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem restoring product detail. Please try again.'));
         }
 
         return $productDetail;
@@ -168,7 +168,7 @@ class ProductDetailService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting product detail. Please try again.'));
         }
 
         return $productDetail;
