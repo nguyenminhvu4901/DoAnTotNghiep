@@ -525,5 +525,18 @@
   "There was a problem deleting staff. Please try again.": "Đã xảy ra sự cố khi xoá nhân viên. Vui lòng thử lại.",
   "There was a problem restoring staff. Please try again.": "Đã xảy ra sự cố khi khôi phục nhân viên. Vui lòng thử lại.",
   "There was a problem when deleting staff. Please try again.": "Đã xảy ra sự cố khi xoá nhân viên. Vui lòng thử lại.",
-  "There was a problem importing staff. Please try again.": "Đã xảy ra sự cố khi nhập danh sách nhân viên. Vui lòng thử lại."
+  "There was a problem importing staff. Please try again.": "Đã xảy ra sự cố khi nhập danh sách nhân viên. Vui lòng thử lại.",
+  "There was a problem add to cart. Please try again.": "Đã xảy ra sự cố khi thêm vào giỏ hàng. Vui lòng thử lại.",
+  "There was a problem updating product in cart. Please try again.": "Đã xảy ra sự cố khi thay đổi sản phẩm giỏ hàng. Vui lòng thử lại.",
+  "There was a problem deleting product in cart. Please try again.": "Đã xảy ra sự cố khi xoá sản phẩm khỏi giỏ hàng. Vui lòng thử lại.",
+  "There was a problem get product price in cart. Please try again.": "Đã xảy ra sự cố khi tính giá sản phẩm trong giỏ hàng. Vui lòng thử lại.",
+  "There was a problem deleting coupon in cart. Please try again.": "Đã xảy ra sự cố khi xoá mã giảm giá khỏi giỏ hàng. Vui lòng thử lại.",
+  "There was a problem apply coupon in cart. Please try again.": "Đã xảy ra sự cố khi áp dụng mã giảm giá vào giỏ hàng. Vui lòng thử lại.",
+  "There was a problem updating active coupon. Please try again.": "Đã xảy ra sự cố khi thay đổi trạng thái của mã giảm giá. Vui lòng thử lại.",
+  "There was a problem deleting product in order. Please try again.": "Đã xảy ra sự cố khi xoá sản phẩm trong đơn hàng. Vui lòng thử lại.",
+  "There was a problem updating coupon in order. Please try again.": "Đã xảy ra sự cố khi lưu mã giảm giá trong đơn hàng. Vui lòng thử lại.",
+  "There was a problem creating product sale global. Please try again.": "Đã xảy ra sự cố khi tạo sản phẩm giảm giá toàn bộ loại. Vui lòng thử lại.",
+  "There was a problem creating product sale option. Please try again.": "Đã xảy ra sự cố khi tạo sản phẩm giảm giá cho loại sản phẩm này. Vui lòng thử lại.",
+  "There was a problem updating product sale. Please try again.": "Đã xảy ra sự cố khi thay đổi thông tin giảm giá cho sản phẩm. Vui lòng thử lại.",
+  "There was a problem updating product active. Please try again.": "Đã xảy ra sự cố khi thay đổi trạng thái giảm giá cho sản phẩm. Vui lòng thử lại."
 }
