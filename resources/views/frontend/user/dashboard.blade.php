@@ -219,7 +219,7 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-md-end">
                     <a class="btn-footer-modal btn btn-warning rounded-10"
-                       href="{{ route('frontend.coupons.index') }}">@lang('See all') <i
+                       href="{{ route('frontend.dashboard.coupons.index') }}">@lang('See all') <i
                                 class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>

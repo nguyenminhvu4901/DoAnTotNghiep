@@ -82,4 +82,30 @@ class CouponController extends Controller
             'status_code' => Response::HTTP_OK,
         ]);
     }
+
+    public function getAllCouponInTrash(Request $request)
+    {
+        $coupons = $this->couponService->searchOnlyTrash($request->all());
+        return view('frontend.pages.coupons.trash', compact('coupons'));
+    }
+
+    public function restoreCoupon($id)
+    {
+        $coupons = $this->couponService->getByIdWithTrash($id);
+        abort_if(!$coupons, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->couponService->restore($coupons);
+
+        return redirect()->route('frontend.coupons.index')->withFlashSuccess(__('Successfully restored.'));
+    }
+
+    public function forceDeleteCoupon($id)
+    {
+        $coupons = $this->couponService->getByIdWithTrash($id);
+        abort_if(!$coupons, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $this->couponService->forceDelete($coupons);
+
+        return redirect()->route('frontend.coupons.trash')->withFlashSuccess(__('Successfully deleted.'));
+    }
 }

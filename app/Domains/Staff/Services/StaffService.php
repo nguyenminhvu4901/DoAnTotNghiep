@@ -71,7 +71,7 @@ class StaffService extends BaseService
             $user = $this->userService->registerUserWithoutTryCatch($data);
             $user->assignRole(User::ROLE_STAFF);
         } catch (Exception $e) {
-            throw new GeneralException(__('There was a problem creating new user for this assistant'));
+            throw new GeneralException(__('There was a problem creating staff. Please try again.'));
         }
 
         return $this->model->create([
@@ -93,7 +93,7 @@ class StaffService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating staff. Please try again.'));
+            throw new GeneralException(__('There was a problem updating staff. Please try again.'));
         }
 
         return $staff;
@@ -107,7 +107,7 @@ class StaffService extends BaseService
                 $this->userService->updateUserFromMemberData($staff->user, $updateData);
             } catch (Exception $e) {
                 throw new GeneralException(
-                    __("There was a problem updating assistant's corresponding user. Please try again.")
+                    __("There was a problem updating staff. Please try again.")
                 );
             }
 
@@ -123,7 +123,7 @@ class StaffService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem updating this assistant. Please try again.'));
+            throw new GeneralException(__('There was a problem updating staff. Please try again.'));
         }
 
         return $staff;
@@ -157,7 +157,7 @@ class StaffService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem restore staff. Please try again.'));
+            throw new GeneralException(__('There was a problem restoring staff. Please try again.'));
         }
 
         return $staff;
@@ -199,7 +199,7 @@ class StaffService extends BaseService
             }
         } catch (Exception $e) {
             DB::rollBack();
-            throw new GeneralException(__('There was a problem import this staff. Please try again.'));
+            throw new GeneralException(__('There was a problem importing staff. Please try again.'));
         }
 
         return true;
@@ -221,7 +221,7 @@ class StaffService extends BaseService
                 $user->assignRole(User::ROLE_STAFF);
             } catch (Exception $e) {
                 throw new GeneralException(
-                    __('There was a problem creating new corresponding user for this student')
+                    __('There was a problem creating staff. Please try again.')
                 );
             }
 
@@ -235,7 +235,7 @@ class StaffService extends BaseService
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            throw new GeneralException(__('There was a problem creating this student. Please try again.'));
+            throw new GeneralException(__('There was a problem creating staff. Please try again.'));
         }
 
         event(new UserCreated($user));

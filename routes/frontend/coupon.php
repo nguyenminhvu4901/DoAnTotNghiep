@@ -42,4 +42,15 @@ Route::group(['as' => 'coupons.', 'prefix' => 'coupons', 'middleware' => ['auth'
     Route::patch('{couponId}/update-active', [CouponController::class, 'updateActive'])->name('updateActive')->middleware('permission:user.coupon.edit');
 
     Route::delete('{slug}/destroy', [CouponController::class, 'destroy'])->name('destroy')->middleware('permission:user.coupon.disable');
+
+    Route::get('trash', [CouponController::class, 'getAllCouponInTrash'])->name('trash')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Coupon management'), route('frontend.coupons.index'))
+                ->push(__('Achieve Coupon management'));
+        })->middleware('permission:user.coupon.disable');
+
+    Route::get('{id}/restore', [CouponController::class, 'restoreCoupon'])->name('restore')->middleware('permission:user.coupon.disable');
+
+    Route::get('{id}/force-delete', [CouponController::class, 'forceDeleteCoupon'])->name('forceDelete')->middleware('permission:user.coupon.disable');
 });

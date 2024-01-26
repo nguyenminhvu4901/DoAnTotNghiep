@@ -158,7 +158,14 @@ class OrderController extends Controller
     {
         $addressOrder = $this->orderService->createAddressOrder($data);
 
-        $order = $this->orderService->createOrder($data, $addressOrder->id);
+        $couponOrderId = null;
+
+        if (isset($data['couponId'])) {
+            $couponOrder = $this->orderService->createCouponOrder($data);
+            $couponOrderId = $couponOrder->id;
+        }
+
+        $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
 
         $this->orderService->createProductOrder($data, $order->id);
 

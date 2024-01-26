@@ -74,7 +74,7 @@
                                 {{ $category->name }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $category->created_by }}
+                                {{ $category->created_by ?? __('There is no creator') }}
                             </td>
                             <td class="text-center align-middle">
                                 {{ $category->formatted_created_at }}

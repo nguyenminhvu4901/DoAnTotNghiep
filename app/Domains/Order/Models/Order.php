@@ -32,6 +32,7 @@ class Order extends Model
         'customer_name',
         'customer_email',
         'customer_phone',
-        'note'
+        'note',
+        'coupon_order_id'
     ];
 }

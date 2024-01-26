@@ -82,7 +82,7 @@ class CategoryService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem updating category. Please try again.'));
         }
 
         return $category;
@@ -106,7 +106,7 @@ class CategoryService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting category. Please try again.'));
         }
 
         return $category;
@@ -122,7 +122,7 @@ class CategoryService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem restoring category. Please try again.'));
         }
 
         return $category;
@@ -138,7 +138,7 @@ class CategoryService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem update course. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting category. Please try again.'));
         }
 
         return $category;

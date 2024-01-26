@@ -73,7 +73,7 @@
        href="{{ route('frontend.sales.index') }}">
         <div class="d-flex align-items-center">
             <i class="fa-solid fas fa-percent fa-lg sidebar-icon"></i>
-            <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Sale')</div>
+            <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Sale Product')</div>
         </div>
     </a>
 @endcanany

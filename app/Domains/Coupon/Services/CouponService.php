@@ -2,6 +2,7 @@
 
 namespace App\Domains\Coupon\Services;
 
+use App\Domains\Category\Models\Category;
 use App\Domains\Sale\Models\Sale;
 use Exception;
 use App\Services\BaseService;
@@ -34,6 +35,14 @@ class CouponService extends BaseService
             ->paginate(config('constants.paginate'));
     }
 
+    public function searchOnlyTrash(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->latest('id')
+            ->onlyTrashed()
+            ->paginate(config('constants.paginate'));
+    }
+
     public function create(array $data = []): Coupon
     {
         DB::beginTransaction();
@@ -53,7 +62,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem creating coupon. Please try again.'));
         }
 
         return $product;
@@ -78,7 +87,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem creating product. Please try again.'));
+            throw new GeneralException(__('There was a problem updating coupon. Please try again.'));
         }
 
         return $coupon;
@@ -93,7 +102,7 @@ class CouponService extends BaseService
         } catch (Exception $e) {
             DB::rollBack();
 
-            throw new GeneralException(__('There was a problem delete product. Please try again.'));
+            throw new GeneralException(__('There was a problem deleting coupon. Please try again.'));
         }
 
         return $coupon;
@@ -109,5 +118,37 @@ class CouponService extends BaseService
         $coupon->update([
             'is_active' => $data['isActive']
         ]);
+    }
+
+    public function restore(Coupon $coupon): Coupon
+    {
+        DB::beginTransaction();
+        try {
+            $coupon->restore();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem restoring coupon. Please try again.'));
+        }
+
+        return $coupon;
+    }
+
+    public function forceDelete(Coupon $coupon): Coupon
+    {
+        DB::beginTransaction();
+        try {
+            $coupon->forceDelete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem deleting coupon. Please try again.'));
+        }
+
+        return $coupon;
     }
 }

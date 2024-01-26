@@ -18,52 +18,52 @@
                         <div class="col-lg-9 col-md-9">
                             <table class="table table-hover table-striped border rounded" id="categories-table">
                                 <thead class="bg-header-table">
-                                    <tr>
-                                        <th class="text-center">@lang('No.')</th>
-                                        <th class="text-center">
-                                            @lang('Product name')
-                                        </th>
-                                        <th class="text-center">
-                                            @lang('Product quantity')
-                                        </th>
-                                        <th class="text-center">
-                                            @lang('Product size')
-                                        </th>
-                                        <th class="text-center">
-                                            @lang('Product color')
-                                        </th>
-                                        <th class="text-center">
-                                            @lang('Product price')
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th class="text-center">@lang('No.')</th>
+                                    <th class="text-center">
+                                        @lang('Product name')
+                                    </th>
+                                    <th class="text-center">
+                                        @lang('Product quantity')
+                                    </th>
+                                    <th class="text-center">
+                                        @lang('Product size')
+                                    </th>
+                                    <th class="text-center">
+                                        @lang('Product color')
+                                    </th>
+                                    <th class="text-center">
+                                        @lang('Product price')
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        @forelse($order->productOrder as $product)
-                                            <td class="text-center align-middle">
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <a
+                                <tr>
+                                    @forelse($order->productOrder as $product)
+                                        <td class="text-center align-middle">
+                                            {{ $loop->iteration }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <a
                                                     href="{{ route('frontend.products.detail', ['id' => $product->product_id]) }}">
-                                                    {{ $product->product->name }}
-                                                </a>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                {{ $product->product_quantity }}
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                {{ $product->product_size }}
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                {{ $product->product_color }}
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                {{ formatMoney($product->product_price) }}
-                                            </td>
-                                    </tr>
+                                                {{ $product->product_name }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $product->product_quantity }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $product->product_size }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ $product->product_color }}
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            {{ formatMoney($product->product_price) }}
+                                        </td>
+                                </tr>
                                 @empty
-                                    @endforelse
+                                @endforelse
 
                                 </tbody>
                             </table>
@@ -72,12 +72,12 @@
                             <div class="checkout__order">
                                 <h4>@lang('Your Order')</h4>
                                 <div class="checkout__order__total">@lang('Subtotal')<span
-                                        style="color:black">{{ formatMoney($order->sub_total) }}</span>
+                                            style="color:black">{{ formatMoney($order->sub_total) }}</span>
                                 </div>
-                                @if ($order->coupons->isNotEmpty())
+                                @if(isset($order->couponOrder))
                                     <div class="checkout__order__total">@lang('Coupon') <span
-                                            style="color:black">{{ $order->coupons->first()->name }}
-                                            ({{ $order->coupons->first()->value }}{{ $order->coupons->first()->type == config('constants.coupon.percent') ? '%' : 'đ' }})</span>
+                                                style="color:black">{{ $order->couponOrder->name }}
+                                            ({{ $order->couponOrder->value }}{{ $order->couponOrder->type == config('constants.coupon.percent') ? '%' : 'đ' }})</span>
                                     </div>
                                 @endif
                                 <div class="checkout__order__total">@lang('Ship')
@@ -92,7 +92,7 @@
                                 <div class="checkout__input">
                                     <p>@lang('Payment method')</p>
                                     <input type="text" class="form-control" value="{{ $order->formatted_payment }}"
-                                        disabled>
+                                           disabled>
                                 </div>
                             </div>
                             <div class="col-lg-12">

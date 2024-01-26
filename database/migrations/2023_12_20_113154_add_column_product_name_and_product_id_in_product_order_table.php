@@ -20,7 +20,7 @@ class AddColumnProductNameAndProductIdInProductOrderTable extends Migration
 
         Schema::table('product_order', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
