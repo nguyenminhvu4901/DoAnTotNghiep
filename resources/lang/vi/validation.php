@@ -204,6 +204,7 @@ return [
         "province_name" => 'tỉnh thành/thành phố',
         "district_name" => 'quận/huyện',
         "ward_name" => 'xã/phường',
+        "birthday" => 'ngày sinh'
     ],
 
 ];

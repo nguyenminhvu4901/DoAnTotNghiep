@@ -78,7 +78,7 @@ Route::group(['as' => 'staff.', 'prefix' => 'staff', 'middleware' => ['auth', 'p
                 ->push(__('Import Staff'));
         });
 
-    Route::post('/store-import', [ImportStaffController::class, 'store'])->name('store');
+    Route::post('/store-import', [ImportStaffController::class, 'store'])->name('storeImportStaff');
 
     Route::get('/export-staff', [ExportStaffController::class, 'exportStaff'])->name('exportStaff');
 });
