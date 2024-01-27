@@ -16,4 +16,7 @@ return [
     'previous' => '&laquo; Trước',
     'next' => 'Sau &raquo;',
 
+    'Previous' => '&laquo; Trước',
+    'Next' => 'Sau &raquo;',
+
 ];

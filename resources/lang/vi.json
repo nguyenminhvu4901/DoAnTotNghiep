@@ -538,5 +538,15 @@
   "There was a problem creating product sale global. Please try again.": "Đã xảy ra sự cố khi tạo sản phẩm giảm giá toàn bộ loại. Vui lòng thử lại.",
   "There was a problem creating product sale option. Please try again.": "Đã xảy ra sự cố khi tạo sản phẩm giảm giá cho loại sản phẩm này. Vui lòng thử lại.",
   "There was a problem updating product sale. Please try again.": "Đã xảy ra sự cố khi thay đổi thông tin giảm giá cho sản phẩm. Vui lòng thử lại.",
-  "There was a problem updating product active. Please try again.": "Đã xảy ra sự cố khi thay đổi trạng thái giảm giá cho sản phẩm. Vui lòng thử lại."
+  "There was a problem updating product active. Please try again.": "Đã xảy ra sự cố khi thay đổi trạng thái giảm giá cho sản phẩm. Vui lòng thử lại.",
+  "There are currently no products for sale": "Không có sản phẩm giảm giá",
+  "No products found": "Không tìm thấy sản phẩm",
+  "You cannot cancel your order because it has already been prepared and shipped": "Bạn không thể hủy đơn hàng vì đơn hàng đã được chuẩn bị và vận chuyển",
+  "Do you want to cancel this order? This process cannot be undone.": "Bạn có muốn huỷ đơn hàng không? Hành động này không thể hoàn tác",
+  "Order has been cancelled.": "Đơn hàng đã bị huỷ",
+  "The order has been successfully canceled.": "Đơn hàng đã được huỷ thành công",
+  "Order canceled": "Đơn hàng đã bị huỷ",
+  "Address: 175 Tay Son, Dong Da, Ha Noi": "Địa chỉ: 175 Tây Sơn, Đống Đa, Hà Nội",
+  "Phone: +84 123 456 789": "Số điện thoại: +84 123 456 789",
+  "@lang('Email: vu@edu.tlu.vn')": "@lang('Email: vu@edu.tlu.vn')"
 }

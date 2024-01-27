@@ -43,7 +43,7 @@ class DashboardController
     {
         $categories = $this->categoryService->all();
         $products = $this->productService->searchInDashboard($request->all());
-        $coupons = $this->couponService->search($request->all());
+        $coupons = $this->couponService->searchInDashboard($request->all());
 
         return view('frontend.user.dashboard', [
             'categories' => $categories,
@@ -87,7 +87,7 @@ class DashboardController
 
     public function indexCoupon(Request $request)
     {
-        $coupons = $this->couponService->search($request->all());
+        $coupons = $this->couponService->searchInDashboard($request->all());
 
         return view('frontend.customers.coupons.index', ['coupons' => $coupons]);
     }

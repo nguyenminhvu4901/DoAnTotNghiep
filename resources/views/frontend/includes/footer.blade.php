@@ -3,12 +3,12 @@
         <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="footer__about">
                 <div class="footer__about__logo">
-                    <a href="./index.html"><img src="{{ asset('img/logo/logo-bg.png') }}" alt="" width="80px"></a>
+                    <a href="{{ route('frontend.user.dashboard') }}"><img src="{{ asset('img/logo/logo-bg.png') }}" alt="" width="80px"></a>
                 </div>
                 <ul>
-                    <li class="text-nowrap">Address: 175 Tay Son, Dong Da, Ha Noi</li>
-                    <li>Phone: +84 123 456 789</li>
-                    <li>Email: vu@edu.tlu.vn</li>
+                    <li class="text-nowrap">@lang('Address: 175 Tay Son, Dong Da, Ha Noi')</li>
+                    <li>@lang('Phone: +84 123 456 789')</li>
+                    <li>@lang('Email: vu@edu.tlu.vn')</li>
                 </ul>
             </div>
         </div>
@@ -59,7 +59,7 @@
                         </strong>
                     </div>
                 </div>
-                <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
+{{--                <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>--}}
             </div>
         </div>
     </div>

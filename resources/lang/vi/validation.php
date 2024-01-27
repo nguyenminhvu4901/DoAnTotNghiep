@@ -191,7 +191,19 @@ return [
         'value' => 'giá trị',
         'start_date' => 'ngày bắt đầu',
         'expiry_date' => 'ngày kết thúc',
-        'image_path' => 'ảnh'
+        'image_path' => 'ảnh',
+        "customer_phone" => 'số điện thoại',
+        "customer_name" => 'họ và tên',
+        "customer_email" => 'địa chỉ email',
+        "customer_address" => 'địa chỉ',
+        "province" => 'tỉnh thành/thành phố',
+        "district" => 'quận/huyện',
+        "ward" => 'xã/phường',
+        "payment_method" => 'phương thức thanh toán',
+        "note" => 'ghi chú',
+        "province_name" => 'tỉnh thành/thành phố',
+        "district_name" => 'quận/huyện',
+        "ward_name" => 'xã/phường',
     ],
 
 ];

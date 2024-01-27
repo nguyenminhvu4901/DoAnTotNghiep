@@ -35,6 +35,14 @@ class CouponService extends BaseService
             ->paginate(config('constants.paginate'));
     }
 
+    public function searchInDashboard(array $data = [])
+    {
+        return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->where('is_active', '!=', 0)
+            ->latest('id')
+            ->paginate(config('constants.paginate'));
+    }
+
     public function searchOnlyTrash(array $data = [])
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))

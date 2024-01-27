@@ -15,7 +15,7 @@
                     @csrf
                     @method('POST')
                     <div class="row">
-                        <div class="col-lg-9 col-md-9">
+                        <div class="col-lg-8 col-md-8">
                             <table class="table table-hover table-striped border rounded" id="categories-table">
                                 <thead class="bg-header-table">
                                 <tr>
@@ -68,7 +68,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-4 col-md-4">
                             <div class="checkout__order">
                                 <h4>@lang('Your Order')</h4>
                                 <div class="checkout__order__total">@lang('Subtotal')<span
@@ -98,9 +98,10 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>@lang('Note')</p>
-                                    <textarea cols="10" rows="5" disabled class="form-control rounded">
-                                        {{ strip_tags($order->note) }}
-                                    </textarea>
+                                    <hr/>
+{{--                                    <textarea cols="10" rows="5" disabled class="form-control rounded">--}}
+                                        {!! $order->note !!}
+{{--                                    </textarea>--}}
                                 </div>
                             </div>
                         </div>
