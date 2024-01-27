@@ -189,9 +189,10 @@
                 </div>
 
                 <div class="px-3">
-                    <form action="{{ route('frontend.staff.store') }}" method="POST"
+                    <form action="{{ route('frontend.staff.storeImportStaff') }}" method="POST"
                           enctype="multipart/form-data">
                         @csrf
+                        @method('POST')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="wrapper-input d-flex align-items-center mb-2">
