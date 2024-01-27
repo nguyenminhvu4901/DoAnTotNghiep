@@ -73,5 +73,17 @@ Notice
 ```
 Mỗi khi chạy seed sẽ chạy hết các lệnh seed đã lưu ở trên
 ```
+Error
+```
+Nếu code có vấn đề, hãy chạy các câu lệnh terminal sau:
+composer install
+composer update
+art cache:clear
+art route:clear
+art route:cache
+art view:clear
+art config:cache
+art optimize:clear
+```
 
 
