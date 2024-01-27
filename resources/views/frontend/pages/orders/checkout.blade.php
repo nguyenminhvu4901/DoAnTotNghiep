@@ -3,10 +3,28 @@
 @section('title', __('Cart'))
 
 @section('content')
-    {{--    <div class="fade-in">--}}
-    {{--        @include('includes.partials.messages')--}}
-    {{--    </div>--}}
-    <!-- Checkout Section Begin -->
+    <style>
+        .product-information-checkout {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .product-link-checkout {
+            width: 50% !important;
+        }
+
+        .product-price-checkout {
+            width: 30% !important;
+            text-align: right;
+        }
+
+        .vertical-line {
+            border-left: 2px solid #000 !important; /* Adjust the color and thickness as needed */
+            height: 100px !important; /* Adjust the height as needed */
+            margin: 0 10px !important; /* Adjust the margin as needed */
+        }
+    </style>
 
     @if(auth()->user()->isRoleCustomer())
         <header class="header">
@@ -107,6 +125,8 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        <small id="error_order"
+                                               class="error text-danger">{{ $errors->first('province_name') }}</small>
                                         <input type="hidden" id="selected-province-name" name="province_name">
                                     </div>
                                 </div>
@@ -118,6 +138,8 @@
                                                     data-total-cost="{{ $totalAllProduct }}" name="district">
                                                 <option value="default">@lang('Choose District')</option>
                                             </select>
+                                            <small id="error_order"
+                                                   class="error text-danger">{{ $errors->first('district_name') }}</small>
                                             <input type="hidden" id="selected-district-name" name="district_name">
                                         </div>
                                     </div>
@@ -130,6 +152,8 @@
                                                     data-total-cost="{{ $totalAllProduct }}" name="ward">
                                                 <option value="default">@lang('Choose Ward')</option>
                                             </select>
+                                            <small id="error_order"
+                                                   class="error text-danger">{{ $errors->first('ward_name') }}</small>
                                             <input type="hidden" id="selected-ward-name" name="ward_name">
                                         </div>
                                     </div>
@@ -172,7 +196,9 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="checkout__order">
                                 <h4>@lang('Your Order')</h4>
-                                <div class="checkout__order__products">@lang('Products') <span>@lang('Total')</span>
+                                <div class="checkout__order__products">
+                                    @lang('Products')
+                                    <span>@lang('Total')</span>
                                 </div>
                                 @forelse($productDetails as $key => $product)
                                     <ul>
@@ -192,16 +218,27 @@
                                                    value="{{ $product->quantity }}">
                                             <input type="hidden" name="productDetail[{{ $key }}][price]"
                                                    value="{{ $product->price }}">
-                                            <a
-                                                    href="{{ route('frontend.products.detail', ['id' => $product->productId]) }}">
-                                                {{ $product->nameProduct }} </a>
-                                            (@lang('Color'): {{ $product->color }}, @lang('Size'):
-                                            {{ $product->size }})
-                                            <span>{{ formatMoney($product->price) }}</span>
+
+                                            <div class="product-information-checkout">
+                                                <div class="product-link-checkout">
+                                                    <a href="{{ route('frontend.products.detail', ['id' => $product->productId]) }}">
+                                                        {{ $product->nameProduct }}
+                                                    </a>
+                                                    ( @lang('Color'): {{ $product->color }}, @lang('Size')
+                                                    : {{ $product->size }} )
+                                                </div>
+                                                <div class="vertical-line"></div>
+                                                <div class="product-price-checkout">
+                                                    <span>{{ formatMoney($product->price) }}</span>
+                                                </div>
+                                            </div>
                                         </li>
                                     </ul>
+                                    <hr>
                                 @empty
+                                    <p>@lang('No products found')</p>
                                 @endforelse
+                                <br> <br>
                                 <div class="checkout__order__subtotal">@lang('Subtotal')
                                     <input type="hidden" name="subTotalAllProduct" value="{{ $subAllProduct }}">
                                     <span style="color:black">{{ formatMoney($subAllProduct) }}</span>

@@ -14,7 +14,7 @@
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary"
                     data-dismiss="modal">@lang('Cancel')</button>
-                <button type="submit" class="btn btn-danger">@lang('Submit')</button>
+                <button type="submit" class="btn btn-danger">@lang('OK')</button>
             </div>
         </div>
     </div>

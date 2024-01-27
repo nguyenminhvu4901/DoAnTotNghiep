@@ -10,6 +10,8 @@
             {{ $ward['WardName'] }}</option>
     @endforeach
 </select>
+<small id="error_order"
+       class="error text-danger">{{ $errors->first('ward_name') }}</small>
 <input type="hidden" id="selected-ward-name" name="ward_name">
 
 <script src="{{ asset('js/pages/checkout/address.js') }}"></script>

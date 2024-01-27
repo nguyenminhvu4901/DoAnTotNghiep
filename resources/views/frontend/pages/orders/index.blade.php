@@ -200,6 +200,8 @@
                                         </form>
                                     @elseif($order->status == config('constants.status_order.cancel'))
                                         @lang('Order has been cancelled')
+                                    @elseif($order->status == config('constants.status_order.delivered'))
+                                        @lang('The order has been successfully delivered, so it cannot be canceled.')
                                     @else
                                         @lang('You cannot cancel your order because it has already been prepared and shipped')
                                     @endif
