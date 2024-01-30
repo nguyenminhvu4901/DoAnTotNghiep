@@ -61,6 +61,16 @@
                                             </span>
                                             <br>
                                             {{ formatMoney($productDetail->salePriceGlobal) }}
+
+                                        @elseif(isset($productDetail->salePriceCategory))
+                                            <span style="text-decoration: line-through">
+                                                {{ formatMoney($productDetail->price) }}
+                                            </span>
+                                            <span>
+                                                (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                            </span>
+                                            <br>
+                                            {{ formatMoney($productDetail->salePriceCategory) }}
                                         @else
                                             {{ formatMoney($productDetail->price) }}
                                         @endif
@@ -114,11 +124,11 @@
                                     @lang('Add to cart')
                                 </button>
                             @endif
-{{--                                <button type="submit" class="btn btn-primary check-login"--}}
-{{--                                        data-check-login="{{ auth()->check() }}">--}}
-{{--                                    @lang('Add to cart')--}}
-{{--                                </button>--}}
-{{--                                @include('frontend.pages.products.partials.show-modal-login')--}}
+                            {{--                                <button type="submit" class="btn btn-primary check-login"--}}
+                            {{--                                        data-check-login="{{ auth()->check() }}">--}}
+                            {{--                                    @lang('Add to cart')--}}
+                            {{--                                </button>--}}
+                            {{--                                @include('frontend.pages.products.partials.show-modal-login')--}}
                         @endif
                     </div>
 

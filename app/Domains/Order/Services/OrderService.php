@@ -65,6 +65,7 @@ class OrderService extends BaseService
     public function searchInEachUser($data = [])
     {
         return $this->model
+            ->search($this->escapeSpecialCharacter($data['search'] ?? ''))
             ->where('user_id', auth()->user()->id)
             ->latest('id')
             ->paginate(config('constants.paginate'));

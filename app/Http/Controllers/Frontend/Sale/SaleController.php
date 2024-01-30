@@ -31,13 +31,18 @@ class SaleController extends Controller
         return view('frontend.pages.sales.index', ['sales' => $sales, 'products' => $products]);
     }
 
-    public function create(Request $request, int $productId)
+    public function create(Request $request, $productId)
     {
         if ($request->level == 'parent') {
             $product = $this->saleService->getProductById($productId);
         } else if ($request->level == 'child') {
             $product = $this->saleService->getProductDetailById($productId);
-        } else {
+        } else if($request->level == 'category'){
+            $category = $this->saleService->getCategoryById($productId);
+
+            return view('frontend.pages.sales.create', ['category' => $category, 'level' => $request->level]);
+        }
+        else{
             abort_if(true, Response::HTTP_NOT_FOUND);
         }
 
@@ -50,14 +55,16 @@ class SaleController extends Controller
             $this->saleService->createProductSaleGlobal($request->all(), $productId);
         } else if ($request->level == 'child') {
             $this->saleService->createProductSaleOption($request->all(), $productId);
-        } else {
+        } else if($request->level == 'category'){
+            $this->saleService->createProductSaleCategory($request->all(), $productId);
+        }else{
             abort_if(true, Response::HTTP_NOT_FOUND);
         }
 
         return redirect()->route('frontend.sales.index')->withFlashSuccess(__('Successfully created.'));
     }
 
-    public function edit(int $id)
+    public function edit(Request $request, int $id)
     {
         $sale = $this->saleService->getById($id);
 

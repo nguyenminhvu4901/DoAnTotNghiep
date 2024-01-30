@@ -139,6 +139,10 @@
                                                     <span>
                                                             {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
+                                                @elseif(isset($cart->productDetail->salePriceCategory))
+                                                        <span>
+                                                            {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
+                                                        </span>
                                                 @else
                                                     @lang('There are no sale price')
                                                 @endif
@@ -156,6 +160,12 @@
                                                         </span>
                                                     <br>
                                                     {{ formatMoney($cart->productDetail->salePriceGlobal) }}
+                                                @elseif(isset($cart->productDetail->salePriceCategory))
+                                                    <span style="text-decoration: line-through">
+                                                            {{ formatMoney($cart->productDetail->price) }}
+                                                        </span>
+                                                    <br>
+                                                    {{ formatMoney($cart->productDetail->salePriceCategory) }}
                                                 @else
                                                     {{ formatMoney($cart->productDetail->price) }}
                                                 @endif
@@ -223,6 +233,10 @@
                                                 @elseif(isset($cart->productDetail->salePriceGlobal))
                                                     @php
                                                         $price = $cart->productDetail->salePriceGlobal * $cart->product_quantity;
+                                                    @endphp
+                                                @elseif(isset($cart->productDetail->salePriceCategory))
+                                                    @php
+                                                        $price = $cart->productDetail->salePriceCategory * $cart->product_quantity;
                                                     @endphp
                                                 @else
                                                     @php

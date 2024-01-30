@@ -18,6 +18,7 @@ class ProductSale extends Model
         'product_detail_id',
         'sale_id',
         'product_id',
+        'category_id',
         'type_sale'
     ];
 

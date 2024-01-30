@@ -10,7 +10,10 @@
 
         <div class="container p-3">
             <div>
-                <form action="{{ route('frontend.sales.store', ['productId' => $product->id, 'level' => $level]) }}" method="POST">
+                <form action=" {{ isset($category) ?
+                route('frontend.sales.store', ['productId' => $category->id, 'level' => $level]) :
+                route('frontend.sales.store', ['productId' => $product->id, 'level' => $level])
+              }}" method="POST">
                     @csrf
                     @method('POST')
                     @include('frontend.pages.sales.partials.form-fields')

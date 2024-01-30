@@ -53,6 +53,14 @@
                         <th class="text-center">
                             @lang('Created date')
                         </th>
+                        <th class="text-center">
+                            @lang('Sale price')
+                        </th>
+                        @hasPermission('user.sale')
+                        <th class="text-center">
+                            @lang('Discount')
+                        </th>
+                        @endhasPermission
                         @hasPermission('user.category.edit')
                         <th class="text-center">
                             @lang('Update')
@@ -79,6 +87,31 @@
                             <td class="text-center align-middle">
                                 {{ $category->formatted_created_at }}
                             </td>
+                            <td class="text-center align-middle">
+                                @if (!$category->saleCategory->isEmpty())
+                                    {{ $category->saleCategory->first()->value }}
+                                    {{ $category->saleCategory->first()->type == 1 ? __('VND') : '%' }}
+                                @else
+                                    @lang('There are no sale price')
+                                @endif
+                            </td>
+                            @hasPermission('user.sale')
+                            <td class="text-center align-middle">
+                                @if ($category->saleCategory->isEmpty())
+                                    <a
+                                            href="{{ route('frontend.sales.createCategory', ['categoryId' => $category->id, 'level' => 'category']) }}">
+                                        <i class="fas fa-tag"></i> @lang('Add')
+                                    </a>
+                                @elseif(!$category->saleCategory->isEmpty() && isset($category->sale->first()->id))
+                                    <a
+                                            href="{{ route('frontend.sales.edit', ['id' => $category->sale->first()->id, 'level' => 'category']) }}">
+                                        <i class="fas fa-edit"></i> @lang('Update')
+                                    </a>
+                                @else
+                                    @lang('Product price has been reduced')
+                                @endif
+                            </td>
+                            @endhasPermission
                             @hasPermission('user.category.edit')
                             <td class="text-center align-middle">
                                 <a href="{{ route('frontend.categories.edit', ['categorySlug' => $category->slug]) }}">

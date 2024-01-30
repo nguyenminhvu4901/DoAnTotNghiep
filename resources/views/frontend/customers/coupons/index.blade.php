@@ -75,23 +75,26 @@
                 <div class="row featured__filter">
                     @forelse($coupons as $coupon)
                         <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                            <div class="featured__item">
-                                <div class="featured__item__pic set-bg"
-                                     data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
-                                    <ul class="featured__item__pic__hover">
-                                        {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                        <li>
-                                            <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}"><i
-                                                        class="fa fa-info-circle"></i></a>
-                                        </li>
-                                        {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
-                                    </ul>
-                                </div>
-                                <div class="featured__item__text">
-                                    <h6>
-                                        <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}">{{ __($coupon->name) }}</a>
-                                    </h6>
-                                    <h5>  {{ $coupon->value}}{{$coupon->formatted_type_coupon}}</h5>
+                            <div class="featured__item parent-featured__item">
+                                <div class="featured__item">
+                                    <div class="featured__item__pic set-bg"
+                                         data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
+                                        <ul class="featured__item__pic__hover">
+                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
+                                            <li>
+                                                <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}"><i
+                                                            class="fa fa-info-circle"></i></a>
+                                            </li>
+                                            {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
+                                        </ul>
+                                    </div>
+                                    <hr class="fw-bold border-2 border-dark">
+                                    <div class="featured__item__text">
+                                        <h6>
+                                            <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}">{{ __($coupon->name) }}</a>
+                                        </h6>
+                                        <h5>  {{ $coupon->value}}{{$coupon->formatted_type_coupon}}</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,6 +111,7 @@
                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
+                                <hr class="fw-bold border-2 border-dark">
                                 <div class="featured__item__text">
                                     <h6><a href="#">@lang('There are no coupons')</a></h6>
                                     @isset($coupon)

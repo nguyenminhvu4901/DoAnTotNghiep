@@ -2,6 +2,7 @@
 
 namespace App\Domains\Sale\Models\Traits\Relationship;
 
+use App\Domains\Category\Models\Category;
 use App\Domains\Product\Models\Product;
 use App\Domains\ProductSale\Models\ProductSale;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
@@ -19,6 +20,11 @@ trait SaleRelationship
     public function productDetail(): BelongsToMany
     {
         return $this->belongsToMany(ProductDetail::class, ProductSale::class);
+    }
+
+    public function category(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, ProductSale::class);
     }
 
     public function productThroghProductDetail(): HasManyDeep
@@ -71,5 +77,10 @@ trait SaleRelationship
         $this->productDetail()->sync([$productDetailId => [
             'product_id' => $productId,
         ]]);
+    }
+
+    public function syncCategory($category): void
+    {
+        $this->category()->sync($category);
     }
 }

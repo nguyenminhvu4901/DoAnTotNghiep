@@ -135,7 +135,7 @@
                                     </a>
                                 @elseif(!$productDetail->saleOption->isEmpty() && isset($productDetail->saleOption->first()->id))
                                     <a
-                                            href="{{ route('frontend.sales.edit', ['id' => $productDetail->saleOption->first()->id]) }}">
+                                            href="{{ route('frontend.sales.edit', ['id' => $productDetail->saleOption->first()->id, 'level' => 'child']) }}">
                                         <i class="fas fa-edit"></i> @lang('Update')
                                     </a>
                                 @else

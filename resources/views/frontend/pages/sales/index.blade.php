@@ -78,7 +78,8 @@
                                 {{ $loop->iteration + $sales->firstItem() - 1 }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $sale->product->first() == null && $sale->productThroghProductDetail->first() == null
+                                {{     (isset($sale->category) && $sale->category->first() != null) ? $sale->category->first()->name :
+                                    ($sale->product->first() == null && $sale->productThroghProductDetail->first() == null
                                     ? __('No Product Sale')
                                     : ($sale->productThroghProductDetail->first() == null
                                         ? $sale->product->first()->name . ' (' . __('All Products') . ')'
@@ -87,7 +88,7 @@
                                             $sale->productDetail->first()->size .
                                             ', ' .
                                             $sale->productDetail->first()->color .
-                                            ')') }}
+                                            ')')) }}
                             </td>
                             <td class="text-center align-middle">
                                 {{ $sale->value }} {{ $sale->formatted_type_sale }}

@@ -169,6 +169,7 @@ class OrderController extends Controller
 
         $this->orderService->createProductOrder($data, $order->id);
 
+        //Delete cart
         $this->orderService->deleteProductOrderSuccessInCart($data);
 
         if (isset($data['couponId'])) {

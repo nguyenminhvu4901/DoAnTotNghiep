@@ -61,6 +61,15 @@
                                             </span>
                                             <br>
                                             {{ formatMoney($productDetail->salePriceGlobal) }}
+                                        @elseif(isset($productDetail->salePriceCategory))
+                                            <span style="text-decoration: line-through">
+                                                {{ formatMoney($productDetail->price) }}
+                                            </span>
+                                            <span>
+                                                (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'VND' : '%' }})
+                                            </span>
+                                            <br>
+                                            {{ formatMoney($productDetail->salePriceCategory) }}
                                         @else
                                             {{ formatMoney($productDetail->price) }}
                                         @endif
