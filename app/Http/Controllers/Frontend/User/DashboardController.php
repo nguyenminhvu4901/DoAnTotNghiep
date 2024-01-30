@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\User;
 use App\Domains\Category\Services\CategoryService;
 use App\Domains\Coupon\Services\CouponService;
 use App\Domains\Product\Services\ProductService;
+use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Domains\ProductDetail\Services\ProductDetailService;
 use App\Domains\ProductImage\Services\ProductImageService;
 use App\Domains\Sale\Services\SaleService;
@@ -44,11 +45,15 @@ class DashboardController
         $categories = $this->categoryService->all();
         $products = $this->productService->searchInDashboard($request->all());
         $coupons = $this->couponService->searchInDashboard($request->all());
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
         return view('frontend.user.dashboard', [
             'categories' => $categories,
             'products' => $products,
-            'coupons' => $coupons
+            'coupons' => $coupons,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
         ]);
     }
 
@@ -56,10 +61,14 @@ class DashboardController
     {
         $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->searchInDashboard($request->all());
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
         return view('frontend.customers.products.index', [
             'categories' => $categories,
             'products' => $products,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
         ]);
     }
 
@@ -106,8 +115,16 @@ class DashboardController
 //        $sales = $this->saleService->getDiscount($sales);
         $products = $this->productService->getAllProducts();
         $categories = $this->categoryService->all();
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
 
-        return view('frontend.customers.sales.index', ['sales' => $sales, 'products' => $products, 'categories' => $categories]);
+        return view('frontend.customers.sales.index', [
+            'sales' => $sales,
+            'products' => $products,
+            'categories' => $categories,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
+        ]);
     }
 }
