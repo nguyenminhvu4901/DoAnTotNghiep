@@ -6,7 +6,7 @@
 /public/hot
 /public/storage
 /public/mix-manifest.json
-/storage/*.key
+#/storage/*.key
 /vendor
 /.vscode
 *.sublime-project

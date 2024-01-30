@@ -29,6 +29,32 @@ trait ProductScope
 
     /**
      * @param $query
+     * @param array $colorName
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterByColors($query, $colorName, $operator = null)
+    {
+        return $query->whereHas('productDetail', function ($query) use ($colorName) {
+            $query->whereIn('product_detail.color', $colorName);
+        });
+    }
+
+    /**
+     * @param $query
+     * @param array $sizeName
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterBySizes($query, $sizeName, $operator = null)
+    {
+        return $query->whereHas('productDetail', function ($query) use ($sizeName) {
+            $query->whereIn('product_detail.size', $sizeName);
+        });
+    }
+
+    /**
+     * @param $query
      * @param array $category
      * @param $operator
      * @return mixed|void

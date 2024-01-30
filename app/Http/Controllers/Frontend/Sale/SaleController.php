@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend\Sale;
 
 use App\Domains\Category\Services\CategoryService;
+use App\Domains\ProductDetail\Models\ProductDetail;
+use App\Domains\ProductDetail\Services\ProductDetailService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -16,15 +18,18 @@ class SaleController extends Controller
     protected SaleService $saleService;
     protected ProductService $productService;
     protected CategoryService $categoryService;
+    protected ProductDetailService $productDetailService;
 
     public function __construct(
         SaleService $saleService,
         ProductService $productService,
-        CategoryService $categoryService
+        CategoryService $categoryService,
+        ProductDetailService $productDetailService
     ) {
         $this->saleService = $saleService;
         $this->productService = $productService;
         $this->categoryService = $categoryService;
+        $this->productDetailService = $productDetailService;
     }
 
     public function index(Request $request)
@@ -32,9 +37,19 @@ class SaleController extends Controller
         $sales = $this->saleService->search($request->all());
         $products = $this->productService->getAllProducts();
         $categories = $this->categoryService->getAllCategories();
+        $productDetails = $this->productDetailService->getAllProductDetails();
 
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
 
-        return view('frontend.pages.sales.index', ['sales' => $sales, 'products' => $products, 'categories' => $categories]);
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
+
+        return view('frontend.pages.sales.index', [
+            'sales' => $sales,
+            'products' => $products,
+            'categories' => $categories,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
+        ]);
     }
 
     public function create(Request $request, $productId)

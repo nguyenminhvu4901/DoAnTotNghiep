@@ -46,6 +46,12 @@ class ProductService extends BaseService
             ->when(isset($data['categories']), function ($query) use ($data) {
                 $query->filterByCategories($data['categories']);
             })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
             ->with('categories', 'productDetail')
             ->latest('id')
             ->paginate(config('constants.paginate-dashboard'));

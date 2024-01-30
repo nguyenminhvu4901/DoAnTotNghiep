@@ -277,4 +277,9 @@ class ProductDetailService extends BaseService
 
         return $productDetails;
     }
+
+    public function getAllProductDetails()
+    {
+        return $this->model->all();
+    }
 }
