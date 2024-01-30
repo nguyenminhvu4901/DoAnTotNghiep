@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Sale;
 
+use App\Domains\Category\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -14,21 +15,26 @@ class SaleController extends Controller
 {
     protected SaleService $saleService;
     protected ProductService $productService;
+    protected CategoryService $categoryService;
 
     public function __construct(
         SaleService $saleService,
-        ProductService $productService
+        ProductService $productService,
+        CategoryService $categoryService
     ) {
         $this->saleService = $saleService;
         $this->productService = $productService;
+        $this->categoryService = $categoryService;
     }
 
     public function index(Request $request)
     {
         $sales = $this->saleService->search($request->all());
         $products = $this->productService->getAllProducts();
+        $categories = $this->categoryService->getAllCategories();
 
-        return view('frontend.pages.sales.index', ['sales' => $sales, 'products' => $products]);
+
+        return view('frontend.pages.sales.index', ['sales' => $sales, 'products' => $products, 'categories' => $categories]);
     }
 
     public function create(Request $request, $productId)

@@ -47,6 +47,9 @@ class SaleService extends BaseService
             ->when(isset($data['products']), function ($query) use ($data) {
                 $query->filterByProduct($data['products']);
             })
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
 //            ->whereHas('product', function ($query) {
 //                $query->whereNotNull('product_id');
 //            })
@@ -67,6 +70,9 @@ class SaleService extends BaseService
             })
             ->when(isset($data['products']), function ($query) use ($data) {
                 $query->filterByProduct($data['products']);
+            })
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
             })
 //            ->whereHas('product', function ($query) {
 //                $query->whereNotNull('product_id');

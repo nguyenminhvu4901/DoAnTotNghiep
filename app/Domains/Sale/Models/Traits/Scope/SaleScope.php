@@ -28,4 +28,21 @@ trait SaleScope
             $query->whereIn('slug', $product);
         });
     }
+
+    /**
+     * @param $query
+     * @param array $categories
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterByCategories($query, array $categories)
+    {
+        return $query->whereHas('category', function ($query) use ($categories) {
+            $query->whereIn('slug', $categories);
+        })
+            ->orWhereHas('product.productDetail.product.categories', function ($query) use ($categories) {
+                $query->whereIn('slug', $categories);
+            });
+    }
+
 }

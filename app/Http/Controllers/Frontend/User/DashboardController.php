@@ -54,7 +54,7 @@ class DashboardController
 
     public function indexProduct(Request $request)
     {
-        $categories = $this->categoryService->all();
+        $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->searchInDashboard($request->all());
 
         return view('frontend.customers.products.index', [
@@ -105,7 +105,9 @@ class DashboardController
         $sales = $this->saleService->searchDashboard($request->all());
 //        $sales = $this->saleService->getDiscount($sales);
         $products = $this->productService->getAllProducts();
+        $categories = $this->categoryService->all();
 
-        return view('frontend.customers.sales.index', ['sales' => $sales, 'products' => $products]);
+
+        return view('frontend.customers.sales.index', ['sales' => $sales, 'products' => $products, 'categories' => $categories]);
     }
 }
