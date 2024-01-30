@@ -62,7 +62,7 @@ a:hover {
 
 #main-content {
     width: 100%;
-    padding-top: 20px;
+    //padding-top: 20px;
     min-height: 100vh;
     transition: all 0.3s;
     background-color: white;
@@ -778,7 +778,7 @@ ol {
 }
 
 .hero__item {
-    height: 307px;
+    height: 600px;
     display: flex;
     align-items: center;
     padding-left: 75px;
@@ -792,11 +792,19 @@ ol {
     color: #7fad39;
 }
 
-.hero__text h2 {
+.hero__text h1 {
     font-size: 46px;
-    color: #252525;
+    color: #7FAD39FF;
     line-height: 52px;
-    font-weight: 700;
+    font-weight: 900;
+    margin: 10px 0;
+}
+
+.hero__text h5 {
+    font-size: 46px;
+    color: #7FAD39FF;
+    line-height: 52px;
+    font-weight: 900;
     margin: 10px 0;
 }
 
@@ -915,6 +923,7 @@ ol {
     position: relative;
     overflow: hidden;
     background-position: center center;
+    transition: height 0.3s; /* Thêm hiệu ứng chuyển động cho chiều cao */
 }
 
 .featured__item__pic__hover {

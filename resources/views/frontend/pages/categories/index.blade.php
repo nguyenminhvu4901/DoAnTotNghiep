@@ -104,7 +104,7 @@
                                     </a>
                                 @elseif(!$category->saleCategory->isEmpty() && isset($category->sale->first()->id))
                                     <a
-                                            href="{{ route('frontend.sales.edit', ['id' => $category->sale->first()->id, 'level' => 'category']) }}">
+                                            href="{{ route('frontend.sales.edit', ['id' => $category->saleCategory->first()->id, 'level' => 'category']) }}">
                                         <i class="fas fa-edit"></i> @lang('Update')
                                     </a>
                                 @else

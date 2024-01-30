@@ -548,5 +548,6 @@
   "Order canceled": "Đơn hàng đã bị huỷ",
   "Address: 175 Tay Son, Dong Da, Ha Noi": "Địa chỉ: 175 Tây Sơn, Đống Đa, Hà Nội",
   "Phone: +84 123 456 789": "Số điện thoại: +84 123 456 789",
-  "@lang('Email: vu@edu.tlu.vn')": "@lang('Email: vu@edu.tlu.vn')"
+  "@lang('Email: vu@edu.tlu.vn')": "@lang('Email: vu@edu.tlu.vn')",
+  "Similar Products": "Sản phẩm tương tự"
 }

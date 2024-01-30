@@ -62,7 +62,7 @@
                                     <span>@lang('(18 reviews)')</span>
                                 </div>
                                 <div class="product__details__price">
-                                    {{ !$productDetails->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}
+                                    {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}
 
                                 </div>
                                 <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">

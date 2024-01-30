@@ -7,44 +7,6 @@
         @include('includes.partials.messages')
     </div>
 
-    @if(auth()->user()->isRoleCustomer())
-        <header class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 d-flex justify-content-center">
-                        <nav class="header__menu">
-                            <ul>
-                                <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                    <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
-                                </li>
-                                <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.products.*')) active @endif">
-                                    <a href="{{ route('frontend.dashboard.products.index') }}">@lang('Product')</a>
-                                </li>
-                                <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.coupons.*')) active @endif">
-                                    <a href="{{ route('frontend.dashboard.coupons.index') }}">@lang('Coupon')</a>
-                                </li>
-                                <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.sales.*')) active @endif">
-                                    <a href="{{ route('frontend.dashboard.sales.index') }}">@lang('Sale off')</a>
-                                </li>
-                                @auth
-                                    <li class="@if (isCurrentRouteInRoutes('frontend.orders.*')) active @endif">
-                                        <a href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
-                                    </li>
-                                    <li class="@if (isCurrentRouteInRoutes('frontend.carts.*')) active @endif">
-                                        <a href="{{ route('frontend.carts.index') }}">@lang('Cart')</a>
-                                    </li>
-                                @endauth
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="humberger__open">
-                    <i class="fa fa-bars"></i>
-                </div>
-            </div>
-        </header>
-    @endif
-
     <input type="hidden" class="sub-js" data-sub="{{ json_encode([
         'delete_success' => __('Successfully removed product from cart.'),
         'delete_unsuccess' => __('An error occurred, please try again.')

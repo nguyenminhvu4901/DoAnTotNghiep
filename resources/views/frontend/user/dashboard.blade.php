@@ -6,66 +6,54 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div><!--fade-in-->
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.products.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.products.index') }}">@lang('Product')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.coupons.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.coupons.index') }}">@lang('Coupon')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.sales.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.sales.index') }}">@lang('Sale off')</a>
-                            </li>
-                            @auth
-                                <li class="@if (isCurrentRouteInRoutes('frontend.orders.*')) active @endif">
-                                    <a href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
-                                </li>
-                                @if(auth()->user()->isRoleCustomer())
-                                    <li class="@if (isCurrentRouteInRoutes('frontend.carts.*')) active @endif">
-                                        <a href="{{ route('frontend.carts.index') }}">@lang('Cart')</a>
-                                    </li>
-                                @endif
-                            @endauth
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="hero__item set-bg" data-setbg="{{ asset('img/header/jewelry.png') }}">
-                        <div class="hero__text">
-                            <h2>@lang('Quality jewelry')</h2>
-                            <h5>@lang('Free Pickup and Delivery Available')</h5>
-                            <a href="#" class="primary-btn">@lang('SHOP NOW')</a>
-                        </div>
-                    </div>
+    <section>
+        {{--        <div class="container-fluid">--}}
+        {{--            <div class="row">--}}
+        {{--                <div class="col-lg-12">--}}
+        {{--                    <div class="hero__item set-bg" data-setbg="{{ asset('storage/images/dashboard/banner.jpg') }}">--}}
+        {{--                        <div class="hero__text">--}}
+        {{--                            <h1>@lang('Quality jewelry')</h1>--}}
+        {{--                            <h5>@lang('Free Pickup and Delivery Available')</h5>--}}
+        {{--                            <a href="#" class="primary-btn">@lang('SHOP NOW')</a>--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: initial">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner1.jpg') }}" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src=" {{ asset('storage/images/dashboard/banner/banner2.jpg') }}" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner3.jpg') }}" alt="Third slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner4.jpg') }}" alt="Third slide">
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </section>
     <!-- Hero Section End -->
-
-    <!-- Categories Section Begin -->
-    <!-- Categories Section End -->
 
     <!-- Featured Section Begin -->
     <section class="featured spad">
@@ -113,10 +101,6 @@
                                                 ? $product->productImages->first()->getImageUrlAttribute()
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg') }}">
                                         <ul class="featured__item__pic__hover">
-                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                            {{--                                        <li>--}}
-                                            {{--                                            <a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i--}}
-                                            {{--                                                        class="fa fa-info-circle"></i></a></li>--}}
                                             <li>
                                                 <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}"><i
                                                             class="fa fa-shopping-cart"></i></a></li>
@@ -127,7 +111,7 @@
                                         <h6>
                                             <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
                                         </h6>
-                                        <h5> {{ !$product->productDetail->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}</h5>
+                                        <h5> {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +132,7 @@
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
                                         @isset($product)
-                                            <h5> {{ !$product->productDetail->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}</h5>
+                                            <h5> {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}</h5>
                                         @endisset
                                     </div>
                                 </div>
@@ -241,12 +225,10 @@
                                     <div class="featured__item__pic set-bg"
                                          data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
                                         <ul class="featured__item__pic__hover">
-                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
                                             <li>
                                                 <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}"><i
                                                             class="fa fa-info-circle"></i></a>
                                             </li>
-                                            {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
                                     <hr class="fw-bold border-2 border-dark">
@@ -269,10 +251,6 @@
                                     <div class="featured__item__pic set-bg"
                                          data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
                                         <ul class="featured__item__pic__hover">
-                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                            {{--                                        <li>--}}
-                                            {{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
-                                            {{--                                        </li>--}}
                                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>

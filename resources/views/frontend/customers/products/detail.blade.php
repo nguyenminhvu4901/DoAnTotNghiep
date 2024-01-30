@@ -7,44 +7,6 @@
         @include('includes.partials.messages')
     </div><!--fade-in-->
 
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.products.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.products.index') }}">@lang('Product')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.coupons.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.coupons.index') }}">@lang('Coupon')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.sales.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.sales.index') }}">@lang('Sale off')</a>
-                            </li>
-                            @auth
-                                <li class="@if (isCurrentRouteInRoutes('frontend.orders.*')) active @endif">
-                                    <a href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
-                                </li>
-                                @if(auth()->user()->isRoleCustomer())
-                                    <li class="@if (isCurrentRouteInRoutes('frontend.carts.*')) active @endif">
-                                        <a href="{{ route('frontend.carts.index') }}">@lang('Cart')</a>
-                                    </li>
-                                @endif
-                            @endauth
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
             <h3>
@@ -101,8 +63,7 @@
                                     <span>@lang('(18 reviews)')</span>
                                 </div>
                                 <div class="product__details__price">
-                                    {{ !$productDetails->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}
-
+                                    {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}
                                 </div>
                                 <a href="#modalCart-{{ $product->id }}" data-toggle="modal" class="primary-btn">
                                     @lang('ADD TO CART')

@@ -6,45 +6,41 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div><!--fade-in-->
-    <!-- Header Section Begin -->
-    <header class="header">
+
+    <section>
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.user.dashboard')) active @endif">
-                                <a href="{{ route('frontend.user.dashboard') }}">@lang('Home')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.products.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.products.index') }}">@lang('Product')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.coupons.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.coupons.index') }}">@lang('Coupon')</a>
-                            </li>
-                            <li class="@if (isCurrentRouteInRoutes('frontend.dashboard.sales.*')) active @endif">
-                                <a href="{{ route('frontend.dashboard.sales.index') }}">@lang('Sale off')</a>
-                            </li>
-                            @auth
-                                <li class="@if (isCurrentRouteInRoutes('frontend.orders.*')) active @endif">
-                                    <a href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
-                                </li>
-                                @if(auth()->user()->isRoleCustomer())
-                                    <li class="@if (isCurrentRouteInRoutes('frontend.carts.*')) active @endif">
-                                        <a href="{{ route('frontend.carts.index') }}">@lang('Cart')</a>
-                                    </li>
-                                @endif
-                            @endauth
-                        </ul>
-                    </nav>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: initial">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100"
+                             src="{{ asset('storage/images/dashboard/banner/banner-sale3.jpg') }}" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100"
+                             src=" {{ asset('storage/images/dashboard/banner/banner-sale2.jpg') }}"
+                             alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100"
+                             src="{{ asset('storage/images/dashboard/banner/banner-sale1.jpg') }}" alt="Third slide">
+                    </div>
                 </div>
-            </div>
-            <div class="humberger__open">
-                <i class="fa fa-bars"></i>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
-    </header>
-    <!-- Header Section End -->
+    </section>
 
     <!-- Featured Section Begin -->
     <section class="featured spad">

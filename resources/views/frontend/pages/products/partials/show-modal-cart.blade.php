@@ -61,7 +61,6 @@
                                             </span>
                                             <br>
                                             {{ formatMoney($productDetail->salePriceGlobal) }}
-
                                         @elseif(isset($productDetail->salePriceCategory))
                                             <span style="text-decoration: line-through">
                                                 {{ formatMoney($productDetail->price) }}
