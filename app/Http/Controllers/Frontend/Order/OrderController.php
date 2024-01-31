@@ -67,6 +67,8 @@ class OrderController extends Controller
             'status' => $request->get('orderStatus')
         ]);
 
+        $order->touch();
+
         return response()->json([
             'status_code' => Response::HTTP_OK,
         ]);
@@ -107,6 +109,8 @@ class OrderController extends Controller
             $order->update([
                 'status' => config('constants.status_order.cancel')
             ]);
+
+            $order->touch();
 
             return redirect()->route('frontend.orders.index')
                 ->withFlashSuccess(__('The order has been successfully canceled.'));

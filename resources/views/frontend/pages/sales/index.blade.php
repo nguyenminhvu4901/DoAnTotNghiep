@@ -78,7 +78,7 @@
                                 {{ $loop->iteration + $sales->firstItem() - 1 }}
                             </td>
                             <td class="text-center align-middle">
-                                {{     (isset($sale->category) && $sale->category->first() != null) ? $sale->category->first()->name :
+                                {{     (isset($sale->category) && $sale->category->first() != null) ? $sale->category->first()->name . ' (' . __('Category') . ')' :
                                     ($sale->product->first() == null && $sale->productThroghProductDetail->first() == null
                                     ? __('No Product Sale')
                                     : ($sale->productThroghProductDetail->first() == null
