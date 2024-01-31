@@ -3,7 +3,6 @@
 namespace App\Domains\Product\Models\Traits\Scope;
 
 use App\Domains\Product\Models\Product;
-use App\Domains\ProductDetail\Models\ProductDetail;
 use Illuminate\Support\Facades\Log;
 
 trait ProductScope
@@ -71,13 +70,6 @@ trait ProductScope
             });
     }
 
-    public function averagePrice()
-    {
-        return $this->hasOne(ProductDetail::class)
-            ->selectRaw('product_id, AVG(price) as average_price')
-            ->groupBy('product_id');
-    }
-
     /**
      * @param $query
      * @param array $category
@@ -87,13 +79,11 @@ trait ProductScope
     public function scopeFilterOrderBy($query, string $orderBy)
     {
         if ($orderBy == '0') {
-            return $query->latest('id');
+            return $query->inRandomOrder();
         } elseif ($orderBy == '1') {
-
+            return $query->orderBy('avg_price', 'asc');
         } elseif ($orderBy == '2') {
-            return Product::select('products.*', \DB::raw('(SELECT AVG(price) FROM product_detail WHERE product_id = products.id) as avg_price'))
-                ->orderBy('avg_price', 'asc');
-
+            return $query->orderBy('avg_price', 'desc');
         } elseif ($orderBy == '3') {
             return $query->orderBy('name', 'asc');
         } elseif ($orderBy == '4') {

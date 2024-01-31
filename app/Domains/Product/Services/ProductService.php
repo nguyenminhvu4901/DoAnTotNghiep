@@ -54,7 +54,15 @@ class ProductService extends BaseService
             })
             ->with('categories', 'productDetail')
             ->when(isset($data['order_by']), function ($query) use ($data) {
-                $query->filterOrderBy($data['order_by']);
+                if ($data['order_by'] == '1') {
+                    $queryCustom = Product::leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')->select('products.*', \DB::raw('AVG(product_detail.price) as avg_price'))->groupBy('products.id');
+                    return $queryCustom->orderBy('avg_price', 'asc');
+                } elseif ($data['order_by'] == '2') {
+                    $queryCustom = Product::leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')->select('products.*', \DB::raw('AVG(product_detail.price) as avg_price'))->groupBy('products.id');
+                    return $queryCustom->orderBy('avg_price', 'desc');
+                } else {
+                    return $query->filterOrderBy($data['order_by']);
+                }
             })
             ->paginate(config('constants.paginate-dashboard'));
     }
@@ -73,9 +81,16 @@ class ProductService extends BaseService
             })
             ->with('categories', 'productDetail', 'productImages')
             ->when(isset($data['order_by']), function ($query) use ($data) {
-                $query->filterOrderBy($data['order_by']);
+                if ($data['order_by'] == '1') {
+                    $queryCustom = Product::leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')->select('products.*', \DB::raw('AVG(product_detail.price) as avg_price'))->groupBy('products.id');
+                    return $queryCustom->orderBy('avg_price', 'asc');
+                } elseif ($data['order_by'] == '2') {
+                    $queryCustom = Product::leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')->select('products.*', \DB::raw('AVG(product_detail.price) as avg_price'))->groupBy('products.id');
+                    return $queryCustom->orderBy('avg_price', 'desc');
+                } else {
+                    return $query->filterOrderBy($data['order_by']);
+                }
             })
-            ->inRandomOrder()
             ->paginate(config('constants.paginate-dashboard'));
     }
 

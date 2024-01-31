@@ -76,12 +76,12 @@ return [
     ],
 
     'status_return_order' => [
-        'Cancel return order' => '6',
-        'Order sent successfully' => '7',
-        'Preparing orders' => '8',
-        'Shipped' => '9',
-        'Shop has received the goods' => '10',
-        'Refund successful' => '11'
+        'Cancel return order' => '0',
+        'Order sent successfully' => '1',
+        'Preparing orders' => '2',
+        'Shipped' => '3',
+        'Shop has received the goods' => '4',
+        'Refund successful' => '5'
     ],
 
     'vnpay' => [
