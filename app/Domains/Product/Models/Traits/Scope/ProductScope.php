@@ -89,9 +89,9 @@ trait ProductScope
         } elseif ($orderBy == '4') {
             return $query->orderBy('name', 'desc');
         } elseif ($orderBy == '5') {
-            return $query->oldest('created_at');
+            return $query->oldest('id');
         } elseif ($orderBy == '6') {
-            return $query->latest('created_at');
+            return $query->latest('id');
         } else {
             return $query->latest('id');
         }
