@@ -2,6 +2,10 @@
 
 namespace App\Domains\Product\Models\Traits\Scope;
 
+use App\Domains\Product\Models\Product;
+use App\Domains\ProductDetail\Models\ProductDetail;
+use Illuminate\Support\Facades\Log;
+
 trait ProductScope
 {
     /**
@@ -66,4 +70,41 @@ trait ProductScope
                 $query->where('categories.slug', $category);
             });
     }
+
+    public function averagePrice()
+    {
+        return $this->hasOne(ProductDetail::class)
+            ->selectRaw('product_id, AVG(price) as average_price')
+            ->groupBy('product_id');
+    }
+
+    /**
+     * @param $query
+     * @param array $category
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterOrderBy($query, string $orderBy)
+    {
+        if ($orderBy == '0') {
+            return $query->latest('id');
+        } elseif ($orderBy == '1') {
+
+        } elseif ($orderBy == '2') {
+            return Product::select('products.*', \DB::raw('(SELECT AVG(price) FROM product_detail WHERE product_id = products.id) as avg_price'))
+                ->orderBy('avg_price', 'asc');
+
+        } elseif ($orderBy == '3') {
+            return $query->orderBy('name', 'asc');
+        } elseif ($orderBy == '4') {
+            return $query->orderBy('name', 'desc');
+        } elseif ($orderBy == '5') {
+            return $query->oldest('created_at');
+        } elseif ($orderBy == '6') {
+            return $query->latest('created_at');
+        } else {
+            return $query->latest('id');
+        }
+    }
+
 }

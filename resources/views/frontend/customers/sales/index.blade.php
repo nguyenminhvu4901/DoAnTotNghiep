@@ -94,7 +94,6 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             @if($sale->category->isNotEmpty())
@@ -219,6 +218,7 @@
                     @endforelse
                 </div>
                 <div class="pagination container-fluid pt-2 position-sticky">
+                    {{ $sales->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'order_by', 'colors', 'sizes'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>

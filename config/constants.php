@@ -75,6 +75,15 @@ return [
         'Successful delivery' => '5',
     ],
 
+    'status_return_order' => [
+        'Cancel return order' => '6',
+        'Order sent successfully' => '7',
+        'Preparing orders' => '8',
+        'Shipped' => '9',
+        'Shop has received the goods' => '10',
+        'Refund successful' => '11'
+    ],
+
     'vnpay' => [
         'vnp_TmnCode' => 'MO0DDVN3',
         'vnp_HashSecret' => 'AACFVHHKFMBVXJREGUBEEYYSZCGWYTMW',
@@ -83,5 +92,18 @@ return [
         'ngay_phat_hanh' => '07/15',
         'otp' => '123456'
     ],
-    'top_best_seller_amount' => 10
+
+    'top_best_seller_amount' => 10,
+
+    'order_by' => [
+        '' => null,
+        'Outstanding Products' => 0,
+        'Price: Gradual increase' => 1,
+        'Price: Descending' => 2,
+        'Name: A to Z' => 3,
+        'Name: Z to A' => 4,
+        'Oldest' => 5,
+        'Latest' => 6
+    ]
+
 ];

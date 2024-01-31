@@ -905,17 +905,16 @@ ol {
 
 .featured__item {
     margin-bottom: 50px;
-    padding: 10px;
     height: 460px !important;
 }
 
 .parent-featured__item {
     border-radius: 20px;
-    border: 2px solid #7fad38;
+    border: 2px solid #000000;
 }
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {
-    bottom: 20px;
+    bottom: 30px;
 }
 
 .featured__item__pic {
@@ -924,6 +923,13 @@ ol {
     overflow: hidden;
     background-position: center center;
     transition: height 0.3s; /* Thêm hiệu ứng chuyển động cho chiều cao */
+    padding: 0;
+    border-radius: 20px 20px 0 0;
+}
+
+.featured__item__pic:hover {
+    height: 300px;
+    transition: height 0.3s;
 }
 
 .featured__item__pic__hover {

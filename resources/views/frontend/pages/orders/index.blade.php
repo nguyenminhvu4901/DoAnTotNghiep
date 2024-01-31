@@ -33,7 +33,12 @@
                     </form>
                 </div>
             </div>
+            <div class="d-flex align-items-center justify-content-md-end">
+                <a class="btn-footer-modal btn btn-primary rounded-10"
+                   href="{{ route('frontend.orders.listOrderReturn') }}">@lang('Return Order')</a>
+            </div>
         </div>
+
         @include('frontend.pages.orders.partials.show-tag-filter')
         <div class="px-3 pb-3 pt-0">
             <div class="table-responsive rounded">

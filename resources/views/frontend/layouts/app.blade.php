@@ -61,7 +61,6 @@
                         @include('frontend.includes.nav')
                         @stack('page-messages')
                         <main id="main-content" class="pb-3">
-                            @include('frontend.includes.nav.nav-global')
                             <div id="preloder">
                                 <div class="loader"></div>
                             </div>

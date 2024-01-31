@@ -96,6 +96,14 @@ class OrderController extends Controller
         } elseif ($order->status == config('constants.status_order.delivered')) {
             return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
         } else {
+            if ($order->couponOrder != null) {
+                $this->orderService->returnCouponInOrder($order->couponOrder);
+            }
+
+            if ($order->productOrder != null) {
+                $this->orderService->returnProductInOrder($order->productOrder);
+            }
+
             $order->update([
                 'status' => config('constants.status_order.cancel')
             ]);
@@ -237,5 +245,19 @@ class OrderController extends Controller
                 ]
             )->render()
         ]);
+    }
+
+    public function listOrderReturn(Request $request)
+    {
+        $user = auth()->user();
+        if ($user->isAdmin() || $user->isRoleStaff()) {
+            $orders = $this->orderService->searchReturn($request->all());
+        } else if ($user->isRoleCustomer()) {
+            $orders = $this->orderService->searchReturnInEachUser($request->all());
+        } else {
+            $orders = new LengthAwarePaginator(collect([]), 0, config('constants.paginate'));
+        }
+
+        return view('frontend.pages.orders.return-order.index', ['orders' => $orders]);
     }
 }

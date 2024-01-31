@@ -53,7 +53,9 @@ class ProductService extends BaseService
                 $query->filterBySizes($data['sizes']);
             })
             ->with('categories', 'productDetail')
-            ->latest('id')
+            ->when(isset($data['order_by']), function ($query) use ($data) {
+                $query->filterOrderBy($data['order_by']);
+            })
             ->paginate(config('constants.paginate-dashboard'));
     }
 
@@ -70,7 +72,10 @@ class ProductService extends BaseService
                 $query->filterBySizes($data['sizes']);
             })
             ->with('categories', 'productDetail', 'productImages')
-            ->latest('id')
+            ->when(isset($data['order_by']), function ($query) use ($data) {
+                $query->filterOrderBy($data['order_by']);
+            })
+            ->inRandomOrder()
             ->paginate(config('constants.paginate-dashboard'));
     }
 

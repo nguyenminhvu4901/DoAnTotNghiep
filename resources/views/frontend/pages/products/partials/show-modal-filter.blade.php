@@ -50,6 +50,23 @@
             </select>
         </div>
     </div>
+    <br>
+    <div class="d-flex align-items-center justify-content-between">
+        <label class="col-form-label">
+            @lang('Order By')
+        </label>
+        <div class="pl-3 w-75">
+            <select data-selected="{{ json_encode(request('order_by')) }}" name="order_by"
+                    data-placeholder="@lang('Status')" class="form-control w-100 filter-select">
+                @foreach(config('constants.order_by') as $key => $value)
+                    <option value="{{ $value }}"
+                            {{ request('order_by') == $value ? 'selected' : '' }}>
+                        {{ __($key) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
 @endsection
 
 

@@ -9,19 +9,6 @@
 
     <!-- Hero Section Begin -->
     <section>
-        {{--        <div class="container-fluid">--}}
-        {{--            <div class="row">--}}
-        {{--                <div class="col-lg-12">--}}
-        {{--                    <div class="hero__item set-bg" data-setbg="{{ asset('storage/images/dashboard/banner.jpg') }}">--}}
-        {{--                        <div class="hero__text">--}}
-        {{--                            <h1>@lang('Quality jewelry')</h1>--}}
-        {{--                            <h5>@lang('Free Pickup and Delivery Available')</h5>--}}
-        {{--                            <a href="#" class="primary-btn">@lang('SHOP NOW')</a>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: initial">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -67,20 +54,9 @@
             </div>
             <div class="d-flex justify-content-between">
                 <div class="flex-grow-1">
-                    <form id="search-form" class="d-flex align-items-center" action="" method="GET">
-                        <div class="nav-search-bar d-inline-flex" style="width:500px">
-                            <input class="form-control flex-grow-1" type="text" placeholder="@lang('Search')..."
-                                   value="{{ old('search-product', request()->get('search-product')) }}"
-                                   name="search-product">
-                            <button class="border-0 bg-transparent" type="submit">
-                                <i class="fas fa-search" style="color: #1561e5;"></i>
-                            </button>
-                        </div>
-                        @include('frontend.pages.products.partials.show-modal-filter')
-                    </form>
                 </div>
                 <div class="d-flex align-items-center justify-content-md-end">
-                    <a class="btn-footer-modal btn btn-warning rounded-10"
+                    <a class="btn-footer-modal btn btn-success rounded-10"
                        href="{{ route('frontend.dashboard.products.index') }}">@lang('See all') <i
                                 class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -106,7 +82,6 @@
                                                             class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
@@ -128,7 +103,6 @@
                                             {{--                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
                                         @isset($product)
@@ -139,9 +113,6 @@
                             </div>
                         </div>
                     @endforelse
-                </div>
-                <div class="pagination container-fluid pt-2 position-sticky">
-                    {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>
@@ -197,18 +168,9 @@
             </div>
             <div class="d-flex justify-content-between">
                 <div class="flex-grow-1">
-                    <form id="search-form" class="d-flex align-items-center" action="" method="GET">
-                        <div class="nav-search-bar d-inline-flex" style="width:500px">
-                            <input class="form-control flex-grow-1" type="text" placeholder="@lang('Search')..."
-                                   value="{{ old('search', request()->get('search')) }}" name="search">
-                            <button class="border-0 bg-transparent" type="submit">
-                                <i class="fas fa-search" style="color: #1561e5;"></i>
-                            </button>
-                        </div>
-                    </form>
                 </div>
                 <div class="d-flex align-items-center justify-content-md-end">
-                    <a class="btn-footer-modal btn btn-warning rounded-10"
+                    <a class="btn-footer-modal btn btn-success rounded-10"
                        href="{{ route('frontend.dashboard.coupons.index') }}">@lang('See all') <i
                                 class="fas fa-arrow-circle-right"></i>
                     </a>
@@ -231,7 +193,6 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             <a class="name-coupon"
@@ -254,7 +215,6 @@
                                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are no coupons')</a></h6>
                                         @isset($coupon)
@@ -265,9 +225,6 @@
                             </div>
                         </div>
                     @endforelse
-                </div>
-                <div class="pagination container-fluid pt-2 position-sticky">
-                    {{ $coupons->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>

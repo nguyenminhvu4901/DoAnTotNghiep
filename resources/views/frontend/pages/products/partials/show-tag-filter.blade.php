@@ -32,4 +32,15 @@
             @endif
         @endforeach
     @endif
+    @if (request('order_by') != null)
+            @foreach(config('constants.order_by') as $key => $value)
+            @if ($value == request('order_by'))
+                @include('frontend.includes.filter.filter-display-tag', [
+                    'text' => __('Order By') . ': ' . __($key),
+                    'name' => 'order_by',
+                    'value' => $value,
+                ])
+            @endif
+        @endforeach
+    @endif
 </div>

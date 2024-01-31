@@ -53,9 +53,9 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between">
-                <div class="flex-grow-1">
+                <div class="">
                     <form id="search-form" class="d-flex align-items-center" action="" method="GET">
-                        <div class="nav-search-bar d-inline-flex" style="width:500px">
+                        <div class="nav-search-bar d-inline-flex" style="width: 500px">
                             <input class="form-control flex-grow-1" type="text" placeholder="@lang('Search')..."
                                    value="{{ old('search-product', request()->get('search-product')) }}"
                                    name="search-product">
@@ -67,7 +67,6 @@
                     </form>
                 </div>
             </div>
-
             <br>
             @include('frontend.pages.products.partials.show-tag-filter')
             <br>
@@ -88,12 +87,12 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
                                         </h6>
                                         <h5> {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}</h5>
+                                        {{ formatMoney($product->productDetail->avg('price')) }}
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +109,6 @@
                                             {{--                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
                                         @isset($product)
@@ -123,7 +121,7 @@
                     @endforelse
                 </div>
                 <div class="pagination container-fluid pt-2 position-sticky">
-                    {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product'))->links('frontend.includes.custom-pagination') }}
+                    {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product', 'order_by', 'colors', 'sizes'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>

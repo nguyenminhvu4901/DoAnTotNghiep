@@ -84,7 +84,6 @@
                                             {{--                                    <li><a href="{{ route('frontend.products.detail', ['id' => $product->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             <a href="{{ route('frontend.dashboard.coupons.detail', ['slug' => $coupon->slug]) }}">{{ __($coupon->name) }}</a>
@@ -107,7 +106,6 @@
                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
-                                <hr class="fw-bold border-2 border-dark">
                                 <div class="featured__item__text">
                                     <h6><a href="#">@lang('There are no coupons')</a></h6>
                                     @isset($coupon)
