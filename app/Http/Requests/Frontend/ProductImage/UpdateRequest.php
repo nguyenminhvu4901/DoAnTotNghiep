@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -30,7 +31,7 @@ class UpdateRequest extends FormRequest
             'order' => [
                 'required', 'integer', Rule::unique('product_image')->where(function ($query) {
                     return $query->where('product_id', $this->productId);
-                })->ignore($this->productImageId, 'id'),
+                })->ignore($this->order, 'order'),
             ],
         ];
     }

@@ -35,6 +35,14 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 
                 ->push(__('Product Information In Order'));
         });
 
+    Route::get('return-order', [OrderController::class, 'listOrderReturn'])->name('listOrderReturn')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Order management'), route('frontend.orders.index'))
+                ->push(__('Return Order'));
+        });
+
+    //Process Order
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 
     Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('cart_not_empty')

@@ -26,8 +26,8 @@ class UpdateRequest extends FormRequest
         return [
             'size' => ['required', 'string'],
             'color' => ['required', 'string'],
-            'quantity' => ['required', 'integer'],
-            'price' => ['required', 'numeric'],
+            'quantity' => ['required', 'integer', 'min:1'],
+            'price' => ['required', 'numeric', 'min:1'],
         ];
     }
 }

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Frontend\User;
 use App\Domains\Category\Services\CategoryService;
 use App\Domains\Coupon\Services\CouponService;
 use App\Domains\Product\Services\ProductService;
+use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Domains\ProductDetail\Services\ProductDetailService;
 use App\Domains\ProductImage\Services\ProductImageService;
+use App\Domains\ProductOrder\Services\ProductOrderService;
 use App\Domains\Sale\Services\SaleService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -20,20 +23,22 @@ class DashboardController
     protected CategoryService $categoryService;
     protected ProductService $productService;
     protected CouponService $couponService;
+    protected ProductOrderService $productOrderService;
 
 
     public function __construct(
-        CategoryService $categoryService,
-        ProductService  $productService,
-        CouponService   $couponService,
-        SaleService     $saleService
+        CategoryService     $categoryService,
+        ProductService      $productService,
+        CouponService       $couponService,
+        SaleService         $saleService,
+        ProductOrderService $productOrderService
     )
     {
         $this->saleService = $saleService;
         $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->couponService = $couponService;
-
+        $this->productOrderService = $productOrderService;
     }
 
     /**
@@ -41,25 +46,45 @@ class DashboardController
      */
     public function index(Request $request)
     {
-        $categories = $this->categoryService->all();
-        $products = $this->productService->searchInDashboard($request->all());
-        $coupons = $this->couponService->searchInDashboard($request->all());
+        if (auth()->user() != null && (auth()->user()->isRoleStaff() || auth()->user()->isRoleAdmin())) {
+            $bestSellers = $this->productService->getBestSellers();
+            $bestSellerBarChartData = $this->productService->convertBestSellersToBarChartData($bestSellers);
+            $currentYearMonth = Carbon::now()->format('Y-m');
+            return view('frontend.user.admin.dashboard', [
+                'bestSellers' => $bestSellers,
+                'bestSellerBarChartData' => $bestSellerBarChartData,
+                'currentYearMonth' => $currentYearMonth
+            ]);
+        } else {
+            $categories = $this->categoryService->all();
+            $products = $this->productService->searchInDashboard($request->all());
+            $coupons = $this->couponService->searchInDashboard($request->all());
+            $productDetailColors = ProductDetail::distinct()->pluck('color');
+            $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
-        return view('frontend.user.dashboard', [
-            'categories' => $categories,
-            'products' => $products,
-            'coupons' => $coupons
-        ]);
+            return view('frontend.user.dashboard', [
+                'categories' => $categories,
+                'products' => $products,
+                'coupons' => $coupons,
+                'productDetailColors' => $productDetailColors,
+                'productDetailSizes' => $productDetailSizes
+            ]);
+        }
     }
 
     public function indexProduct(Request $request)
     {
-        $categories = $this->categoryService->all();
+//        dd($request->currentValue);
+        $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->searchInDashboard($request->all());
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
         return view('frontend.customers.products.index', [
             'categories' => $categories,
             'products' => $products,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
         ]);
     }
 
@@ -105,7 +130,17 @@ class DashboardController
         $sales = $this->saleService->searchDashboard($request->all());
 //        $sales = $this->saleService->getDiscount($sales);
         $products = $this->productService->getAllProducts();
+        $categories = $this->categoryService->all();
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
 
-        return view('frontend.customers.sales.index', ['sales' => $sales, 'products' => $products]);
+
+        return view('frontend.customers.sales.index', [
+            'sales' => $sales,
+            'products' => $products,
+            'categories' => $categories,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
+        ]);
     }
 }

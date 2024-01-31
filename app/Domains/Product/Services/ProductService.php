@@ -46,9 +46,44 @@ class ProductService extends BaseService
             ->when(isset($data['categories']), function ($query) use ($data) {
                 $query->filterByCategories($data['categories']);
             })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
             ->with('categories', 'productDetail')
-            ->latest('id')
+            ->when(isset($data['order_by']), function ($query) use ($data) {
+                if ($data['order_by'] == '1') {
+                    $queryCustom = $this->productPrice($data, 'search');
+                    return $queryCustom->orderBy('avg_price', 'asc');
+                } elseif ($data['order_by'] == '2') {
+                    $queryCustom = $this->productPrice($data, 'search');
+                    return $queryCustom->orderBy('avg_price', 'desc');
+                } else {
+                    return $query->filterOrderBy($data['order_by']);
+                }
+            })
             ->paginate(config('constants.paginate-dashboard'));
+    }
+
+    public function productPrice($data = [], $search)
+    {
+        return Product::search($this->escapeSpecialCharacter($data[$search] ?? ''))
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
+            ->with('categories', 'productDetail')
+            ->
+            leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')
+            ->select('products.*', \DB::raw('AVG(product_detail.price) as avg_price'))
+            ->groupBy('products.id');
     }
 
     public function searchInDashboard(array $data = [])
@@ -57,8 +92,24 @@ class ProductService extends BaseService
             ->when(isset($data['categories']), function ($query) use ($data) {
                 $query->filterByCategories($data['categories']);
             })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
             ->with('categories', 'productDetail', 'productImages')
-            ->latest('id')
+            ->when(isset($data['order_by']), function ($query) use ($data) {
+                if ($data['order_by'] == '1') {
+                    $queryCustom = $this->productPrice($data, 'search-product');
+                    return $queryCustom->orderBy('avg_price', 'asc');
+                } elseif ($data['order_by'] == '2') {
+                    $queryCustom = $this->productPrice($data, 'search-product');
+                    return $queryCustom->orderBy('avg_price', 'desc');
+                } else {
+                    return $query->filterOrderBy($data['order_by']);
+                }
+            })
             ->paginate(config('constants.paginate-dashboard'));
     }
 

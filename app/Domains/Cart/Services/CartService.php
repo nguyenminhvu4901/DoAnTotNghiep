@@ -165,7 +165,7 @@ class CartService extends BaseService
             ->first();
     }
 
-    public function getProductDetailInCartByProductDetailId(int $productDetailId)
+    public function getProductDetailInCartByProductDetailId($productDetailId)
     {
         return $this->product
             ->where('user_id', auth()->user()->id)
@@ -204,6 +204,18 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 }
+            } else if (!$cart->category->first()->saleCategory->isEmpty()) {
+                if ($cart->category->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->category->first()->saleCategory->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->category->first()->saleCategory->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
             } else {
                 $cart->productDetail->salePrice = $cart->productDetail->price;
             }
@@ -217,7 +229,6 @@ class CartService extends BaseService
         $productsInCart = $this->getProductInCartByUserId();
         $subtotal = $productsInCart->reduce(function ($carry, $cart) {
             $quantity = $cart->product_quantity;
-
             if (!$cart->productDetail->saleOption->isEmpty()) {
                 if ($cart->productDetail->saleOption->first()->type == config('constants.type_sale.percent')) {
                     $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->saleOption->first()->value / 100);
@@ -238,6 +249,18 @@ class CartService extends BaseService
                     }
                 } else {
                     $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->product->saleGlobal->first()->value;
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                }
+            } else if (!$cart->category->first()->saleCategory->isEmpty()) {
+                if ($cart->category->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->category->first()->saleCategory->first()->value / 100);
+                    if ($cart->productDetail->salePrice < 0) {
+                        $cart->productDetail->salePrice = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePrice = $cart->productDetail->price - $cart->category->first()->saleCategory->first()->value;
                     if ($cart->productDetail->salePrice < 0) {
                         $cart->productDetail->salePrice = 0;
                     }
@@ -349,6 +372,21 @@ class CartService extends BaseService
                 }
                 $cart->productDetail->reducedValue = $cart->productDetail->product->saleGlobal->first()->value;
                 $cart->productDetail->reducedType = $cart->productDetail->product->saleGlobal->first()->type;
+            } else if (!$cart->category->first()->saleCategory->isEmpty()) {
+                if ($cart->category->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
+                    $cart->productDetail->salePriceCategory = $cart->productDetail->price - $cart->productDetail->price * ($cart->category->first()->saleCategory->first()->value / 100);
+                    if ($cart->productDetail->salePriceCategory < 0) {
+                        $cart->productDetail->salePriceCategory = 0;
+                    }
+                } else {
+                    $cart->productDetail->salePriceCategory = $cart->productDetail->price - $cart->category->first()->saleCategory->first()->value;
+                    if ($cart->productDetail->salePriceCategory < 0) {
+                        $cart->productDetail->salePriceCategory = 0;
+                    }
+                }
+
+                $cart->productDetail->reducedValue = $cart->category->first()->saleCategory->first()->value;
+                $cart->productDetail->reducedType = $cart->category->first()->saleCategory->first()->type;
             }
         }
 

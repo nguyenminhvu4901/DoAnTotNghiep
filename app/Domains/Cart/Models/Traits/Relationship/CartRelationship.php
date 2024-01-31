@@ -3,6 +3,8 @@
 namespace App\Domains\Cart\Models\Traits\Relationship;
 
 use App\Domains\Auth\Models\User;
+use App\Domains\Category\Models\Category;
+use App\Domains\CategoryProduct\Models\CategoryProduct;
 use App\Domains\Product\Models\Product;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use App\Domains\ProductDetail\Models\ProductDetail;
@@ -30,6 +32,16 @@ trait CartRelationship
             [ProductDetail::class],
             ['id', 'id'],
             ['product_detail_id', 'product_id']
+        )->withPivot('name');
+    }
+
+    public function category(): HasManyDeep
+    {
+        return $this->hasManyDeep(
+            Category::class,
+            [ProductDetail::class, Product::class, CategoryProduct::class],
+            ['id', 'id', 'product_id', 'id'],
+            ['product_detail_id', 'product_id', 'id', 'category_id']
         )->withPivot('name');
     }
 }

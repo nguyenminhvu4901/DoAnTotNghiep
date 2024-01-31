@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Product;
 
 use App\Domains\Cart\Services\CartService;
+use App\Domains\ProductDetail\Models\ProductDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -34,7 +35,16 @@ class ProductController extends Controller
     {
         $products = $this->productService->search($request->all());
         $categories = $this->categoryService->getAllCategories();
-        return view('frontend.pages.products.index', ['products' => $products, 'categories' => $categories]);
+
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
+
+        return view('frontend.pages.products.index', [
+            'products' => $products,
+            'categories' => $categories,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
+        ]);
     }
 
     public function create()

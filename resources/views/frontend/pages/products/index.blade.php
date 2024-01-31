@@ -131,7 +131,7 @@
                                     </a>
                                 @elseif(!$product->saleGlobal->isEmpty() && isset($product->sale->first()->id))
                                     <a
-                                            href="{{ route('frontend.sales.edit', ['id' => $product->sale->first()->id]) }}">
+                                            href="{{ route('frontend.sales.edit', ['id' => $product->saleGlobal->first()->id, 'level' => 'parent']) }}">
                                         <i class="fas fa-edit"></i> @lang('Update')
                                     </a>
                                 @else
@@ -184,7 +184,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $products->onEachSide(1)->appends(request()->only('search', 'categories'))->links('frontend.includes.custom-pagination') }}
+                {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'order_by', 'colors', 'sizes'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

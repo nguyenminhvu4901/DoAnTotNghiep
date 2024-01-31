@@ -22,6 +22,14 @@ Route::group(['as' => 'sales.', 'prefix' => 'sales', 'middleware' => ['auth']], 
                 ->push(__('Create Product Discounts'));
         })->middleware('permission:user.sale.create');
 
+    Route::get('{categoryId}/{level}/create', [SaleController::class, 'create'])->name('createCategory')
+        ->breadcrumbs(function (Trail $trail) {
+            $trail->parent(homeRoute())
+                ->push(__('Sale management'), route('frontend.sales.index'))
+                ->push(__('Create Product Discounts'));
+        })->middleware('permission:user.sale.create');
+
+
     Route::post('{productId}/{level}/store', [SaleController::class, 'store'])->name('store')->middleware('permission:user.sale.create');
 
     Route::get('{id}/edit', [SaleController::class, 'edit'])->name('edit')

@@ -28,4 +28,53 @@ trait SaleScope
             $query->whereIn('slug', $product);
         });
     }
+
+    /**
+     * @param $query
+     * @param array $categories
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterByCategories($query, array $categories)
+    {
+        return $query->whereHas('category', function ($query) use ($categories) {
+            $query->whereIn('slug', $categories);
+        })
+            ->orWhereHas('product.productDetail.product.categories', function ($query) use ($categories) {
+                $query->whereIn('slug', $categories);
+            });
+    }
+
+    /**
+     * @param $query
+     * @param array $categories
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterByColors($query, array $colors)
+    {
+        return $query->whereHas('productDetail', function ($query) use ($colors) {
+            $query->whereIn('color', $colors);
+        })
+            ->orWhereHas('product.productDetail.product.productDetail', function ($query) use ($colors) {
+                $query->whereIn('color', $colors);
+            });
+    }
+
+    /**
+     * @param $query
+     * @param array $categories
+     * @param $operator
+     * @return mixed|void
+     */
+    public function scopeFilterBySizes($query, array $size)
+    {
+        return $query->whereHas('productDetail', function ($query) use ($size) {
+            $query->whereIn('size', $size);
+        })
+            ->orWhereHas('product.productDetail.product.productDetail', function ($query) use ($size) {
+                $query->whereIn('size', $size);
+            });
+    }
+
 }

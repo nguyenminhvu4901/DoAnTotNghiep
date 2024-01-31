@@ -60,6 +60,15 @@ trait UserMethod
     }
 
     /**
+     * @param bool $excludeAdmin
+     * @return bool
+     */
+    public function isRoleAdmin(): bool
+    {
+        return $this->hasRole(self::ROLE_ADMIN);
+    }
+
+    /**
      * @param $type
      * @return bool
      */

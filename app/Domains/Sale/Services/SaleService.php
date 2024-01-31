@@ -2,6 +2,7 @@
 
 namespace App\Domains\Sale\Services;
 
+use App\Domains\Category\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 use App\Services\BaseService;
@@ -20,18 +21,21 @@ class SaleService extends BaseService
     protected Product $product;
     protected ProductDetail $productDetail;
     protected ProductSale $productSale;
+    protected Category $category;
 
     public function __construct(
         Sale          $sale,
         Product       $product,
         ProductDetail $productDetail,
-        ProductSale   $productSale
+        ProductSale   $productSale,
+        Category $category
     )
     {
         $this->model = $sale;
         $this->product = $product;
         $this->productDetail = $productDetail;
         $this->productSale = $productSale;
+        $this->category = $category;
     }
 
     public function search($data)
@@ -42,9 +46,19 @@ class SaleService extends BaseService
             })
             ->when(isset($data['products']), function ($query) use ($data) {
                 $query->filterByProduct($data['products']);
-            })->whereHas('product', function ($query) {
-                $query->whereNotNull('product_id');
             })
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
+//            ->whereHas('product', function ($query) {
+//                $query->whereNotNull('product_id');
+//            })
             ->where(function ($query) {
                 $query->whereHas('productSale', function ($query) {
                     $query->where('type_sale', '!=', 1);
@@ -62,9 +76,19 @@ class SaleService extends BaseService
             })
             ->when(isset($data['products']), function ($query) use ($data) {
                 $query->filterByProduct($data['products']);
-            })->whereHas('product', function ($query) {
-                $query->whereNotNull('product_id');
             })
+            ->when(isset($data['categories']), function ($query) use ($data) {
+                $query->filterByCategories($data['categories']);
+            })
+            ->when(isset($data['colors']), function ($query) use ($data) {
+                $query->filterByColors($data['colors']);
+            })
+            ->when(isset($data['sizes']), function ($query) use ($data) {
+                $query->filterBySizes($data['sizes']);
+            })
+//            ->whereHas('product', function ($query) {
+//                $query->whereNotNull('product_id');
+//            })
             ->where(function ($query) {
                 $query->whereHas('productSale', function ($query) {
                     $query->where('type_sale', '!=', 1);
@@ -74,14 +98,19 @@ class SaleService extends BaseService
             ->latest('id')->paginate(config('constants.paginate'));
     }
 
-    public function getProductById(int $productId)
+    public function getProductById($productId)
     {
         return $this->product->findOrFail($productId);
     }
 
-    public function getProductDetailById(int $productDetail)
+    public function getProductDetailById($productDetail)
     {
         return $this->productDetail->findOrFail($productDetail);
+    }
+
+    public function getCategoryById($categoryId)
+    {
+        return $this->category->findOrFail($categoryId);
     }
 
     public function createProductSaleGlobal($data = [], int $productId)
@@ -112,6 +141,23 @@ class SaleService extends BaseService
         $productDetail = $this->getProductDetailById($productDetailId);
 
         $sale->syncProductDetailWithProductGlobal($productDetail->product_id, $productDetailId);
+
+        return $sale;
+    }
+
+    public function createProductSaleCategory($data = [], int $categoryId)
+    {
+        $sale = $this->model->create([
+            'type' => $data['type'],
+            'value' => $data['value'],
+            'start_date' => $data['start_date'],
+            'expiry_date' => $data['expiry_date'],
+            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
+        ]);
+
+        $productDetail = $this->getCategoryById($categoryId);
+
+        $sale->syncCategory($categoryId);
 
         return $sale;
     }

@@ -207,6 +207,20 @@ class ProductDetailService extends BaseService
                 }
                 $productDetail->reducedValue = $productDetail->product->saleGlobal->first()->value;
                 $productDetail->reducedType = $productDetail->product->saleGlobal->first()->type;
+            } else if (!$productDetail->categories->first()->saleCategory->isEmpty()) {
+                if ($productDetail->categories->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
+                    $productDetail->salePriceCategory = $productDetail->price - $productDetail->price * ($productDetail->categories->first()->saleCategory->first()->value / 100);
+                    if ($productDetail->salePriceCategory < 0) {
+                        $productDetail->salePriceCategory = 0;
+                    }
+                } else {
+                    $productDetail->salePriceCategory = $productDetail->price - $productDetail->categories->first()->saleCategory->first()->value;
+                    if ($productDetail->salePriceCategory < 0) {
+                        $productDetail->salePriceCategory = 0;
+                    }
+                }
+                $productDetail->reducedValue = $productDetail->categories->first()->saleCategory->first()->value;
+                $productDetail->reducedType = $productDetail->categories->first()->saleCategory->first()->type;
             }
         }
 
@@ -244,9 +258,28 @@ class ProductDetailService extends BaseService
                 }
                 $productDetail->reducedValue = $productDetail->product->saleGlobal->first()->value;
                 $productDetail->reducedType = $productDetail->product->saleGlobal->first()->type;
+            } else if (!$productDetail->categories->first()->saleCategory->isEmpty()) {
+                if ($productDetail->categories->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
+                    $productDetail->salePriceCategory = $productDetail->price - $productDetail->price * ($productDetail->categories->first()->saleCategory->first()->value / 100);
+                    if ($productDetail->salePriceCategory < 0) {
+                        $productDetail->salePriceCategory = 0;
+                    }
+                } else {
+                    $productDetail->salePriceCategory = $productDetail->price - $productDetail->categories->first()->saleCategory->first()->value;
+                    if ($productDetail->salePriceCategory < 0) {
+                        $productDetail->salePriceCategory = 0;
+                    }
+                }
+                $productDetail->reducedValue = $productDetail->categories->first()->saleCategory->first()->value;
+                $productDetail->reducedType = $productDetail->categories->first()->saleCategory->first()->type;
             }
         }
 
         return $productDetails;
+    }
+
+    public function getAllProductDetails()
+    {
+        return $this->model->all();
     }
 }

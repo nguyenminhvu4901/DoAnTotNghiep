@@ -40,7 +40,8 @@ class CouponService extends BaseService
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
             ->where('is_active', '!=', 0)
             ->latest('id')
-            ->paginate(config('constants.paginate'));
+            ->limit(4)
+            ->paginate(4);
     }
 
     public function searchOnlyTrash(array $data = [])

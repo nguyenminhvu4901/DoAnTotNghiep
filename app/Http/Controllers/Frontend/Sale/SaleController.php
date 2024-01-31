@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Frontend\Sale;
 
+use App\Domains\Category\Services\CategoryService;
+use App\Domains\ProductDetail\Models\ProductDetail;
+use App\Domains\ProductDetail\Services\ProductDetailService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -14,30 +17,53 @@ class SaleController extends Controller
 {
     protected SaleService $saleService;
     protected ProductService $productService;
+    protected CategoryService $categoryService;
+    protected ProductDetailService $productDetailService;
 
     public function __construct(
         SaleService $saleService,
-        ProductService $productService
+        ProductService $productService,
+        CategoryService $categoryService,
+        ProductDetailService $productDetailService
     ) {
         $this->saleService = $saleService;
         $this->productService = $productService;
+        $this->categoryService = $categoryService;
+        $this->productDetailService = $productDetailService;
     }
 
     public function index(Request $request)
     {
         $sales = $this->saleService->search($request->all());
         $products = $this->productService->getAllProducts();
+        $categories = $this->categoryService->getAllCategories();
+        $productDetails = $this->productDetailService->getAllProductDetails();
 
-        return view('frontend.pages.sales.index', ['sales' => $sales, 'products' => $products]);
+        $productDetailColors = ProductDetail::distinct()->pluck('color');
+
+        $productDetailSizes = ProductDetail::distinct()->pluck('size');
+
+        return view('frontend.pages.sales.index', [
+            'sales' => $sales,
+            'products' => $products,
+            'categories' => $categories,
+            'productDetailColors' => $productDetailColors,
+            'productDetailSizes' => $productDetailSizes
+        ]);
     }
 
-    public function create(Request $request, int $productId)
+    public function create(Request $request, $productId)
     {
         if ($request->level == 'parent') {
             $product = $this->saleService->getProductById($productId);
         } else if ($request->level == 'child') {
             $product = $this->saleService->getProductDetailById($productId);
-        } else {
+        } else if($request->level == 'category'){
+            $category = $this->saleService->getCategoryById($productId);
+
+            return view('frontend.pages.sales.create', ['category' => $category, 'level' => $request->level]);
+        }
+        else{
             abort_if(true, Response::HTTP_NOT_FOUND);
         }
 
@@ -50,14 +76,16 @@ class SaleController extends Controller
             $this->saleService->createProductSaleGlobal($request->all(), $productId);
         } else if ($request->level == 'child') {
             $this->saleService->createProductSaleOption($request->all(), $productId);
-        } else {
+        } else if($request->level == 'category'){
+            $this->saleService->createProductSaleCategory($request->all(), $productId);
+        }else{
             abort_if(true, Response::HTTP_NOT_FOUND);
         }
 
         return redirect()->route('frontend.sales.index')->withFlashSuccess(__('Successfully created.'));
     }
 
-    public function edit(int $id)
+    public function edit(Request $request, int $id)
     {
         $sale = $this->saleService->getById($id);
 

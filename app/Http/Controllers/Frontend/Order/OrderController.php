@@ -67,6 +67,8 @@ class OrderController extends Controller
             'status' => $request->get('orderStatus')
         ]);
 
+        $order->touch();
+
         return response()->json([
             'status_code' => Response::HTTP_OK,
         ]);
@@ -96,9 +98,19 @@ class OrderController extends Controller
         } elseif ($order->status == config('constants.status_order.delivered')) {
             return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
         } else {
+            if ($order->couponOrder != null) {
+                $this->orderService->returnCouponInOrder($order->couponOrder);
+            }
+
+            if ($order->productOrder != null) {
+                $this->orderService->returnProductInOrder($order->productOrder);
+            }
+
             $order->update([
                 'status' => config('constants.status_order.cancel')
             ]);
+
+            $order->touch();
 
             return redirect()->route('frontend.orders.index')
                 ->withFlashSuccess(__('The order has been successfully canceled.'));
@@ -169,6 +181,7 @@ class OrderController extends Controller
 
         $this->orderService->createProductOrder($data, $order->id);
 
+        //Delete cart
         $this->orderService->deleteProductOrderSuccessInCart($data);
 
         if (isset($data['couponId'])) {
@@ -236,5 +249,19 @@ class OrderController extends Controller
                 ]
             )->render()
         ]);
+    }
+
+    public function listOrderReturn(Request $request)
+    {
+        $user = auth()->user();
+        if ($user->isAdmin() || $user->isRoleStaff()) {
+            $orders = $this->orderService->searchReturn($request->all());
+        } else if ($user->isRoleCustomer()) {
+            $orders = $this->orderService->searchReturnInEachUser($request->all());
+        } else {
+            $orders = new LengthAwarePaginator(collect([]), 0, config('constants.paginate'));
+        }
+
+        return view('frontend.pages.orders.return-order.index', ['orders' => $orders]);
     }
 }

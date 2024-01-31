@@ -10,4 +10,37 @@
             @endif
         @endforeach
     @endif
+    @if (isset($productDetailColors))
+        @foreach ($productDetailColors as $productDetailColor)
+            @if (in_array($productDetailColor, request('colors') ?? []))
+                @include('frontend.includes.filter.filter-display-tag', [
+                    'text' => __('Color') . ': ' . $productDetailColor,
+                    'name' => 'colors[]',
+                    'value' => $productDetailColor,
+                ])
+            @endif
+        @endforeach
+    @endif
+    @if (isset($productDetailSizes))
+        @foreach ($productDetailSizes as $productDetailSize)
+            @if (in_array($productDetailSize, request('sizes') ?? []))
+                @include('frontend.includes.filter.filter-display-tag', [
+                    'text' => __('Size') . ': ' . $productDetailSize,
+                    'name' => 'sizes[]',
+                    'value' => $productDetailSize,
+                ])
+            @endif
+        @endforeach
+    @endif
+    @if (request('order_by') != null)
+            @foreach(config('constants.order_by') as $key => $value)
+            @if ($value == request('order_by'))
+                @include('frontend.includes.filter.filter-display-tag', [
+                    'text' => __('Order By') . ': ' . __($key),
+                    'name' => 'order_by',
+                    'value' => $value,
+                ])
+            @endif
+        @endforeach
+    @endif
 </div>
