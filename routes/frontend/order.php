@@ -42,6 +42,14 @@ Route::group(['as' => 'orders.', 'prefix' => 'orders', 'middleware' => ['auth', 
                 ->push(__('Return Order'));
         });
 
+    Route::patch('return-order-in-customer/{orderId}', [OrderController::class, 'returnOrderInCustomer'])->name('returnOrderInCustomer');
+
+    Route::patch('return-order-confirmation/{orderId}', [OrderController::class, 'returnOrderConfirmation'])->name('returnOrderConfirmation');
+
+    Route::patch('no-return-order-confirmation/{orderId}', [OrderController::class, 'noReturnOrderConfirmation'])->name('noReturnOrderConfirmation');
+
+    Route::patch('update-status-return-order/{orderId}', [OrderController::class, 'updateStatusReturnOrder'])->name('updateStatusReturnOrder');
+
     //Process Order
     Route::post('process-checkout', [OrderController::class, 'processCheckout'])->name('processCheckout');
 

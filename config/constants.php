@@ -77,9 +77,21 @@ return [
 
     'status_return_order' => [
         'Cancel return order' => '0',
-        'Order sent successfully' => '1',
+        'Successful delivery' => '1',
         'Preparing orders' => '2',
         'Shipped' => '3',
+        'Shop has received the goods' => '4',
+        'Refund successful' => '5'
+    ],
+
+    'status_return_order_customer' => [
+        'Cancel return order' => '0',
+        'Preparing orders' => '2',
+        'Shipped' => '3',
+    ],
+
+    'status_return_order_admin' => [
+        'Cancel return order' => '0',
         'Shop has received the goods' => '4',
         'Refund successful' => '5'
     ],
@@ -104,6 +116,12 @@ return [
         'Name: Z to A' => 4,
         'Oldest' => 5,
         'Latest' => 6
+    ],
+
+    'is_return_order' => [
+        'Chua gui request' => 0,
+        'Da gui request' => 1,
+        'Ko confirm' => 2,
     ]
 
 ];

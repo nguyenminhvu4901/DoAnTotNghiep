@@ -33,6 +33,8 @@ class Order extends Model
         'customer_email',
         'customer_phone',
         'note',
-        'coupon_order_id'
+        'coupon_order_id',
+        'is_return_order',
+        'status_return_order'
     ];
 }

@@ -34,6 +34,25 @@ trait OrderAttribute
         }
     }
 
+    public function getFormattedReturnOrderStatusAttribute()
+    {
+        if ($this->attributes['status_return_order'] == config('constants.status_return_order.Cancel return order')) {
+            return __('Cancel return order');
+        } else if ($this->attributes['status_return_order'] == config('constants.status_return_order.Successful delivery')) {
+            return __('Successful delivery');
+        } else if ($this->attributes['status_return_order'] == config('constants.status_return_order.Preparing orders')) {
+            return __('Preparing orders');
+        } else if ($this->attributes['status_return_order'] == config('constants.status_return_order.Shipped')) {
+            return __('Shipped');
+        } else if ($this->attributes['status_return_order'] == config('constants.status_return_order.Shop has received the goods')) {
+            return __('Shop has received the goods');
+        } else if ($this->attributes['status_return_order'] == config('constants.status_return_order.Refund successful')) {
+            return __('Refund successful');
+        } else {
+            return $this->attributes['status'];
+        }
+    }
+
     /**
      * @return ?string
      */

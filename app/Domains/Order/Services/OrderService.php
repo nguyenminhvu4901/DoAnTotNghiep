@@ -248,11 +248,9 @@ class OrderService extends BaseService
         foreach ($products as $product) {
             try {
                 $productDetail = $this->productDetail->findOrFail($product->product_detail_id);
-
                 $productDetail->update([
                     'quantity' => $productDetail->quantity + $product->product_quantity
                 ]);
-
                 DB::commit();
             } catch (ModelNotFoundException $e) {
                 DB::rollBack();
