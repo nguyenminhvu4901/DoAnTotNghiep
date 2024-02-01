@@ -14,7 +14,7 @@ class AddIsReturnOrderInOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('is_return_order')->default('0')->nullable();
+            $table->enum('is_return_order', [0, 1, 2])->default('0')->nullable();
             $table->enum('status_return_order', [0, 1, 2, 3, 4, 5])->default(1);
         });
     }

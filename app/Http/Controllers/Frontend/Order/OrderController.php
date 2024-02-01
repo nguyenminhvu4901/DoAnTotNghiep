@@ -270,7 +270,7 @@ class OrderController extends Controller
         $order = $this->orderService->getById($orderId);
 
         $order->update([
-            'is_return_order' => 1
+            'is_return_order' => '1'
         ]);
 
         $order->touch();
@@ -300,10 +300,8 @@ class OrderController extends Controller
         $order = $this->orderService->getById($orderId);
 
         $order->update([
-            'is_return_order' => 2
+            'is_return_order' => '2'
         ]);
-
-        $order->touch();
 
         return response()->json([
             'status_code' => Response::HTTP_OK,

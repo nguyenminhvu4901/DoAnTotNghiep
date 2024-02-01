@@ -119,9 +119,9 @@ return [
     ],
 
     'is_return_order' => [
-        'Chua gui request' => 0,
-        'Da gui request' => 1,
-        'Ko confirm' => 2,
+        'Chua gui request' => '0',
+        'Da gui request' => '1',
+        'Ko confirm' => '2',
     ]
 
 ];

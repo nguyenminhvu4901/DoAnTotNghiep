@@ -581,5 +581,6 @@
   "Do you want to cancel request to return your order? This process cannot be undone.": "Bạn có muốn hủy yêu cầu trả lại đơn hàng không? Hành động này không thể hoàn tác.",
   "This order cannot be returned.": "Đơn đặt hàng này không thể được trả lại.",
   "Your return request has been approved!": "Yêu cầu trả lại của bạn đã được phê duyệt!",
-  "The order has been returned successfully so you cannot update it.": "Đơn hàng đã được trả lại thành công nên bạn không thể cập nhật được."
+  "The order has been returned successfully so you cannot update it.": "Đơn hàng đã được trả lại thành công nên bạn không thể cập nhật được.",
+  "Order is being delivered and cannot return order": "Giao hàng thành công và không thể trả lại đơn hàng"
 }

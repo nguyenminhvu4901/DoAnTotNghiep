@@ -33,6 +33,10 @@
                     </form>
                 </div>
             </div>
+            <div class="d-flex align-items-center justify-content-md-end">
+                <a class="btn-footer-modal btn btn-primary rounded-10"
+                   href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
+            </div>
         </div>
 
         @include('frontend.pages.orders.partials.show-tag-filter')
@@ -95,8 +99,15 @@
                                 {{ formatMoney($order->total) }}
                             </td>
                             <td class="text-center align-middle" style="color:firebrick">
-                                @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order)
+                                @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                                    $order->is_return_order == 0)
                                     {{ $order->formatted_order_status }}
+                                @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                                    $order->is_return_order == 1)
+                                    @lang('Wait for the shop to confirm.')
+                                @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                               $order->is_return_order == 2)
+                                    @lang('This order cannot be returned.')
                                 @else
                                     {{ $order->formatted_return_order_status }}
                                 @endif
@@ -133,7 +144,7 @@
                                                 @endif
 
                                                 <option value="{{ $value }}"
-                                                        @if (in_array($value, [config('constants.status_return_order.Shop has received the goods'), config('constants.status_return_order.Refund successful')]) ||
+                                                        @if (in_array($value, [config('constants.status_return_order.Shop has received the goods'), config('constants.status_return_order.Refund successful'), config('constants.status_return_order.Shipped')]) ||
                                                         config('constants.status_return_order.Shipped') != $value && config('constants.status_return_order.Shipped') == $order->status_return_order ||
                                                         config('constants.status_return_order.Shop has received the goods') == $order->status_return_order ||
                                                         config('constants.status_return_order.Refund successful') == $order->status_return_order)
@@ -164,8 +175,7 @@
                                                     @continue
                                                 @endif
                                                 <option value="{{ $value }}"
-                                                        @if (in_array($value, [config('constants.status_return_order.Preparing orders'),
-                                                            config('constants.status_return_order.Shipped')]) ||
+                                                        @if (in_array($value, [config('constants.status_return_order.Preparing orders')]) ||
                                                             config('constants.status_return_order.Refund successful') == $order->status_return_order
                                                              )
                                                             disabled
