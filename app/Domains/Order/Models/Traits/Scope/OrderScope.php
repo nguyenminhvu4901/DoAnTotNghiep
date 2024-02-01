@@ -34,4 +34,14 @@ trait OrderScope
     {
         return $query->where(fn($query) => $query->whereIn('status', $term));
     }
+
+    /**
+     * @param $query
+     * @param $term
+     * @return mixed
+     */
+    public function scopeFilterByStatusReturnOrder($query, array $term): mixed
+    {
+        return $query->where(fn($query) => $query->whereIn('status_return_order', $term));
+    }
 }

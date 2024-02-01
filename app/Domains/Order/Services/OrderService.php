@@ -83,8 +83,8 @@ class OrderService extends BaseService
             ->search($this->escapeSpecialCharacter($data['search'] ?? ''))
             ->when(isset($data['payment_method']), function ($query) use ($data) {
                 $query->filterByPaymentMethod($data['payment_method']);
-            })->when(isset($data['status']), function ($query) use ($data) {
-                $query->filterByStatus($data['status']);
+            })->when(isset($data['status_return_order']), function ($query) use ($data) {
+                $query->filterByStatusReturnOrder($data['status_return_order']);
             })
             ->latest('id')
             ->paginate(config('constants.paginate'));

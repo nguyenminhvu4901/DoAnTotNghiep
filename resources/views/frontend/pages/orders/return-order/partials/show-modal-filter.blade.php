@@ -21,14 +21,14 @@
     <br>
     <div class="d-flex align-items-center justify-content-between">
         <label class="col-form-label">
-            @lang('Status')
+            @lang('Status Return Order')
         </label>
         <div class="pl-3 w-75">
-            <select data-selected="{{ json_encode(request('status')) }}" multiple name="status[]"
-                    data-placeholder="@lang('Status')" class="form-control w-100 filter-select">
-                @foreach (config('constants.status_order_text') as $key => $value)
+            <select data-selected="{{ json_encode(request('status_return_order')) }}" multiple name="status_return_order[]"
+                    data-placeholder="@lang('Status Return Order')" class="form-control w-100 filter-select">
+                @foreach (config('constants.status_return_order') as $key => $value)
                     <option value="{{ $value }}"
-                            @if (in_array($value, request('status') ?? [])) selected @endif>
+                            @if (in_array($value, request('status_return_order') ?? [])) selected @endif>
                         {{ __($key) }}
                     </option>
                 @endforeach

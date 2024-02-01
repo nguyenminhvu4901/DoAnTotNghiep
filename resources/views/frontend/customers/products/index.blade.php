@@ -92,7 +92,8 @@
                                             <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
                                         </h6>
                                         <h5> {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}</h5>
-                                        {{ formatMoney($product->productDetail->avg('price')) }}
+                                        <hr>
+                                        <strong>@lang('Average price') {{ formatMoney($product->productDetail->avg('price')) }}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +122,7 @@
                     @endforelse
                 </div>
                 <div class="pagination container-fluid pt-2 position-sticky">
-                    {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product', 'order_by', 'colors', 'sizes'))->links('frontend.includes.custom-pagination') }}
+                    {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product', 'order_by', 'colors', 'sizes', 'min_price', 'max_price'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>

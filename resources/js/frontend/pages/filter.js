@@ -5,6 +5,7 @@ $(function () {
         placeholder: $(this).data('placeholder')
     });
 
+
     filterModal.on('hidden.bs.modal', function () {
         if ($(this).data('no-reset')) return
         const classSelect = $('#class-select')
@@ -23,6 +24,9 @@ $(function () {
         const inputName = $(this).data('name')
         const inputValue = $(this).data('value')
         filterModal.find(`select[name="${inputName}"] option[value="${inputValue}"]`).prop('selected', false).trigger('change')
+        filterModal.find(`input[name="${inputName}"][value="${inputValue}"]`)
+            .val('')
+            .trigger('change')
         $('#search-form').submit()
     })
 })

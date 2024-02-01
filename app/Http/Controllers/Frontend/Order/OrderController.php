@@ -267,58 +267,82 @@ class OrderController extends Controller
 
     public function returnOrderInCustomer(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        $order->update([
-            'is_return_order' => '1'
-        ]);
+            $order->update([
+                'is_return_order' => '1'
+            ]);
 
-        $order->touch();
+            $order->touch();
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
     }
 
     public function returnOrderConfirmation(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        $order->update([
-            'status_return_order' => '2'
-        ]);
+            $order->update([
+                'status_return_order' => '2'
+            ]);
 
-        $order->touch();
+            $order->touch();
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
     }
 
     public function noReturnOrderConfirmation(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        $order->update([
-            'is_return_order' => '2'
-        ]);
+            $order->update([
+                'is_return_order' => '2'
+            ]);
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
+
     }
 
     public function updateStatusReturnOrder(Request $request, int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        try {
+            $order = $this->orderService->getById($orderId);
+            if ($request->get('orderReturnStatus') == config('constants.status_return_order.Refund successful')) {
+                if ($order->couponOrder != null) {
+                    $this->orderService->returnCouponInOrder($order->couponOrder);
+                }
 
-        if ($request->get('orderReturnStatus') == config('constants.status_return_order.Refund successful')) {
-            if ($order->couponOrder != null) {
-                $this->orderService->returnCouponInOrder($order->couponOrder);
-            }
+                if ($order->productOrder != null) {
+                    $this->orderService->returnProductInOrder($order->productOrder);
+                }
 
-            if ($order->productOrder != null) {
-                $this->orderService->returnProductInOrder($order->productOrder);
+                $order->update([
+                    'status_return_order' => $request->get('orderReturnStatus')
+                ]);
+
+                $order->touch();
+
+                return response()->json([
+                    'status_code' => Response::HTTP_OK,
+                ]);
             }
 
             $order->update([
@@ -330,16 +354,8 @@ class OrderController extends Controller
             return response()->json([
                 'status_code' => Response::HTTP_OK,
             ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
         }
-
-        $order->update([
-            'status_return_order' => $request->get('orderReturnStatus')
-        ]);
-
-        $order->touch();
-
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
     }
 }

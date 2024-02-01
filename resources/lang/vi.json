@@ -582,5 +582,11 @@
   "This order cannot be returned.": "Đơn đặt hàng này không thể được trả lại.",
   "Your return request has been approved!": "Yêu cầu trả lại của bạn đã được phê duyệt!",
   "The order has been returned successfully so you cannot update it.": "Đơn hàng đã được trả lại thành công nên bạn không thể cập nhật được.",
-  "Order is being delivered and cannot return order": "Giao hàng thành công và không thể trả lại đơn hàng"
+  "Order is being delivered and cannot return order": "Giao hàng thành công và không thể trả lại đơn hàng",
+  "Min Price": "Giá thấp nhất",
+  "Max Price": "Giá cao nhất",
+  "Average price": "Giá trung bình",
+  "Status Return Order": "Trạng thái trả hàng",
+  "Successful delivery but this order cannot be returned.": "Giao hàng thành công nhưng đơn hàng này không thể trả hàng.",
+  "An error occurred, please try again!": "Có lỗi xảy ra. Vui lòng thử lại!"
 }

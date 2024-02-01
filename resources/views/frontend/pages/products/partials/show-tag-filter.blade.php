@@ -33,7 +33,7 @@
         @endforeach
     @endif
     @if (request('order_by') != null)
-            @foreach(config('constants.order_by') as $key => $value)
+        @foreach(config('constants.order_by') as $key => $value)
             @if ($value == request('order_by'))
                 @include('frontend.includes.filter.filter-display-tag', [
                     'text' => __('Order By') . ': ' . __($key),
@@ -42,5 +42,19 @@
                 ])
             @endif
         @endforeach
+    @endif
+    @if (request('min_price') != null)
+        @include('frontend.includes.filter.filter-display-tag', [
+            'text' => __('Min Price') . ': ' . request('min_price'),
+            'name' => 'min_price',
+            'value' => request('min_price'),
+        ])
+    @endif
+    @if (request('max_price') != null)
+        @include('frontend.includes.filter.filter-display-tag', [
+            'text' => __('Max Price') . ': ' . request('max_price'),
+            'name' => 'max_price',
+            'value' => request('max_price'),
+        ])
     @endif
 </div>
