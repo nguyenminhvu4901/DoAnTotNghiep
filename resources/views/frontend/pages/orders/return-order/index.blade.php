@@ -8,7 +8,7 @@
     </div><!--fade-in-->
 
     <input type="hidden" class="sub-js" data-sub="{{ json_encode([
-        'success' => __('Status update successful.'),
+        'success' => __('Update successful.'),
         'unsuccess' => __('An error occurred, please try again.'),
         'done5' => __('The order has been returned successfully so you cannot update it.')
     ]) }}">
@@ -218,7 +218,7 @@
                                     @elseif($order->status_return_order == !config('constants.status_return_order.Preparing orders'))
                                         @lang('You cannot cancel return your order.')
                                     @elseif($order->status_return_order == config('constants.status_return_order.Refund successful'))
-                                        @lang('Complete the return order process.')
+                                        <p style="color: #237ec8">@lang('Complete the return order process.')</p>
                                     @else
                                         <p style="color: #7ece07;
                                         ">@lang('Order returns are being processed.')</p>
@@ -257,7 +257,7 @@
                                             ])
                                         </form>
                                     @elseif($order->status_return_order == config('constants.status_return_order.Refund successful'))
-                                        @lang('Complete the return order process.')
+                                        <p style="color: #237ec8">@lang('Complete the return order process.')</p>
                                     @elseif(config('constants.status_return_order.Cancel return order') == $order->status_return_order)
                                         <p style="color: red">@lang('This order cannot be returned.')</p>
                                     @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
