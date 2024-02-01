@@ -8,9 +8,9 @@
     </div><!--fade-in-->
 
     <input type="hidden" class="sub-js" data-sub="{{ json_encode([
-        'success' => __('Status update successful.'),
+        'success' => __('Update successful.'),
         'unsuccess' => __('An error occurred, please try again.'),
-        'done5' => __('The order has been successfully delivered, so you cannot update')
+        'done5' => __('The order has been returned successfully so you cannot update it.')
     ]) }}">
     <div class="mt-4 rounded bg-white">
         <div class="p-3 pl-2 font-weight-bold text-center pb-5">
@@ -32,6 +32,10 @@
                         @include('frontend.pages.orders.partials.show-modal-filter')
                     </form>
                 </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-md-end">
+                <a class="btn-footer-modal btn btn-primary rounded-10"
+                   href="{{ route('frontend.orders.index') }}">@lang('Order')</a>
             </div>
         </div>
 
@@ -66,11 +70,9 @@
                         <th class="text-center">
                             @lang('Product information')
                         </th>
-                        @if (auth()->user()->isRoleCustomer())
-                            <th class="text-center">
-                                @lang('Action')
-                            </th>
-                        @endif
+                        <th class="text-center">
+                            @lang('Action')
+                        </th>
                         <th class="text-center">
                             @lang('Return order')
                         </th>
@@ -97,7 +99,18 @@
                                 {{ formatMoney($order->total) }}
                             </td>
                             <td class="text-center align-middle" style="color:firebrick">
-                                {{ $order->formatted_order_status }}
+                                @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                                    $order->is_return_order == 0)
+                                    {{ $order->formatted_order_status }}
+                                @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                                    $order->is_return_order == 1)
+                                    @lang('Wait for the shop to confirm.')
+                                @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
+                               $order->is_return_order == 2)
+                                    @lang('This order cannot be returned.')
+                                @else
+                                    {{ $order->formatted_return_order_status }}
+                                @endif
                             </td>
                             <td class="text-center align-middle">
                                 <a href="{{ route('frontend.orders.customerInfo', ['orderId' => $order->id]) }}"><i
@@ -107,144 +120,158 @@
                                 <a href="{{ route('frontend.orders.productInfo', ['orderId' => $order->id]) }}"><i
                                             class="fas fa-info"></i></a>
                             </td>
-                            {{--                            Action--}}
-                            {{--                            Bên Admin có nút xác nhận nếu User Trả hàng--}}
-                            {{--                            Bên Customer có nút trả hàng ở td cuối--}}
-                            {{--                            Sau khi đc admin xác nhận thì hành động được hiển thị --}}
-                            {{--                            Nếu chọn huỷ trả hàng thì ko đc trả lại, tắt các option và bên trả hàng in ra text--}}
                             <td class="text-center align-middle">
-                                <select class="form-control status-order" style="width: 100%;" name="status"
-                                        data-current-status="{{ $order->status }}"
-                                        data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}"
-                                >
-                                    {{--                                        data-sub="{{ json_encode([ád, sdhk]) }}"--}}
-                                    @foreach (config('constants.status_return_order') as $key => $value)
-                                        @if (config('constants.status_return_order.Order sent successfully') == $order->status)
-                                            <option value="{{ $value }}"
-                                                    @if ($order->status == $value) selected @endif>
-                                                {{ __($key) }}
-                                            </option>
-                                            @break
-
-                                        @elseif (config('constants.status_order_text.Successful delivery') == $order->status)
-                                            <option
-                                                    value="{{ config('constants.status_order_text.Successful delivery') }}"
-                                                    @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>
-                                                {{ __(array_search('5', config('constants.status_order_text'))) }}
-                                            </option>
-                                            @break
-
-                                        @elseif($value == config('constants.status_order_text.Cancel order'))
-                                            @continue
-                                        @endif
-                                        <option value="{{ $value }}"
-                                                @if ($order->status == $value) selected @endif>
-                                            {{ __($key) }}
+                                <select class="form-control status-return-order" style="width: 100%;" name="status"
+                                        data-current-status="{{ $order->status_return_order }}"
+                                        data-url="{{ route('frontend.orders.updateStatusReturnOrder', ['orderId' => $order->id]) }}">
+                                    @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order)
+                                        <option value="{{ $order->status_return_order }}" selected>
+                                            {{ __('Successful delivery') }}
                                         </option>
-                                    @endforeach
+                                    @else
+                                        @if(auth()->user()->isRoleCustomer())
+                                            @foreach (config('constants.status_return_order') as $key => $value)
+                                                @if (config('constants.status_return_order.Cancel return order') == $order->status_return_order)
+                                                    <option value="{{ $value }}"
+                                                            @if ($order->status_return_order == $value) selected @endif>
+                                                        {{ __($key) }}
+                                                    </option>
+                                                    @break
+                                                @endif
+
+                                                @if ($value == config('constants.status_return_order.Successful delivery'))
+                                                    @continue
+                                                @endif
+
+                                                <option value="{{ $value }}"
+                                                        @if (in_array($value, [config('constants.status_return_order.Shop has received the goods'), config('constants.status_return_order.Refund successful'), config('constants.status_return_order.Shipped')]) ||
+                                                        config('constants.status_return_order.Shipped') != $value && config('constants.status_return_order.Shipped') == $order->status_return_order ||
+                                                        config('constants.status_return_order.Shop has received the goods') == $order->status_return_order ||
+                                                        config('constants.status_return_order.Refund successful') == $order->status_return_order)
+                                                            disabled
+                                                        @endif
+
+                                                        @if ($order->status_return_order == $value)
+                                                            selected
+                                                        @endif
+                                                >
+                                                    {{ __($key) }}
+                                                </option>
+                                            @endforeach
+
+                                            {{--                                            Admin--}}
+                                        @else
+                                            @foreach (config('constants.status_return_order') as $key => $value)
+
+                                                @if (config('constants.status_return_order.Cancel return order') == $order->status_return_order)
+                                                    <option value="{{ $value }}"
+                                                            @if ($order->status_return_order == $value) selected @endif>
+                                                        {{ __($key) }}
+                                                    </option>
+                                                    @break
+                                                @endif
+
+                                                @if(config('constants.status_return_order.Successful delivery') == $value)
+                                                    @continue
+                                                @endif
+                                                <option value="{{ $value }}"
+                                                        @if (in_array($value, [config('constants.status_return_order.Preparing orders')]) ||
+                                                            config('constants.status_return_order.Refund successful') == $order->status_return_order
+                                                             )
+                                                            disabled
+                                                        @endif
+                                                        @if ($order->status_return_order == $value) selected @endif>
+                                                    {{ __($key) }}
+                                                </option>
+                                            @endforeach
+
+                                        @endif
+                                    @endif
                                 </select>
                             </td>
 
                             <td class="text-center align-middle">
-{{--                                @if(auth()->user()->isRoleCustomer())--}}
-{{--                                    <form action="{{ route('frontend.products.destroy', ['id' => $product->id]) }}"--}}
-{{--                                          method="POST">--}}
-{{--                                        @csrf--}}
-{{--                                        @method('DELETE')--}}
-{{--                                        <button type="button" class="btn btn-link"--}}
-{{--                                                href="#modalDelete-{{ $product->id }}"--}}
-{{--                                                class="trigger-btn" data-toggle="modal">--}}
-{{--                                            <i class="fas fa-trash" style="color: #ff0000;"></i>--}}
-{{--                                        </button>--}}
-{{--                                        @include('frontend.pages.products.partials.show-modal-delete', [--}}
-{{--                                            'productId' => $product->id,--}}
-{{--                                        ])--}}
-{{--                                    </form>--}}
-{{--                                @endif--}}
+                                @if(auth()->user()->isRoleCustomer())
+                                    @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                       && $order->is_return_order == 0)
+                                        <form id="sendRequestReturnOrder"
+                                              data-url="{{ route('frontend.orders.returnOrderInCustomer', ['orderId' => $order->id]) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button" class="btn btn-link" data-toggle="modal"
+                                                    data-target="#modalReturnOrderInCustomer-{{ $order->id }}">
+                                                <i class="fas fa-exchange-alt" style="color: #33df0c;" disabled></i>
+                                            </button>
+                                            @include('frontend.pages.orders.return-order.partials.return-order-in-customer', [
+                                                'orderId' => $order->id,
+                                            ])
+                                        </form>
+                                    @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                       && $order->is_return_order == 1)
+                                        @lang('Wait for the shop to confirm.')
+                                    @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                  && $order->is_return_order == 2)
+                                        @lang('Your return request was not approved!')
+                                    @elseif(config('constants.status_return_order.Preparing orders') == $order->status_return_order
+                             && $order->is_return_order == 1)
+                                        @lang('Your return request has been approved!')
+                                    @elseif($order->status_return_order == !config('constants.status_return_order.Preparing orders'))
+                                        @lang('You cannot cancel return your order.')
+                                    @elseif($order->status_return_order == config('constants.status_return_order.Refund successful'))
+                                        <p style="color: #237ec8">@lang('Complete the return order process.')</p>
+                                    @else
+                                        <p style="color: #7ece07;
+                                        ">@lang('Order returns are being processed.')</p>
+                                    @endif
+                                @else
+                                    @if (config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                      && $order->is_return_order == 1)
+                                        <form
+                                                id="confirmRequestReturnOrder"
+                                                data-url="{{ route('frontend.orders.returnOrderConfirmation', ['orderId' => $order->id]) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button" class="btn btn-link"
+                                                    href="#modalreturnOrderConfirmation-{{ $order->id }}"
+                                                    data-toggle="modal">
+                                                <i class="fas fa-check" style="color: #33df0c;" disabled></i>
+                                            </button>
+                                            @include('frontend.pages.orders.return-order.partials.return-order-confirm', [
+                                                'orderId' => $order->id,
+                                            ])
+                                        </form>
+
+                                        <form
+                                                id="noConfirmRequestReturnOrder"
+                                                data-url="{{ route('frontend.orders.noReturnOrderConfirmation', ['orderId' => $order->id]) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="button" class="btn btn-link"
+                                                    href="#modalnoReturnOrderConfirmation-{{ $order->id }}"
+                                                    class="trigger-btn"
+                                                    data-toggle="modal">
+                                                <i class="fas fa-times" style="color: #df0c0c;" disabled></i>
+                                            </button>
+                                            @include('frontend.pages.orders.return-order.partials.no-return-order-confirm', [
+                                                'orderId' => $order->id,
+                                            ])
+                                        </form>
+                                    @elseif($order->status_return_order == config('constants.status_return_order.Refund successful'))
+                                        <p style="color: #237ec8">@lang('Complete the return order process.')</p>
+                                    @elseif(config('constants.status_return_order.Cancel return order') == $order->status_return_order)
+                                        <p style="color: red">@lang('This order cannot be returned.')</p>
+                                    @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                      && $order->is_return_order == 0)
+                                        @lang('There are no requests to return orders.')
+                                    @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
+                                      && $order->is_return_order == 2)
+                                        <p style="color: red">@lang('This order cannot be returned.')</p>
+                                    @else
+                                        <p style="color: #7fcb06;
+                                        ">@lang('Order returns are being processed.')</p>
+                                    @endif
+                                @endif
                             </td>
-                            {{--                            @if (auth()->user()->isRoleCustomer())--}}
-                            {{--                                <td class="text-center align-middle" style="width: 200px;">--}}
-                            {{--                                    <select class="form-control status-order" style="width: 100%;" name="status"--}}
-                            {{--                                            data-current-status="{{ $order->status }}"--}}
-                            {{--                                            data-url="{{ route('frontend.orders.updateStatusOrder', ['orderId' => $order->id]) }}">--}}
-                            {{--                                        @foreach (config('constants.status_order_text') as $key => $value)--}}
-                            {{--                                            @if (config('constants.status_order_text.Cancel order') == $order->status)--}}
-                            {{--                                                <option value="{{ $value }}"--}}
-                            {{--                                                        @if ($order->status == $value) selected @endif>--}}
-                            {{--                                                    {{ __($key) }}--}}
-                            {{--                                                </option>--}}
-                            {{--                                                @break--}}
-
-                            {{--                                            @elseif (config('constants.status_order_text.Successful delivery') == $order->status)--}}
-                            {{--                                                <option--}}
-                            {{--                                                        value="{{ config('constants.status_order_text.Successful delivery') }}"--}}
-                            {{--                                                        @if ($order->status == config('constants.status_order_text.Successful delivery')) selected @endif>--}}
-                            {{--                                                    {{ __(array_search('5', config('constants.status_order_text'))) }}--}}
-                            {{--                                                </option>--}}
-                            {{--                                                @break--}}
-
-                            {{--                                            @elseif($value == config('constants.status_order_text.Cancel order'))--}}
-                            {{--                                                @continue--}}
-                            {{--                                            @endif--}}
-                            {{--                                            <option value="{{ $value }}"--}}
-                            {{--                                                    @if ($order->status == $value) selected @endif>--}}
-                            {{--                                                {{ __($key) }}--}}
-                            {{--                                            </option>--}}
-                            {{--                                        @endforeach--}}
-                            {{--                                    </select>--}}
-                            {{--                                </td>--}}
-                            {{--                            @endif--}}
-                            {{--                            @if (auth()->user()->isRoleCustomer())--}}
-                            {{--                                <td class="text-center align-middle">--}}
-                            {{--                                    @if ($order->status == config('constants.status_order.ready_to_pick'))--}}
-                            {{--                                        <form--}}
-                            {{--                                                action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"--}}
-                            {{--                                                method="POST">--}}
-                            {{--                                            @csrf--}}
-                            {{--                                            @method('PATCH')--}}
-                            {{--                                            <button type="button" class="btn btn-link"--}}
-                            {{--                                                    href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"--}}
-                            {{--                                                    data-toggle="modal">--}}
-                            {{--                                                <i class="fas fa-times" style="color: #df2b0c;" disabled></i>--}}
-                            {{--                                            </button>--}}
-                            {{--                                            @include('frontend.pages.orders.partials.modal-cancel-order', [--}}
-                            {{--                                                'orderId' => $order->id,--}}
-                            {{--                                            ])--}}
-                            {{--                                        </form>--}}
-                            {{--                                    @elseif($order->status == config('constants.status_order.cancel'))--}}
-                            {{--                                        @lang('Order has been cancelled')--}}
-                            {{--                                    @elseif($order->status == config('constants.status_order.delivered'))--}}
-                            {{--                                        @lang('The order has been successfully delivered, so it cannot be canceled.')--}}
-                            {{--                                    @else--}}
-                            {{--                                        @lang('You cannot cancel your order because it has already been prepared and shipped')--}}
-                            {{--                                    @endif--}}
-                            {{--                                </td>--}}
-                            {{--                            @else--}}
-                            {{--                                <td class="text-center align-middle">--}}
-                            {{--                                    @if (--}}
-                            {{--                                        $order->status != config('constants.status_order.cancel') &&--}}
-                            {{--                                            $order->status != config('constants.status_order.delivered'))--}}
-                            {{--                                        <form--}}
-                            {{--                                                action="{{ route('frontend.orders.cancelOrder', ['orderId' => $order->id]) }}"--}}
-                            {{--                                                method="POST">--}}
-                            {{--                                            @csrf--}}
-                            {{--                                            @method('PATCH')--}}
-                            {{--                                            <button type="button" class="btn btn-link"--}}
-                            {{--                                                    href="#modalCancelOrder-{{ $order->id }}" class="trigger-btn"--}}
-                            {{--                                                    data-toggle="modal">--}}
-                            {{--                                                <i class="fas fa-times" style="color: #df2b0c;" disabled></i>--}}
-                            {{--                                            </button>--}}
-                            {{--                                            @include('frontend.pages.orders.partials.modal-cancel-order', [--}}
-                            {{--                                                'orderId' => $order->id,--}}
-                            {{--                                            ])--}}
-                            {{--                                        </form>--}}
-                            {{--                                    @elseif($order->status == config('constants.status_order.delivered'))--}}
-                            {{--                                        @lang('The order has been successfully delivered, so it cannot be canceled.')--}}
-                            {{--                                    @else--}}
-                            {{--                                        @lang('Order has been cancelled.')--}}
-                            {{--                                    @endif--}}
-                            {{--                                </td>--}}
-                            {{--                            @endif--}}
                         </tr>
                     @empty
                         <tr>
@@ -263,5 +290,5 @@
 
 @push('after-scripts')
     <script src="{{ asset('js/pages/filter.js') }}"></script>
-    <script src="{{ asset('js/pages/order/updateStatus.js') }}"></script>
+    <script src="{{ asset('js/pages/order/sendRequestReturnOrder.js') }}"></script>
 @endpush

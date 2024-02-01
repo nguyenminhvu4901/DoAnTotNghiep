@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-md-end">
-                <a class="btn-footer-modal btn btn-primary rounded-10"
+                <a class="btn-footer-modal btn btn-warning rounded-10"
                    href="{{ route('frontend.orders.listOrderReturn') }}">@lang('Return Order')</a>
             </div>
         </div>

@@ -569,5 +569,18 @@
   "Shipped": "Đã gửi hàng",
   "Shop has received the goods": "Cửa hàng đã nhận hàng",
   "Refund successful": "Hoàn tiền thành công",
-  "RETURN ORDER": "TRẢ HÀNG"
+  "RETURN ORDER": "TRẢ HÀNG",
+  "You cannot cancel return your order.": "Bạn không thể huỷ trả lại đơn hàng.",
+  "Complete the return order process.": "Hoàn tất quá trình trả lại đơn hàng",
+  "Wait for the shop to confirm.": "Chờ cửa hàng xác nhận.",
+  "Order returns are being processed.": "Đang xử lý trả lại đơn hàng",
+  "There are no requests to return orders.": "Không có yêu cầu trả lại đơn hàng.",
+  "Do you want to return this order? This process cannot be undone.": "Bạn có muốn hoàn trả lại đơn hàng không? Hành động này không thể hoàn tác.",
+  "Your return request was not approved!": "Yêu cầu trả lại của bạn không được chấp thuận!",
+  "Do you want to confirm request return this order? This process cannot be undone.": "Bạn có muốn hoàn chấp thuận yêu cầu trả lại đơn hàng không? Hành động này không thể hoàn tác.",
+  "Do you want to cancel request to return your order? This process cannot be undone.": "Bạn có muốn hủy yêu cầu trả lại đơn hàng không? Hành động này không thể hoàn tác.",
+  "This order cannot be returned.": "Đơn đặt hàng này không thể được trả lại.",
+  "Your return request has been approved!": "Yêu cầu trả lại của bạn đã được phê duyệt!",
+  "The order has been returned successfully so you cannot update it.": "Đơn hàng đã được trả lại thành công nên bạn không thể cập nhật được.",
+  "Order is being delivered and cannot return order": "Giao hàng thành công và không thể trả lại đơn hàng"
 }
