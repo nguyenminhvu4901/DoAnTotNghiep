@@ -28,7 +28,7 @@ class SaleService extends BaseService
         Product       $product,
         ProductDetail $productDetail,
         ProductSale   $productSale,
-        Category $category
+        Category      $category
     )
     {
         $this->model = $sale;
@@ -115,51 +115,74 @@ class SaleService extends BaseService
 
     public function createProductSaleGlobal($data = [], int $productId)
     {
-        $sale = $this->model->create([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
+        $checkSaleGlobals = ProductSale::where('product_id', $productId)->get();
 
-        $sale->syncProduct($productId);
+        if ($checkSaleGlobals->isEmpty()) {
+            $sale = $this->model->create([
+                'type' => $data['type'],
+                'value' => $data['value'],
+                'start_date' => $data['start_date'],
+                'expiry_date' => $data['expiry_date'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
+            ]);
 
-        return $sale;
+            $product = $this->getProductById($productId);
+            $categoryId = $product->categories->first()->id;
+
+            $sale->syncProductWithCategory($categoryId, $productId);
+
+            return $sale;
+        }
+
+        return false;
+
     }
 
     public function createProductSaleOption($data = [], int $productDetailId)
     {
-        $sale = $this->model->create([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
+        $checkSaleOption = ProductSale::where('product_detail_id', $productDetailId)->get();
 
-        $productDetail = $this->getProductDetailById($productDetailId);
+        if ($checkSaleOption->isEmpty()) {
+            $sale = $this->model->create([
+                'type' => $data['type'],
+                'value' => $data['value'],
+                'start_date' => $data['start_date'],
+                'expiry_date' => $data['expiry_date'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
+            ]);
 
-        $sale->syncProductDetailWithProductGlobal($productDetail->product_id, $productDetailId);
+            $productDetail = $this->getProductDetailById($productDetailId);
+            $product = $this->getProductById($productDetail->product_id);
+            $categoryId = $product->categories->first()->id;
 
-        return $sale;
+            $sale->syncProductDetailWithProductGlobal($categoryId, $productDetail->product_id, $productDetailId);
+
+            return $sale;
+        }
+        return false;
     }
 
     public function createProductSaleCategory($data = [], int $categoryId)
     {
-        $sale = $this->model->create([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
+        $checkSaleCategory = ProductSale::where('category_id', $categoryId)->get();
 
-        $productDetail = $this->getCategoryById($categoryId);
+        if ($checkSaleCategory->isEmpty()) {
+            $sale = $this->model->create([
+                'type' => $data['type'],
+                'value' => $data['value'],
+                'start_date' => $data['start_date'],
+                'expiry_date' => $data['expiry_date'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
+            ]);
 
-        $sale->syncCategory($categoryId);
+            $productDetail = $this->getCategoryById($categoryId);
 
-        return $sale;
+            $sale->syncCategory($categoryId);
+
+            return $sale;
+        }
+
+        return false;
     }
 
     public function updateSale($data = [], Sale $sale)

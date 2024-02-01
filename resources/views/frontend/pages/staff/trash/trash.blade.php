@@ -48,9 +48,9 @@
                         <th class="text-center">
                             @lang('Restore')
                         </th>
-                        <th class="text-center">
-                            @lang('Delete')
-                        </th>
+{{--                        <th class="text-center">--}}
+{{--                            @lang('Delete')--}}
+{{--                        </th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -85,24 +85,24 @@
                                     ])
                                 </form>
                             </td>
-                            <td class="text-center align-middle">
-                                <form action="{{ route('frontend.staff.forceDelete', ['id' => $eachStaff->id]) }}"
-                                      method="GET">
-                                    @csrf
-                                    @method('GET')
-                                    <button type="button" class="btn btn-link"
-                                            href="#modalDelete-{{ $eachStaff->id }}"
-                                            data-toggle="modal">
-                                        <i class="fas fa-trash" style="color: #ff0000;"></i>
-                                    </button>
-                                    @include(
-                                        'frontend.pages.staff.trash.partials.show-modal-force-delete',
-                                        [
-                                            'staffId' => $eachStaff->id,
-                                        ]
-                                    )
-                                </form>
-                            </td>
+{{--                            <td class="text-center align-middle">--}}
+{{--                                <form action="{{ route('frontend.staff.forceDelete', ['id' => $eachStaff->id]) }}"--}}
+{{--                                      method="GET">--}}
+{{--                                    @csrf--}}
+{{--                                    @method('GET')--}}
+{{--                                    <button type="button" class="btn btn-link"--}}
+{{--                                            href="#modalDelete-{{ $eachStaff->id }}"--}}
+{{--                                            data-toggle="modal">--}}
+{{--                                        <i class="fas fa-trash" style="color: #ff0000;"></i>--}}
+{{--                                    </button>--}}
+{{--                                    @include(--}}
+{{--                                        'frontend.pages.staff.trash.partials.show-modal-force-delete',--}}
+{{--                                        [--}}
+{{--                                            'staffId' => $eachStaff->id,--}}
+{{--                                        ]--}}
+{{--                                    )--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
                         </tr>
                     @empty
                         <tr>

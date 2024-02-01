@@ -111,7 +111,7 @@
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">
-                                        <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
+                                        <h6><a href="#">@lang('There are currently no products')</a></h6>
                                         @isset($product)
                                             <h5> {{ !$product->productDetail->isEmpty() ? formatMoney($product->productDetail->min('price')) . ' - ' . formatMoney($product->productDetail->max('price')) : __('N/A') }}</h5>
                                         @endisset

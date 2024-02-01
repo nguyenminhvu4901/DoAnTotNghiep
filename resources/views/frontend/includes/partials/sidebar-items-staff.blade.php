@@ -114,13 +114,13 @@
     </div>
 @endcanany
 
-<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.productChart.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"
-   href="{{ route('frontend.productChart.index') }}">
-    <div class="d-flex align-items-center">
-        <i class="fa-solid fas fa-signal fa-lg sidebar-icon"></i>
-        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Statistic')</div>
-    </div>
-</a>
+{{--<a class="d-flex mb-3 sidebar-route-normal @if (isCurrentRouteInRoutes('frontend.productChart.*')) sidebar-route-selected @else sidebar-route-normal @endif text-lg"--}}
+{{--   href="{{ route('frontend.productChart.index') }}">--}}
+{{--    <div class="d-flex align-items-center">--}}
+{{--        <i class="fa-solid fas fa-signal fa-lg sidebar-icon"></i>--}}
+{{--        <div class="text-sky-700 fw-bold fs-5 ml-3">@lang('Statistic')</div>--}}
+{{--    </div>--}}
+{{--</a>--}}
 
 <a class="d-flex mb-3 sidebar-route-normal" href="#"
    onclick="event.preventDefault();document.getElementById('logout-form').submit();">

@@ -28,7 +28,8 @@ trait UserAttribute
      */
     public function getAvatarAttribute()
     {
-        if (isset($this->attibutes['avatar'])) {
+
+        if (isset($this->attributes['avatar'])) {
             if ($this->attributes['avatar'] != null || $this->attributes['avatar'] != '') {
                 return asset('storage/images/avatars/' . $this->attributes['avatar']);
             }

@@ -41,7 +41,7 @@ class UpdateRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($this->id)
             ],
             'name' => ['required', 'string', 'min:2'],
-            'password' => ['required', PasswordRules::register($data['email'] ?? null), 'min:8', 'max:16']
+            'password' => ['nullable', 'sometimes', 'min:8', 'max:16'],
         ];
     }
 }

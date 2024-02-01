@@ -96,28 +96,30 @@
                     @empty
                         <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                             <div class="featured__item">
-                                <div class="featured__item__pic set-bg"
-                                     data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
-                                    <ul class="featured__item__pic__hover">
-                                        {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
-                                        {{--                                        <li>--}}
-                                        {{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
-                                        {{--                                        </li>--}}
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="featured__item__text">
-                                    <h6><a href="#">@lang('There are no coupons')</a></h6>
-                                    @isset($coupon)
-                                        <h5> {{ __('N/A') }}</h5>
-                                    @endisset
+                                <div class="featured__item parent-featured__item">
+                                    <div class="featured__item__pic set-bg"
+                                         data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
+                                        <ul class="featured__item__pic__hover">
+                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
+                                            {{--                                        <li>--}}
+                                            {{--                                            <a href="#"><i class="fa fa-info-circle"></i></a>--}}
+                                            {{--                                        </li>--}}
+                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="featured__item__text">
+                                        <h6><a href="#">@lang('There are no coupons')</a></h6>
+                                        @isset($coupon)
+                                            <h5> {{ __('N/A') }}</h5>
+                                        @endisset
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforelse
                 </div>
                 <div class="pagination container-fluid pt-2 position-sticky">
-                    {{ $coupons->onEachSide(1)->appends(request()->only('search', 'categories', 'products', 'search-product'))->links('frontend.includes.custom-pagination') }}
+                    {{ $coupons->onEachSide(1)->appends(request()->only('search'))->links('frontend.includes.custom-pagination') }}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -91,29 +92,37 @@ class OrderController extends Controller
 
     public function cancelOrder(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        DB::beginTransaction();
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        if ($order->status == config('constants.status_order.cancel')) {
-            return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
-        } elseif ($order->status == config('constants.status_order.delivered')) {
-            return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
-        } else {
-            if ($order->couponOrder != null) {
-                $this->orderService->returnCouponInOrder($order->couponOrder);
+            if ($order->status == config('constants.status_order.cancel')) {
+                return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
+            } elseif ($order->status == config('constants.status_order.delivered')) {
+                return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
+            } else {
+                if ($order->couponOrder != null) {
+                    $this->orderService->returnCouponInOrder($order->couponOrder);
+                }
+
+                if ($order->productOrder != null) {
+                    $this->orderService->returnProductInOrder($order->productOrder);
+                }
+
+                $order->update([
+                    'status' => config('constants.status_order.cancel')
+                ]);
+
+                $order->touch();
+
+                DB::commit();
+
+                return redirect()->route('frontend.orders.index')
+                    ->withFlashSuccess(__('The order has been successfully canceled.'));
             }
-
-            if ($order->productOrder != null) {
-                $this->orderService->returnProductInOrder($order->productOrder);
-            }
-
-            $order->update([
-                'status' => config('constants.status_order.cancel')
-            ]);
-
-            $order->touch();
-
-            return redirect()->route('frontend.orders.index')
-                ->withFlashSuccess(__('The order has been successfully canceled.'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('An error occurred, please try again!'));
         }
     }
 
@@ -323,6 +332,7 @@ class OrderController extends Controller
 
     public function updateStatusReturnOrder(Request $request, int $orderId)
     {
+        DB::beginTransaction();
         try {
             $order = $this->orderService->getById($orderId);
             if ($request->get('orderReturnStatus') == config('constants.status_return_order.Refund successful')) {
@@ -339,7 +349,7 @@ class OrderController extends Controller
                 ]);
 
                 $order->touch();
-
+                DB::commit();
                 return response()->json([
                     'status_code' => Response::HTTP_OK,
                 ]);
@@ -350,11 +360,13 @@ class OrderController extends Controller
             ]);
 
             $order->touch();
-
+            DB::commit();
             return response()->json([
                 'status_code' => Response::HTTP_OK,
             ]);
+
         } catch (\Exception $e) {
+            DB::rollBack();
             throw new \Exception(__('An error occurred, please try again!'));
         }
     }

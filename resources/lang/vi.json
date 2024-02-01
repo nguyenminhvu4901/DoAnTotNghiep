@@ -588,5 +588,12 @@
   "Average price": "Giá trung bình",
   "Status Return Order": "Trạng thái trả hàng",
   "Successful delivery but this order cannot be returned.": "Giao hàng thành công nhưng đơn hàng này không thể trả hàng.",
-  "An error occurred, please try again!": "Có lỗi xảy ra. Vui lòng thử lại!"
+  "An error occurred, please try again!": "Có lỗi xảy ra. Vui lòng thử lại!",
+  "There are currently no products": "hiện tại không có sản phẩm nào",
+  "Optional": "Lựa chọn",
+  "Add to cart": "Thêm vào giỏ hàng",
+  "Product detail not found.": "Không tìm thấy sản phẩm chi tiết",
+  "Sale Option": "Giảm giá 1 loại sản phẩm",
+  "Sale A Product": "Giảm giá một sản phẩm",
+  "Sale Category": "Giảm giá danh mục"
 }

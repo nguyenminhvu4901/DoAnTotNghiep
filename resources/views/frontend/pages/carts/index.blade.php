@@ -44,8 +44,8 @@
                     </div>
                 </div>
             </div>
+            @include('frontend.pages.carts.partials.show-tag-filter')
         </div>
-        @include('frontend.pages.carts.partials.show-tag-filter')
     </section>
 
     <div id="renderCart">
@@ -102,7 +102,7 @@
                                                             {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
                                                 @elseif(isset($cart->productDetail->salePriceCategory))
-                                                        <span>
+                                                    <span>
                                                             {{ $cart->productDetail->reducedValue }}{{ $cart->productDetail->reducedType == 1 ? 'đ' : '%' }}
                                                         </span>
                                                 @else

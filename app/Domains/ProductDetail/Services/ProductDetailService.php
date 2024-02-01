@@ -258,7 +258,8 @@ class ProductDetailService extends BaseService
                 }
                 $productDetail->reducedValue = $productDetail->product->saleGlobal->first()->value;
                 $productDetail->reducedType = $productDetail->product->saleGlobal->first()->type;
-            } else if (!$productDetail->categories->first()->saleCategory->isEmpty()) {
+            }
+            else if (!$productDetail->categories->first()->saleCategory->isEmpty()) {
                 if ($productDetail->categories->first()->saleCategory->first()->type == config('constants.type_sale.percent')) {
                     $productDetail->salePriceCategory = $productDetail->price - $productDetail->price * ($productDetail->categories->first()->saleCategory->first()->value / 100);
                     if ($productDetail->salePriceCategory < 0) {

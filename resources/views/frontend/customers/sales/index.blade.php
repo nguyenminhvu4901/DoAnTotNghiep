@@ -76,7 +76,7 @@
                             <div class="featured__item parent-featured__item">
                                 <div class="featured__item">
                                     <div class="featured__item__pic set-bg"
-                                         data-setbg="{{ $sale->category->first() != null  ? asset('storage/images/products/default/category.jpg') :
+                                         data-setbg="{{ ($sale->category->first() != null && $sale->product->first() == null)  ? asset('storage/images/products/default/category.jpg') :
                                                 (isset($sale->product->first()->productImages) && !$sale->product->first()->productImages->isEmpty()
                                                 ? $sale->product->first()->productImages->first()->getImageUrlAttribute()
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg')) }}">
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="featured__item__text">
                                         <h6>
-                                            @if($sale->category->isNotEmpty())
+                                            @if($sale->category->isNotEmpty() && $sale->product->isEmpty())
                                                 <a href="{{ route('frontend.dashboard.products.index',  ['categories' => $sale->category->pluck('slug')->toArray()]) }}">
                                                     {{ $sale->category->first()->name }} (@lang('Category'))
                                                 </a>

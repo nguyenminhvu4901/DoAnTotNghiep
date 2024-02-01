@@ -3,6 +3,9 @@
 @section('title', __('ADD NEW CATEGORY'))
 
 @section('content')
+    <div class="fade-in">
+        @include('includes.partials.messages')
+    </div><!--fade-in-->
     <div class="mt-4 p-3 container">
         <div class="p-3 pl-2 font-weight-bold">
             <h3><strong>@lang('ADD NEW CATEGORY')</strong></h3>
@@ -20,7 +23,8 @@
                         </div>
                         <div class="col-md-7">
                             <button class="btn btn-primary" type="submit">@lang('Create')</button>
-                            <a type="button" class="btn btn-danger ml-3" href="{{ route('frontend.categories.index') }}">
+                            <a type="button" class="btn btn-danger ml-3"
+                               href="{{ route('frontend.categories.index') }}">
                                 @lang('Exit')
                             </a>
                         </div>

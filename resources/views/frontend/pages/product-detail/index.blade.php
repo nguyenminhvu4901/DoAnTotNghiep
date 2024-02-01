@@ -112,7 +112,7 @@
                                             (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'đ' : '%' }})
                                         </span>
                                     <br>
-                                    {{ formatMoney($productDetail->salePrice) }}
+                                    {{ formatMoney($productDetail->salePrice) }} (@lang('Sale Option'))
                                 @elseif(isset($productDetail->salePriceGlobal))
                                     <span style="text-decoration: line-through">
                                             {{ formatMoney($productDetail->price) }}
@@ -121,7 +121,16 @@
                                             (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'đ' : '%' }})
                                         </span>
                                     <br>
-                                    {{ formatMoney($productDetail->salePriceGlobal) }}
+                                    {{ formatMoney($productDetail->salePriceGlobal) }} (@lang('Sale A Product'))
+                                @elseif(isset($productDetail->salePriceCategory))
+                                    <span style="text-decoration: line-through">
+                                            {{ formatMoney($productDetail->price) }}
+                                        </span>
+                                    <span>
+                                            (-{{ $productDetail->reducedValue }}{{ $productDetail->reducedType == 1 ? 'đ' : '%' }})
+                                        </span>
+                                    <br>
+                                    {{ formatMoney($productDetail->salePriceCategory) }} (@lang('Sale Category'))
                                 @else
                                     {{ formatMoney($productDetail->price) }}
                                 @endif

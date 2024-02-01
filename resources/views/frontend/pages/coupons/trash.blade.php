@@ -57,9 +57,6 @@
                         <th class="text-center">
                             @lang('Quantity')
                         </th>
-                        <th class="text-center">
-                            @lang('Detail')
-                        </th>
                         @hasPermission('user.coupon.disable')
                         <th class="text-center">
                             @lang('Restore')
@@ -94,11 +91,6 @@
                             </td>
                             <td class="text-center align-middle">
                                 {{ $coupon->quantity }}
-                            </td>
-                            <td class="text-center align-middle">
-                                <a href="{{ route('frontend.coupons.detail', ['slug' => $coupon->slug]) }}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
                             </td>
                             @hasPermission('user.coupon.edit')
                             <td class="text-center align-middle">

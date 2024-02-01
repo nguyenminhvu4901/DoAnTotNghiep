@@ -164,7 +164,7 @@ class ProductService extends BaseService
         try {
             $product->update([
                 'name' => $data['name'],
-                'description' => $data['description']
+                'description' => $data['description'],
             ]);
 
             $product->syncCategories($data['category'] ?? []);

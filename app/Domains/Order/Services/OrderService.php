@@ -109,7 +109,7 @@ class OrderService extends BaseService
                 'province' => $data['province_name'],
                 'district' => $data['district_name'],
                 'ward' => $data['ward_name'],
-                'address' => $data['customer_address'],
+                'address' => $data['customer_address']
             ]);
 
             DB::commit();
@@ -245,22 +245,26 @@ class OrderService extends BaseService
     public function returnProductInOrder($products)
     {
         DB::beginTransaction();
-        foreach ($products as $product) {
-            try {
+
+        try {
+            foreach ($products as $product) {
                 $productDetail = $this->productDetail->findOrFail($product->product_detail_id);
                 $productDetail->update([
                     'quantity' => $productDetail->quantity + $product->product_quantity
                 ]);
-                DB::commit();
-            } catch (ModelNotFoundException $e) {
-                DB::rollBack();
-                throw new GeneralException(__('Product detail not found.'));
-            } catch (Exception $e) {
-                DB::rollBack();
-                throw new GeneralException(__('There was a problem updating the product detail. Please try again.'));
             }
+
+            DB::commit();
+
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            throw new GeneralException(__('Product detail not found.'));
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new GeneralException(__('There was a problem updating the product detail. Please try again.'));
         }
     }
+
 
     public function returnCouponInOrder($coupons)
     {
