@@ -32,10 +32,10 @@
                    href="{{ route('frontend.categories.create') }}">@lang('Create New Category')</a>
                 @endhasPermission
 
-                @hasPermission('user.category.trash')
-                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"
-                   href="{{ route('frontend.categories.trash') }}">@lang('Category Archive')</a>
-                @endhasPermission
+{{--                @hasPermission('user.category.trash')--}}
+{{--                <a class="btn-footer-modal btn btn-warning rounded-10 ml-3"--}}
+{{--                   href="{{ route('frontend.categories.trash') }}">@lang('Category Archive')</a>--}}
+{{--                @endhasPermission--}}
             </div>
         </div>
         <div class="px-3 pb-3 pt-0">
@@ -66,11 +66,11 @@
                             @lang('Update')
                         </th>
                         @endhasPermission
-                        @hasPermission('user.category.disable')
-                        <th class="text-center">
-                            @lang('Delete')
-                        </th>
-                        @endhasPermission
+{{--                        @hasPermission('user.category.disable')--}}
+{{--                        <th class="text-center">--}}
+{{--                            @lang('Delete')--}}
+{{--                        </th>--}}
+{{--                        @endhasPermission--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -119,22 +119,22 @@
                                 </a>
                             </td>
                             @endhasPermission
-                            @hasPermission('user.category.disable')
-                            <td class="text-center align-middle">
-                                <form
-                                        action="{{ route('frontend.categories.destroy', ['id' => $category->id]) }}"
-                                        method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-link" href="#modalDelete-{{ $category->id }}"
-                                            class="trigger-btn"
-                                            data-toggle="modal">
-                                        <i class="fas fa-trash" style="color: #ff0000;"></i>
-                                    </button>
-                                    @include('frontend.pages.categories.partials.show-modal-delete', ['categoryId' => $category->id])
-                                </form>
-                            </td>
-                            @endhasPermission
+{{--                            @hasPermission('user.category.disable')--}}
+{{--                            <td class="text-center align-middle">--}}
+{{--                                <form--}}
+{{--                                        action="{{ route('frontend.categories.destroy', ['id' => $category->id]) }}"--}}
+{{--                                        method="POST">--}}
+{{--                                    @csrf--}}
+{{--                                    @method('DELETE')--}}
+{{--                                    <button type="button" class="btn btn-link" href="#modalDelete-{{ $category->id }}"--}}
+{{--                                            class="trigger-btn"--}}
+{{--                                            data-toggle="modal">--}}
+{{--                                        <i class="fas fa-trash" style="color: #ff0000;"></i>--}}
+{{--                                    </button>--}}
+{{--                                    @include('frontend.pages.categories.partials.show-modal-delete', ['categoryId' => $category->id])--}}
+{{--                                </form>--}}
+{{--                            </td>--}}
+{{--                            @endhasPermission--}}
                         </tr>
                     @empty
                         <tr>

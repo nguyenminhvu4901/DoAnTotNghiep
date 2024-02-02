@@ -184,7 +184,7 @@
                 </table>
             </div>
             <div class="pagination container-fluid pt-2 position-sticky">
-                {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'order_by', 'colors', 'sizes'))->links('frontend.includes.custom-pagination') }}
+                {{ $products->onEachSide(1)->appends(request()->only('search', 'categories', 'order_by', 'colors', 'sizes', 'min_price', 'max_price'))->links('frontend.includes.custom-pagination') }}
             </div>
         </div>
     </div>

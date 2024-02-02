@@ -119,14 +119,24 @@ class CouponService extends BaseService
 
     public function updateActive($data = [], Coupon $coupon)
     {
-        if ($data['isActive'] == config('constants.is_active.true')) {
-            $data['isActive'] = config('constants.is_active.false');
-        } else {
-            $data['isActive'] = config('constants.is_active.true');
+        DB::beginTransaction();
+        try {
+            if ($data['isActive'] == config('constants.is_active.true')) {
+                $data['isActive'] = config('constants.is_active.false');
+            } else {
+                $data['isActive'] = config('constants.is_active.true');
+            }
+
+            $coupon->update([
+                'is_active' => $data['isActive'],
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating coupon active. Please try again.'));
         }
-        $coupon->update([
-            'is_active' => $data['isActive']
-        ]);
     }
 
     public function restore(Coupon $coupon): Coupon

@@ -76,7 +76,7 @@
                             <div class="featured__item parent-featured__item">
                                 <div class="featured__item">
                                     <div class="featured__item__pic set-bg"
-                                         data-setbg="{{ $sale->category->first() != null  ? asset('storage/images/products/default/category.jpg') :
+                                         data-setbg="{{ ($sale->category->first() != null && $sale->product->first() == null)  ? asset('storage/images/products/default/category.jpg') :
                                                 (isset($sale->product->first()->productImages) && !$sale->product->first()->productImages->isEmpty()
                                                 ? $sale->product->first()->productImages->first()->getImageUrlAttribute()
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg')) }}">
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="featured__item__text">
                                         <h6>
-                                            @if($sale->category->isNotEmpty())
+                                            @if($sale->category->isNotEmpty() && $sale->product->isEmpty())
                                                 <a href="{{ route('frontend.dashboard.products.index',  ['categories' => $sale->category->pluck('slug')->toArray()]) }}">
                                                     {{ $sale->category->first()->name }} (@lang('Category'))
                                                 </a>
@@ -128,7 +128,7 @@
                                                             {
                                                                 $price = 0;
                                                             }
-                                                    }else if($sale->type == config('constants.type_sale.percent'))
+                                                    }else if($sale->type == config('constants.type_sale.number'))
                                                         {
                                                             $price = $cost - $valueSale;
                                                             if($price < 0)
@@ -159,7 +159,7 @@
                                                             {
                                                                 $price = 0;
                                                             }
-                                                    }else if($sale->type == config('constants.type_sale.percent'))
+                                                    }else if($sale->type == config('constants.type_sale.number'))
                                                         {
                                                             $price = $minPrice - $valueSale;
                                                             if($price < 0)
@@ -172,7 +172,7 @@
                                                 }
                                             @endphp
                                             <span style="text-decoration: line-through">
-                                                            {{ formatMoney($minPrice) }}
+                                                            {{ formatMoney($minPrice)  }}
                                         </span>
                                             <br>
                                             @php
@@ -201,16 +201,11 @@
                                     <div class="featured__item__pic set-bg"
                                          data-setbg="{{ asset('storage/images/products/default/ProductImageDefault.jpg') }}">
                                         <ul class="featured__item__pic__hover">
-                                            {{--                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>--}}
                                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            {{--                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
-                                        {{--                                    @isset($product)--}}
-                                        {{--                                        <h5> {{ !$product->productDetail->isEmpty() ? 'đ '. $product->productDetail->min('price') . ' - ' . $product->productDetail->max('price') : __('N/A') }}</h5>--}}
-                                        {{--                                    @endisset--}}
                                     </div>
                                 </div>
                             </div>

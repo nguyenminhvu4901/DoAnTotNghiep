@@ -29,7 +29,7 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        @include('frontend.pages.orders.partials.show-modal-filter')
+                        @include('frontend.pages.orders.return-order.partials.show-modal-filter')
                     </form>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                                     @lang('Wait for the shop to confirm.')
                                 @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order &&
                                $order->is_return_order == 2)
-                                    @lang('This order cannot be returned.')
+                                    <p style="color: red">@lang('Successful delivery but this order cannot be returned.')</p>
                                 @else
                                     {{ $order->formatted_return_order_status }}
                                 @endif
@@ -259,13 +259,13 @@
                                     @elseif($order->status_return_order == config('constants.status_return_order.Refund successful'))
                                         <p style="color: #237ec8">@lang('Complete the return order process.')</p>
                                     @elseif(config('constants.status_return_order.Cancel return order') == $order->status_return_order)
-                                        <p style="color: red">@lang('This order cannot be returned.')</p>
+                                        <p style="color: red">@lang('Successful delivery but this order cannot be returned.')</p>
                                     @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
                                       && $order->is_return_order == 0)
                                         @lang('There are no requests to return orders.')
                                     @elseif(config('constants.status_return_order.Successful delivery') == $order->status_return_order
                                       && $order->is_return_order == 2)
-                                        <p style="color: red">@lang('This order cannot be returned.')</p>
+                                        <p style="color: red">@lang('Successful delivery but this order cannot be returned.')</p>
                                     @else
                                         <p style="color: #7fcb06;
                                         ">@lang('Order returns are being processed.')</p>

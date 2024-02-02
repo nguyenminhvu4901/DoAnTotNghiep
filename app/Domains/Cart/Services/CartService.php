@@ -2,6 +2,7 @@
 
 namespace App\Domains\Cart\Services;
 
+use App\Exceptions\GeneralException;
 use App\Services\BaseService;
 use Illuminate\Http\Response;
 use App\Domains\Cart\Models\Cart;
@@ -9,6 +10,7 @@ use App\Domains\Coupon\Models\Coupon;
 use App\Domains\CouponUser\Models\CouponUser;
 use App\Domains\Product\Models\Product;
 use App\Domains\ProductDetail\Models\ProductDetail;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CartService.
@@ -59,72 +61,98 @@ class CartService extends BaseService
 
     public function addToCart(array $data)
     {
-        foreach ($data['productDetail'] as $item) {
-            $productInCart = $this->getExistProductInCart($item['productDetailId']);
-            if (isset($productInCart) && $productInCart->product_detail_id == $item['productDetailId']) {
-                $productInCart->update([
-                    'user_id' => auth()->user()->id,
-                    'product_detail_id' => $item['productDetailId'],
-                    'product_quantity' => $productInCart->product_quantity + (int)$item['quantity'],
-                ]);
-            } else {
-                $this->model->create([
-                    'user_id' => auth()->user()->id,
-                    'product_detail_id' => $item['productDetailId'],
-                    'product_quantity' => $item['quantity'],
+        DB::beginTransaction();
+        try {
+            foreach ($data['productDetail'] as $item) {
+                $productInCart = $this->getExistProductInCart($item['productDetailId']);
+                if (isset($productInCart) && $productInCart->product_detail_id == $item['productDetailId']) {
+                    $productInCart->update([
+                        'user_id' => auth()->user()->id,
+                        'product_detail_id' => $item['productDetailId'],
+                        'product_quantity' => $productInCart->product_quantity + (int)$item['quantity'],
+                    ]);
+                } else {
+                    $this->model->create([
+                        'user_id' => auth()->user()->id,
+                        'product_detail_id' => $item['productDetailId'],
+                        'product_quantity' => $item['quantity'],
+                    ]);
+                }
+                $productDetail = $this->getProductDetail($item['productDetailId']);
+                $productDetail->update([
+                    'quantity' => $productDetail->quantity - (int)$item['quantity']
                 ]);
             }
-            $productDetail = $this->getProductDetail($item['productDetailId']);
-            $productDetail->update([
-                'quantity' => $productDetail->quantity - (int)$item['quantity']
-            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem add to cart. Please try again.'));
         }
     }
 
     public function updateProductInCart(array $data)
     {
-        $productDetailInCart = $this->getExistProductInCartByCartId($data['productDetailId'], $data['cartId']);
+        DB::beginTransaction();
+        try {
+            $productDetailInCart = $this->getExistProductInCartByCartId($data['productDetailId'], $data['cartId']);
 
-        abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
-        $productDetail = $this->getProductDetail($data['productDetailId']);
+            abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
+            $productDetail = $this->getProductDetail($data['productDetailId']);
 
-        if ($data['newQuantity'] < 1) {
-            $this->deleteProductFromCart($data['productDetailId'], $data['cartId']);
-        } else if ($data['newQuantity'] > $data['oldQuantity']) { // Inc quantity
-            $excessQuantity = $data['newQuantity'] - $data['oldQuantity'];
-            $productDetailInCart->update([
-                'product_quantity' => $data['newQuantity'],
-            ]);
+            if ($data['newQuantity'] < 1) {
+                $this->deleteProductFromCart($data['productDetailId'], $data['cartId']);
+            } else if ($data['newQuantity'] > $data['oldQuantity']) { // Inc quantity
+                $excessQuantity = $data['newQuantity'] - $data['oldQuantity'];
+                $productDetailInCart->update([
+                    'product_quantity' => $data['newQuantity'],
+                ]);
 
-            $productDetail->update([
-                'quantity' => $productDetail->quantity - (int)$excessQuantity
-            ]);
-        } else if ($data['newQuantity'] < $data['oldQuantity']) { //Dec quantity
-            $excessQuantity = $data['oldQuantity'] - $data['newQuantity'];
-            $productDetailInCart->update([
-                'product_quantity' => $data['newQuantity'],
-            ]);
+                $productDetail->update([
+                    'quantity' => $productDetail->quantity - (int)$excessQuantity
+                ]);
+            } else if ($data['newQuantity'] < $data['oldQuantity']) { //Dec quantity
+                $excessQuantity = $data['oldQuantity'] - $data['newQuantity'];
+                $productDetailInCart->update([
+                    'product_quantity' => $data['newQuantity'],
+                ]);
 
-            $productDetail->update([
-                'quantity' => $productDetail->quantity + (int)$excessQuantity
-            ]);
+                $productDetail->update([
+                    'quantity' => $productDetail->quantity + (int)$excessQuantity
+                ]);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem update product quantity in cart. Please try again.'));
         }
     }
 
     public function deleteProductFromCart(int $productDetailId, int $cartId = 0)
     {
-        if ($cartId == 0) {
-            $productDetailInCart = $this->getProductInCartByPDId($productDetailId);
-        } else {
-            $productDetailInCart = $this->getExistProductInCartByCartId($productDetailId, $cartId);
-        }
-        abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
-        $productDetail = $this->getProductDetail($productDetailId);
-        $productDetail->update([
-            'quantity' => $productDetail->quantity + $productDetailInCart->product_quantity
-        ]);
+        DB::beginTransaction();
+        try {
+            if ($cartId == 0) {
+                $productDetailInCart = $this->getProductInCartByPDId($productDetailId);
+            } else {
+                $productDetailInCart = $this->getExistProductInCartByCartId($productDetailId, $cartId);
+            }
 
-        $productDetailInCart->delete();
+            abort_if(!$productDetailInCart, Response::HTTP_NOT_FOUND);
+            $productDetail = $this->getProductDetail($productDetailId);
+            $productDetail->update([
+                'quantity' => $productDetail->quantity + $productDetailInCart->product_quantity
+            ]);
+
+            return $productDetailInCart->delete();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem deleting product in cart. Please try again.'));
+        }
     }
 
     public function getExistProductInCart(int $productDetailId)
@@ -227,6 +255,7 @@ class CartService extends BaseService
     public function getPriceProductInCart()
     {
         $productsInCart = $this->getProductInCartByUserId();
+
         $subtotal = $productsInCart->reduce(function ($carry, $cart) {
             $quantity = $cart->product_quantity;
             if (!$cart->productDetail->saleOption->isEmpty()) {
@@ -316,28 +345,44 @@ class CartService extends BaseService
 
     public function applyCouponIntoCart(string $name)
     {
-        $coupon = $this->coupon->firstWithExpiryDate($name);
+        DB::beginTransaction();
+        try {
+            $coupon = $this->coupon->firstWithExpiryDate($name);
 
-        $coupon->update([
-            'quantity' => (int)$coupon->quantity - 1
-        ]);
+            $coupon->update([
+                'quantity' => (int)$coupon->quantity - 1
+            ]);
 
-        $coupon->syncUser(auth()->user()->id);
+            $coupon->syncUser(auth()->user()->id);
 
-        return $coupon;
+            DB::commit();
+            return $coupon;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem apply coupon. Please try again.'));
+        }
     }
 
     public function deleteCouponFromCart($name)
     {
-        $coupon = $this->getCouponByName($name);
+        DB::beginTransaction();
+        try {
+            $coupon = $this->getCouponByName($name);
 
-        $coupon->update([
-            'quantity' => (int)$coupon->quantity + 1
-        ]);
+            $coupon->update([
+                'quantity' => (int)$coupon->quantity + 1
+            ]);
 
-        $coupon->detachUser(auth()->user()->id);
+            $coupon->detachUser(auth()->user()->id);
 
-        return $coupon;
+            DB::commit();
+            return $coupon;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem delete coupon from cart. Please try again.'));
+        }
     }
 
     public function getDiscount($carts)

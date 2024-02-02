@@ -52,6 +52,11 @@ class ProductService extends BaseService
             ->when(isset($data['sizes']), function ($query) use ($data) {
                 $query->filterBySizes($data['sizes']);
             })
+            ->when(isset($data['min_price']) && $data['min_price'] != null || isset($data['max_price']) && $data['max_price'] != null, function ($query) use ($data) {
+                $query->filterByRangePrice(
+                    isset($data['min_price']) && $data['min_price'] != null ? $data['min_price'] : 0,
+                    isset($data['max_price']) && $data['max_price'] != null ? $data['max_price'] : 9999999999);
+            })
             ->with('categories', 'productDetail')
             ->when(isset($data['order_by']), function ($query) use ($data) {
                 if ($data['order_by'] == '1') {
@@ -79,6 +84,11 @@ class ProductService extends BaseService
             ->when(isset($data['sizes']), function ($query) use ($data) {
                 $query->filterBySizes($data['sizes']);
             })
+            ->when(isset($data['min_price']) && $data['min_price'] != null || isset($data['max_price']) && $data['max_price'] != null, function ($query) use ($data) {
+                $query->filterByRangePrice(
+                    isset($data['min_price']) && $data['min_price'] != null ? $data['min_price'] : 0,
+                    isset($data['max_price']) && $data['max_price'] != null ? $data['max_price'] : 9999999999);
+            })
             ->with('categories', 'productDetail')
             ->
             leftJoin('product_detail', 'products.id', '=', 'product_detail.product_id')
@@ -97,6 +107,11 @@ class ProductService extends BaseService
             })
             ->when(isset($data['sizes']), function ($query) use ($data) {
                 $query->filterBySizes($data['sizes']);
+            })
+            ->when(isset($data['min_price']) && $data['min_price'] != null || isset($data['max_price']) && $data['max_price'] != null, function ($query) use ($data) {
+                $query->filterByRangePrice(
+                    isset($data['min_price']) && $data['min_price'] != null ? $data['min_price'] : 0,
+                    isset($data['max_price']) && $data['max_price'] != null ? $data['max_price'] : 9999999999);
             })
             ->with('categories', 'productDetail', 'productImages')
             ->when(isset($data['order_by']), function ($query) use ($data) {
@@ -149,7 +164,7 @@ class ProductService extends BaseService
         try {
             $product->update([
                 'name' => $data['name'],
-                'description' => $data['description']
+                'description' => $data['description'],
             ]);
 
             $product->syncCategories($data['category'] ?? []);

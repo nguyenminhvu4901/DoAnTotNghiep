@@ -1,10 +1,10 @@
-@if(isset($errors) && $errors->any())
-    <x-utils.alert type="danger" class="header-message">
-        @foreach($errors->all() as $error)
-            {{ $error }}<br/>
-        @endforeach
-    </x-utils.alert>
-@endif
+{{--@if(isset($errors) && $errors->any())--}}
+{{--    <x-utils.alert type="danger" class="header-message">--}}
+{{--        @foreach($errors->all() as $error)--}}
+{{--            {{ $error }}<br/>--}}
+{{--        @endforeach--}}
+{{--    </x-utils.alert>--}}
+{{--@endif--}}
 
 @if(session()->get('flash_success'))
     <x-utils.alert type="success" class="header-message">

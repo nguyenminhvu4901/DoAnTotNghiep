@@ -76,7 +76,7 @@
                                     <li><b>@lang('Availability')</b> <span>@lang('In Stock')</span></li>
                                     <li><b>@lang('Shipping')</b> <span>@lang('01 day shipping.')</span>
                                     </li>
-                                    <li><b>@lang('Weight')</b> <span>@lang('0.5 kg')</span></li>
+{{--                                    <li><b>@lang('Weight')</b> <span>@lang('0.5 kg')</span></li>--}}
                                     <li><b>@lang('Share on')</b>
                                         <div class="share">
                                             <a href="#"><i class="fab fa-facebook"></i></a>
@@ -168,7 +168,6 @@
                                                             class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6>
                                             <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}">{{ __($product->name) }}</a>
@@ -190,7 +189,6 @@
                                             {{--                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--}}
                                         </ul>
                                     </div>
-                                    <hr class="fw-bold border-2 border-dark">
                                     <div class="featured__item__text">
                                         <h6><a href="#">@lang('There are currently no products for sale')</a></h6>
                                         @isset($product)

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Frontend\Order;
 
+use App\Exceptions\GeneralException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Domains\Order\Services\OrderService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -61,17 +64,26 @@ class OrderController extends Controller
 
     public function updateStatusOrder(updateStatusRequest $request, int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        DB::beginTransaction();
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        $order->update([
-            'status' => $request->get('orderStatus')
-        ]);
+            $order->update([
+                'status' => $request->get('orderStatus'),
+            ]);
 
-        $order->touch();
+            $order->touch();
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+            DB::commit();
+
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating status order. Please try again.'));
+        }
     }
 
     public function getVNPayThanks()
@@ -91,29 +103,37 @@ class OrderController extends Controller
 
     public function cancelOrder(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        DB::beginTransaction();
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        if ($order->status == config('constants.status_order.cancel')) {
-            return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
-        } elseif ($order->status == config('constants.status_order.delivered')) {
-            return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
-        } else {
-            if ($order->couponOrder != null) {
-                $this->orderService->returnCouponInOrder($order->couponOrder);
+            if ($order->status == config('constants.status_order.cancel')) {
+                return redirect()->route('frontend.orders.index')->withFlashDanger(__('This order has been canceled so it cannot be fulfilled.'));
+            } elseif ($order->status == config('constants.status_order.delivered')) {
+                return redirect()->route('frontend.orders.index')->withFlashDanger(__('The order has been successfully delivered, so it cannot be canceled.'));
+            } else {
+                if ($order->couponOrder != null) {
+                    $this->orderService->returnCouponInOrder($order->couponOrder);
+                }
+
+                if ($order->productOrder != null) {
+                    $this->orderService->returnProductInOrder($order->productOrder);
+                }
+
+                $order->update([
+                    'status' => config('constants.status_order.cancel')
+                ]);
+
+                $order->touch();
+
+                DB::commit();
+
+                return redirect()->route('frontend.orders.index')
+                    ->withFlashSuccess(__('The order has been successfully canceled.'));
             }
-
-            if ($order->productOrder != null) {
-                $this->orderService->returnProductInOrder($order->productOrder);
-            }
-
-            $order->update([
-                'status' => config('constants.status_order.cancel')
-            ]);
-
-            $order->touch();
-
-            return redirect()->route('frontend.orders.index')
-                ->withFlashSuccess(__('The order has been successfully canceled.'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('frontend.orders.index')->withFlashDanger(__('An error occurred, please try again!'));
         }
     }
 
@@ -152,41 +172,60 @@ class OrderController extends Controller
 
     public function processCheckout(ProcessCheckoutRequest $request)
     {
-        if ($request->payment_method == config('constants.payment_method.direct')) {
-            $this->processCheckoutWhenPayingInCash($request->all());
+        DB::beginTransaction();
+        try {
+            if ($request->payment_method == config('constants.payment_method.direct')) {
+                $this->processCheckoutWhenPayingInCash($request->all());
 
-            return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
-                ->with('X-Clear-LocalStorage', 'true');
-        } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
-            Session::put(['data' => $request->all()]);
+                DB::commit();
 
-            return view('frontend.pages.orders.sub-page.wait-payment', [
-                'totalAllProduct' => $request->input('totalAllProduct'),
-            ]);
+                return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
+                    ->with('X-Clear-LocalStorage', 'true');
+            } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
+                Session::put(['data' => $request->all()]);
+
+                return view('frontend.pages.orders.sub-page.wait-payment', [
+                    'totalAllProduct' => $request->input('totalAllProduct'),
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
         }
     }
 
     public function processCheckoutWhenPayingInCash($data = [])
     {
-        $addressOrder = $this->orderService->createAddressOrder($data);
+        DB::beginTransaction();
+        try {
+            $addressOrder = $this->orderService->createAddressOrder($data);
 
-        $couponOrderId = null;
+            $couponOrderId = null;
 
-        if (isset($data['couponId'])) {
-            $couponOrder = $this->orderService->createCouponOrder($data);
-            $couponOrderId = $couponOrder->id;
-        }
+            if (isset($data['couponId'])) {
+                $couponOrder = $this->orderService->createCouponOrder($data);
+                $couponOrderId = $couponOrder->id;
+            }
 
-        $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
+            $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
 
-        $this->orderService->createProductOrder($data, $order->id);
+            $this->orderService->createProductOrder($data, $order->id);
 
-        //Delete cart
-        $this->orderService->deleteProductOrderSuccessInCart($data);
+            //Delete cart
+            $this->orderService->deleteProductOrderSuccessInCart($data);
 
-        if (isset($data['couponId'])) {
-            $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
-            Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+            if (isset($data['couponId'])) {
+                $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
+                Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
         }
     }
 
@@ -267,62 +306,11 @@ class OrderController extends Controller
 
     public function returnOrderInCustomer(int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
-
-        $order->update([
-            'is_return_order' => '1'
-        ]);
-
-        $order->touch();
-
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
-    }
-
-    public function returnOrderConfirmation(int $orderId)
-    {
-        $order = $this->orderService->getById($orderId);
-
-        $order->update([
-            'status_return_order' => '2'
-        ]);
-
-        $order->touch();
-
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
-    }
-
-    public function noReturnOrderConfirmation(int $orderId)
-    {
-        $order = $this->orderService->getById($orderId);
-
-        $order->update([
-            'is_return_order' => '2'
-        ]);
-
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
-    }
-
-    public function updateStatusReturnOrder(Request $request, int $orderId)
-    {
-        $order = $this->orderService->getById($orderId);
-
-        if ($request->get('orderReturnStatus') == config('constants.status_return_order.Refund successful')) {
-            if ($order->couponOrder != null) {
-                $this->orderService->returnCouponInOrder($order->couponOrder);
-            }
-
-            if ($order->productOrder != null) {
-                $this->orderService->returnProductInOrder($order->productOrder);
-            }
+        try {
+            $order = $this->orderService->getById($orderId);
 
             $order->update([
-                'status_return_order' => $request->get('orderReturnStatus')
+                'is_return_order' => '1'
             ]);
 
             $order->touch();
@@ -330,16 +318,86 @@ class OrderController extends Controller
             return response()->json([
                 'status_code' => Response::HTTP_OK,
             ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
+    }
+
+    public function returnOrderConfirmation(int $orderId)
+    {
+        try {
+            $order = $this->orderService->getById($orderId);
+
+            $order->update([
+                'status_return_order' => '2'
+            ]);
+
+            $order->touch();
+
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
+    }
+
+    public function noReturnOrderConfirmation(int $orderId)
+    {
+        try {
+            $order = $this->orderService->getById($orderId);
+
+            $order->update([
+                'is_return_order' => '2'
+            ]);
+
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (\Exception $e) {
+            throw new \Exception(__('An error occurred, please try again!'));
         }
 
-        $order->update([
-            'status_return_order' => $request->get('orderReturnStatus')
-        ]);
+    }
 
-        $order->touch();
+    public function updateStatusReturnOrder(Request $request, int $orderId)
+    {
+        DB::beginTransaction();
+        try {
+            $order = $this->orderService->getById($orderId);
+            if ($request->get('orderReturnStatus') == config('constants.status_return_order.Refund successful')) {
+                if ($order->couponOrder != null) {
+                    $this->orderService->returnCouponInOrder($order->couponOrder);
+                }
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+                if ($order->productOrder != null) {
+                    $this->orderService->returnProductInOrder($order->productOrder);
+                }
+
+                $order->update([
+                    'status_return_order' => $request->get('orderReturnStatus')
+                ]);
+
+                $order->touch();
+                DB::commit();
+                return response()->json([
+                    'status_code' => Response::HTTP_OK,
+                ]);
+            }
+
+            $order->update([
+                'status_return_order' => $request->get('orderReturnStatus')
+            ]);
+
+            $order->touch();
+            DB::commit();
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception(__('An error occurred, please try again!'));
+        }
     }
 }

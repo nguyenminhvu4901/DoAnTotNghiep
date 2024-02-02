@@ -54,11 +54,11 @@ class SaleController extends Controller
 
     public function create(Request $request, $productId)
     {
-        if ($request->level == 'parent') {
+        if ($request->level == 'parent') { //product
             $product = $this->saleService->getProductById($productId);
-        } else if ($request->level == 'child') {
+        } else if ($request->level == 'child') { //product_detail
             $product = $this->saleService->getProductDetailById($productId);
-        } else if($request->level == 'category'){
+        } else if($request->level == 'category'){ //category
             $category = $this->saleService->getCategoryById($productId);
 
             return view('frontend.pages.sales.create', ['category' => $category, 'level' => $request->level]);

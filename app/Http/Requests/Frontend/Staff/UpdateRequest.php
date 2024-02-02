@@ -43,7 +43,7 @@ class UpdateRequest extends FormRequest
             ],
             'birthday' => ['required', 'date', 'before:today'],
             'name' => ['required', 'string', 'min:2'],
-            'password' => ['required', PasswordRules::register($data['email'] ?? null), 'min:8', 'max:16'],
+            'password' => ['nullable', 'sometimes', 'min:8', 'max:16'],
             'phone' => ['required', 'regex:/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/u'],
             'bio' => ['nullable', 'string'],
         ];

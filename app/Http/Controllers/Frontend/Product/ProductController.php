@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend\Product;
 
 use App\Domains\Cart\Services\CartService;
 use App\Domains\ProductDetail\Models\ProductDetail;
+use App\Exceptions\GeneralException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -13,6 +15,7 @@ use App\Http\Requests\Frontend\Product\StoreRequest;
 use App\Http\Requests\Frontend\Product\UpdateRequest;
 use App\Domains\ProductDetail\Services\ProductDetailService;
 use App\Domains\ProductImage\Services\ProductImageService;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -102,22 +105,30 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $product = $this->productService->getById($id);
-        abort_if(!$product, Response::HTTP_INTERNAL_SERVER_ERROR);
+        DB::beginTransaction();
+        try {
+            $product = $this->productService->getById($id);
 
-        if (!$product->productDetail->isEmpty()) {
-            foreach ($product->productDetail as $productDetail) {
-                $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
+            if (!$product->productDetail->isEmpty()) {
 
-                if (!$productInCart->isEmpty()) {
-                    $this->cartService->deleteProductFromCart($productDetail->id);
+                foreach ($product->productDetail as $productDetail) {
+                    $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
+
+                    if (!$productInCart->isEmpty()) {
+                        $this->cartService->deleteProductFromCart($productDetail->id);
+                    }
                 }
             }
+
+            $this->productService->delete($product);
+
+            DB::commit();
+            return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully deleted.'));
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem deleting product. Please try again.'));
         }
-
-        $this->productService->delete($product);
-
-        return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully deleted.'));
     }
 
     public function getAllProductInTrash(Request $request)

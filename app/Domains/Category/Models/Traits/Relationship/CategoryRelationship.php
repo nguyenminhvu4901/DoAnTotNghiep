@@ -36,6 +36,11 @@ trait CategoryRelationship
         $this->products()->attach($products);
     }
 
+    public function sale(): BelongsToMany
+    {
+        return $this->belongsToMany(Sale::class, ProductSale::class);
+    }
+
     public function saleCategory(): BelongsToMany
     {
         return $this->belongsToMany(Sale::class, ProductSale::class)
@@ -45,10 +50,5 @@ trait CategoryRelationship
             ->where('expiry_date', '>=', Carbon::now())
             ->where('is_active', '!=', config('constants.is_active.false'))
             ->where('product_sale.type_sale', '!=', 1);
-    }
-
-    public function sale(): BelongsToMany
-    {
-        return $this->belongsToMany(Sale::class, ProductSale::class);
     }
 }

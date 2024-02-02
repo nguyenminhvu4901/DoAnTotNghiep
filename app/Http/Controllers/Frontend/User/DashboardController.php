@@ -74,7 +74,6 @@ class DashboardController
 
     public function indexProduct(Request $request)
     {
-//        dd($request->currentValue);
         $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->searchInDashboard($request->all());
         $productDetailColors = ProductDetail::distinct()->pluck('color');

@@ -38,6 +38,8 @@ trait ProductDetailRelationship
     {
         return $this->belongsToMany(Sale::class, ProductSale::class)
             ->whereNotNull('product_sale.product_detail_id')
+            ->whereNotNull('product_sale.product_id')
+            ->whereNotNull('product_sale.category_id')
             ->where('start_date', '<=', Carbon::now())
             ->where('expiry_date', '>=', Carbon::now())
             ->where('is_active', '!=', config('constants.is_active.false'))

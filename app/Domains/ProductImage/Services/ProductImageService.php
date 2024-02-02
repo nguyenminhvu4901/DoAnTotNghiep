@@ -86,7 +86,7 @@ class ProductImageService extends BaseService
             'product_id' => $productId,
             'name' => $data['name'],
             'order' => $data['order'],
-            'image_path' => $imageProduct
+            'image_path' => $imageProduct,
         ]);
     }
 
@@ -105,7 +105,7 @@ class ProductImageService extends BaseService
                 'product_id' => $productId,
                 'name' => $data['name'],
                 'order' => $data['order'],
-                'image_path' => $imageProduct
+                'image_path' => $imageProduct,
             ]);
 
             DB::commit();

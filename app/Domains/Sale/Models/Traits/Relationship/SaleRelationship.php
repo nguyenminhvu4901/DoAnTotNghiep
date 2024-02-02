@@ -47,6 +47,13 @@ trait SaleRelationship
         $this->product()->sync($product);
     }
 
+    public function syncProductWithCategory($categoryId, $product): void
+    {
+        $this->product()->sync([$product => [
+            'category_id' => $categoryId
+        ]]);
+    }
+
     public function attachProduct($product): void
     {
         $this->product()->attach($product);
@@ -72,10 +79,11 @@ trait SaleRelationship
         $this->productDetail()->detach($productDetail);
     }
 
-    public function syncProductDetailWithProductGlobal($productId, $productDetailId)
+    public function syncProductDetailWithProductGlobal($categoryId, $productId, $productDetailId)
     {
         $this->productDetail()->sync([$productDetailId => [
             'product_id' => $productId,
+            'category_id' => $categoryId
         ]]);
     }
 

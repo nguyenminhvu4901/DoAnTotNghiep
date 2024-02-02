@@ -23,7 +23,7 @@
                                 <i class="fas fa-search" style="color: #1561e5;"></i>
                             </button>
                         </div>
-                        @include('frontend.pages.products.partials.show-modal-filter')
+                        @include('frontend.pages.products.partials.show-modal-filter-trash')
                     </form>
                 </div>
             </div>

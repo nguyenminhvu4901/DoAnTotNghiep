@@ -67,6 +67,17 @@
             </select>
         </div>
     </div>
+    <br>
+    <div class="d-flex align-items-center justify-content-between">
+        <label class="col-form-label">
+            @lang('Price')
+        </label>
+        <div class="pl-3 w-75 d-flex">
+            <input class="form-control" name="min_price" value="{{ request('min_price') }}" placeholder="@lang('Min')">
+            <input class="form-control ml-2" name="max_price" value="{{ request('max_price') }}"
+                   placeholder="@lang('Max')">
+        </div>
+    </div>
 @endsection
 
 

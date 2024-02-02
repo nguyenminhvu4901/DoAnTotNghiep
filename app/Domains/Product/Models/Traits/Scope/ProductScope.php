@@ -97,4 +97,11 @@ trait ProductScope
         }
     }
 
+    public function scopeFilterByRangePrice($query, $minPrice = 0, $maxPrice = 9999999999)
+    {
+        return $query->whereHas('productDetail', function ($query) use ($minPrice, $maxPrice) {
+            $query->whereBetween('price', [$minPrice, $maxPrice]);
+        });
+    }
+
 }
