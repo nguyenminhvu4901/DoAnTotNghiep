@@ -91,9 +91,10 @@ class OrderController extends Controller
         if (session()->has('data')) {
             $this->processCheckoutWhenPayingInCash(session('data'));
             Session::forget(['data']);
+            return view('frontend.pages.orders.sub-page.thanks-vnpay');
+        } else {
+            throw new GeneralException(__('There was a problem placing an order. Please try again.'));
         }
-
-        return view('frontend.pages.orders.sub-page.thanks-vnpay');
     }
 
     public function getWaitPayment(Request $request)
@@ -172,27 +173,17 @@ class OrderController extends Controller
 
     public function processCheckout(ProcessCheckoutRequest $request)
     {
-        DB::beginTransaction();
-        try {
-            if ($request->payment_method == config('constants.payment_method.direct')) {
-                $this->processCheckoutWhenPayingInCash($request->all());
+        if ($request->payment_method == config('constants.payment_method.direct')) {
+            $this->processCheckoutWhenPayingInCash($request->all());
 
-                DB::commit();
+            return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
+                ->with('X-Clear-LocalStorage', 'true');
+        } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
+            Session::put(['data' => $request->all()]);
 
-                return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
-                    ->with('X-Clear-LocalStorage', 'true');
-            } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
-                Session::put(['data' => $request->all()]);
-
-                return view('frontend.pages.orders.sub-page.wait-payment', [
-                    'totalAllProduct' => $request->input('totalAllProduct'),
-                ]);
-            }
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
+            return view('frontend.pages.orders.sub-page.wait-payment', [
+                'totalAllProduct' => $request->input('totalAllProduct'),
+            ]);
         }
     }
 
