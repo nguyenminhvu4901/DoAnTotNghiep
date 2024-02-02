@@ -26,7 +26,7 @@ trait ProductDetailRelationship
             [Product::class, CategoryProduct::class],
             ['id', 'product_id', 'id'],
             ['product_id', 'id', 'category_id']
-        );
+        )->withPivot('name');
     }
 
     public function sale(): BelongsToMany

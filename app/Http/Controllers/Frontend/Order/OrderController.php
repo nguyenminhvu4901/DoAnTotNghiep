@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Frontend\Order;
 
+use App\Exceptions\GeneralException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -62,17 +64,26 @@ class OrderController extends Controller
 
     public function updateStatusOrder(updateStatusRequest $request, int $orderId)
     {
-        $order = $this->orderService->getById($orderId);
+        DB::beginTransaction();
+        try {
+            $order = $this->orderService->getById($orderId);
 
-        $order->update([
-            'status' => $request->get('orderStatus')
-        ]);
+            $order->update([
+                'status' => $request->get('orderStatus'),
+            ]);
 
-        $order->touch();
+            $order->touch();
 
-        return response()->json([
-            'status_code' => Response::HTTP_OK,
-        ]);
+            DB::commit();
+
+            return response()->json([
+                'status_code' => Response::HTTP_OK,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating status order. Please try again.'));
+        }
     }
 
     public function getVNPayThanks()
@@ -161,41 +172,60 @@ class OrderController extends Controller
 
     public function processCheckout(ProcessCheckoutRequest $request)
     {
-        if ($request->payment_method == config('constants.payment_method.direct')) {
-            $this->processCheckoutWhenPayingInCash($request->all());
+        DB::beginTransaction();
+        try {
+            if ($request->payment_method == config('constants.payment_method.direct')) {
+                $this->processCheckoutWhenPayingInCash($request->all());
 
-            return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
-                ->with('X-Clear-LocalStorage', 'true');
-        } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
-            Session::put(['data' => $request->all()]);
+                DB::commit();
 
-            return view('frontend.pages.orders.sub-page.wait-payment', [
-                'totalAllProduct' => $request->input('totalAllProduct'),
-            ]);
+                return redirect(route('frontend.orders.getVNPayThanks'))->withFlashSuccess(__('Order Success.'))
+                    ->with('X-Clear-LocalStorage', 'true');
+            } else if ($request->payment_method == config('constants.payment_method.vnpay')) {
+                Session::put(['data' => $request->all()]);
+
+                return view('frontend.pages.orders.sub-page.wait-payment', [
+                    'totalAllProduct' => $request->input('totalAllProduct'),
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
         }
     }
 
     public function processCheckoutWhenPayingInCash($data = [])
     {
-        $addressOrder = $this->orderService->createAddressOrder($data);
+        DB::beginTransaction();
+        try {
+            $addressOrder = $this->orderService->createAddressOrder($data);
 
-        $couponOrderId = null;
+            $couponOrderId = null;
 
-        if (isset($data['couponId'])) {
-            $couponOrder = $this->orderService->createCouponOrder($data);
-            $couponOrderId = $couponOrder->id;
-        }
+            if (isset($data['couponId'])) {
+                $couponOrder = $this->orderService->createCouponOrder($data);
+                $couponOrderId = $couponOrder->id;
+            }
 
-        $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
+            $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
 
-        $this->orderService->createProductOrder($data, $order->id);
+            $this->orderService->createProductOrder($data, $order->id);
 
-        //Delete cart
-        $this->orderService->deleteProductOrderSuccessInCart($data);
+            //Delete cart
+            $this->orderService->deleteProductOrderSuccessInCart($data);
 
-        if (isset($data['couponId'])) {
-            $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
-            Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+            if (isset($data['couponId'])) {
+                $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
+                Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
         }
     }
 

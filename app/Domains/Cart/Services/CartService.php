@@ -243,7 +243,7 @@ class CartService extends BaseService
                         $cart->productDetail->salePrice = 0;
                     }
                 }
-            } else if ($cart->productDetail->product != null && !$cart->productDetail->product->saleGlobal->isEmpty()) {
+            } else if (!$cart->productDetail->product->saleGlobal->isEmpty()) {
                 if ($cart->productDetail->product->saleGlobal->first()->type == config('constants.type_sale.percent')) {
                     $cart->productDetail->salePrice = $cart->productDetail->price - $cart->productDetail->price * ($cart->productDetail->product->saleGlobal->first()->value / 100);
                     if ($cart->productDetail->salePrice < 0) {

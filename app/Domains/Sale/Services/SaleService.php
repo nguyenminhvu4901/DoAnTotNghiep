@@ -115,9 +115,8 @@ class SaleService extends BaseService
 
     public function createProductSaleGlobal($data = [], int $productId)
     {
-        $checkSaleGlobals = ProductSale::where('product_id', $productId)->get();
-
-        if ($checkSaleGlobals->isEmpty()) {
+        DB::beginTransaction();
+        try {
             $sale = $this->model->create([
                 'type' => $data['type'],
                 'value' => $data['value'],
@@ -131,18 +130,20 @@ class SaleService extends BaseService
 
             $sale->syncProductWithCategory($categoryId, $productId);
 
+            DB::commit();
             return $sale;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem creating sale product. Please try again.'));
+
         }
-
-        return false;
-
     }
 
-    public function createProductSaleOption($data = [], int $productDetailId)
+    public function createProductSaleOption($data = [], $productDetailId)
     {
-        $checkSaleOption = ProductSale::where('product_detail_id', $productDetailId)->get();
-
-        if ($checkSaleOption->isEmpty()) {
+        DB::beginTransaction();
+        try {
             $sale = $this->model->create([
                 'type' => $data['type'],
                 'value' => $data['value'],
@@ -157,16 +158,20 @@ class SaleService extends BaseService
 
             $sale->syncProductDetailWithProductGlobal($categoryId, $productDetail->product_id, $productDetailId);
 
+            DB::commit();
             return $sale;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem creating sale option. Please try again.'));
         }
-        return false;
     }
 
-    public function createProductSaleCategory($data = [], int $categoryId)
+    public
+    function createProductSaleCategory($data = [], int $categoryId)
     {
-        $checkSaleCategory = ProductSale::where('category_id', $categoryId)->get();
-
-        if ($checkSaleCategory->isEmpty()) {
+        DB::beginTransaction();
+        try {
             $sale = $this->model->create([
                 'type' => $data['type'],
                 'value' => $data['value'],
@@ -179,24 +184,40 @@ class SaleService extends BaseService
 
             $sale->syncCategory($categoryId);
 
+            DB::commit();
             return $sale;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem creating sale category. Please try again.'));
         }
-
-        return false;
     }
 
-    public function updateSale($data = [], Sale $sale)
+    public
+    function updateSale($data = [], Sale $sale)
     {
-        $sale->update([
-            'type' => $data['type'],
-            'value' => $data['value'],
-            'start_date' => $data['start_date'],
-            'expiry_date' => $data['expiry_date'],
-            'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
-        ]);
+        DB::beginTransaction();
+        try {
+
+            $sale->update([
+                'type' => $data['type'],
+                'value' => $data['value'],
+                'start_date' => $data['start_date'],
+                'expiry_date' => $data['expiry_date'],
+                'is_active' => isset($data['is_active']) ? config('constants.is_active.true') : config('constants.is_active.false')
+            ]);
+
+            DB::commit();
+            return $sale;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating sale. Please try again.'));
+        }
     }
 
-    public function delete(Sale $sale)
+    public
+    function delete(Sale $sale)
     {
         DB::beginTransaction();
         try {
@@ -212,19 +233,31 @@ class SaleService extends BaseService
         return $sale;
     }
 
-    public function updateActive($data = [], Sale $sale)
+    public
+    function updateActive($data = [], Sale $sale)
     {
-        if ($data['isActive'] == config('constants.is_active.true')) {
-            $data['isActive'] = config('constants.is_active.false');
-        } else {
-            $data['isActive'] = config('constants.is_active.true');
+        DB::beginTransaction();
+        try {
+            if ($data['isActive'] == config('constants.is_active.true')) {
+                $data['isActive'] = config('constants.is_active.false');
+            } else {
+                $data['isActive'] = config('constants.is_active.true');
+            }
+
+            $sale->update([
+                'is_active' => $data['isActive'],
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating sale update. Please try again.'));
         }
-        $sale->update([
-            'is_active' => $data['isActive']
-        ]);
     }
 
-    public function checkSaleGlobalExist(int $productId)
+    public
+    function checkSaleGlobalExist(int $productId)
     {
         return $this->productSale
             ->where('product_id', $productId)
@@ -235,7 +268,8 @@ class SaleService extends BaseService
     public function getDiscount($sales)
     {
         foreach ($sales as $sale) {
-            if ($sale && $sale->productDetail->isNotEmpty() && $firstProductDetail = $sale->productDetail->first()) {
+            if ($sale && $sale->productDetail->isNotEmpty() && $firstProductDetail = $sale->productDetail->first() && $sale->productDetail->first()->saleOption->first() != null) {
+//                dd($sale->productDetail->first()->saleOption->first());
                 if ($sale->productDetail->first()->saleOption->first()->type == config('constants.type_sale.percent')) {
                     $sale->productDetail->first()->salePrice = $sale->productDetail->first()->price - $sale->productDetail->first()->price * ($sale->productDetail->first()->saleOption->first()->value / 100);
                     if ($sale->productDetail->first()->salePrice < 0) {

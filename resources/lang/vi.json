@@ -595,5 +595,12 @@
   "Product detail not found.": "Không tìm thấy sản phẩm chi tiết",
   "Sale Option": "Giảm giá 1 loại sản phẩm",
   "Sale A Product": "Giảm giá một sản phẩm",
-  "Sale Category": "Giảm giá danh mục"
+  "Sale Category": "Giảm giá danh mục",
+  "There was a problem creating sale option. Please try again.": "Đã có lỗi xảy ra khi tạo giảm giá chi tiết sản phẩm. Vui lòng thử lại",
+  "There was a problem creating sale category. Please try again.": "Đã có lỗi xảy ra khi tạo giảm giá danh mục. Vui lòng thử lại",
+  "There was a problem updating sale. Please try again.": "Đã có lỗi xảy ra khi thay đổi thông tin giảm giá. Vui lòng thử lại",
+  "There was a problem creating sale product. Please try again.": "Đã có lỗi xảy ra khi tạo giảm giá cho sản phẩm. Vui lòng thử lại",
+  "There was a problem updating sale update. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái giảm giá. Vui lòng thử lại",
+  "There was a problem updating status order. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái đơn hàng. Vui lòng thử lại",
+  "There was a problem process checkout. Please try again.": "Đã có lỗi xảy ra khi thay đổi xử lý đơn hàng. Vui lòng thử lại"
 }
