@@ -602,5 +602,11 @@
   "There was a problem creating sale product. Please try again.": "Đã có lỗi xảy ra khi tạo giảm giá cho sản phẩm. Vui lòng thử lại",
   "There was a problem updating sale update. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái giảm giá. Vui lòng thử lại",
   "There was a problem updating status order. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái đơn hàng. Vui lòng thử lại",
-  "There was a problem process checkout. Please try again.": "Đã có lỗi xảy ra khi thay đổi xử lý đơn hàng. Vui lòng thử lại"
+  "There was a problem process checkout. Please try again.": "Đã có lỗi xảy ra khi thay đổi xử lý đơn hàng. Vui lòng thử lại",
+  "There was a problem update product quantity in cart. Please try again.": "Đã có lỗi xảy ra khi thay đổi số lượng sản phẩm trong giỏ hàng. Vui lòng thử lại",
+  "There was a problem apply coupon. Please try again.": "Đã có lỗi xảy ra khi sử dụng mã giảm giá. Vui lòng thử lại",
+  "There was a problem delete coupon from cart. Please try again.": "Đã có lỗi xảy ra khi xoá mã giảm giá khỏi giỏ hàng. Vui lòng thử lại",
+  "There was a problem updating coupon active. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái mã giảm giá. Vui lòng thử lại",
+  "There was a problem updating customer. Please try again.": "Đã có lỗi xảy ra khi thay đổi thông tin khách hàng. Vui lòng thử lại",
+  "There was a problem deleting customer. Please try again.": "Đã có lỗi xảy ra khi xoá thông tin khách hàng. Vui lòng thử lại"
 }

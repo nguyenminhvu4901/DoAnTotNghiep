@@ -3,6 +3,9 @@
 @section('title', __('Update image product'))
 
 @section('content')
+    <div class="fade-in">
+        @include('includes.partials.messages')
+    </div><!--fade-in-->
     <div class="mt-4 p-3 container">
         <div class="p-3 pl-2 font-weight-bold">
             <h3><strong>@lang('Update image product')</strong></h3>

@@ -45,8 +45,8 @@ class UserService extends BaseService
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
             ->whereHas('roles', function ($query) {
-                $query->where('name',User::ROLE_CUSTOMER);
-        })
+                $query->where('name', User::ROLE_CUSTOMER);
+            })
             ->latest('id')->paginate(config('constants.paginate'));
     }
 
@@ -64,9 +64,17 @@ class UserService extends BaseService
 
     public function customerDelete($customerId)
     {
-        $customer = $this->model->findOrFail($customerId);
+        DB::beginTransaction();
+        try {
+            $customer = $this->model->findOrFail($customerId);
 
-        $this->delete($customer);
+            $this->delete($customer);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem deleting customer. Please try again.'));
+        }
     }
 
     public function searchWithTrash(array $data = [])
@@ -129,21 +137,30 @@ class UserService extends BaseService
      */
     public function updateUserFromMemberData(User $user, array $data = []): User
     {
-        $updateData = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-        ];
+        DB::beginTransaction();
+        try {
+            $updateData = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+            ];
 
-        if (!$data['password']) {
-            unset($data['password']);
-        } else {
-            $this->updatePassword($user, $data);
-            $this->sessionService->removeUserSession($user->id);
+            if (!$data['password']) {
+                unset($data['password']);
+            } else {
+                $this->updatePassword($user, $data);
+                $this->sessionService->removeUserSession($user->id);
+            }
+
+            $user->update($updateData);
+
+            DB::commit();
+
+            return $user;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new GeneralException(__('There was a problem updating customer. Please try again.'));
         }
-
-        $user->update($updateData);
-
-        return $user;
     }
 
     /**
