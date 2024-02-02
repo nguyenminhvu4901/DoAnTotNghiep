@@ -80,7 +80,6 @@ class CartController extends Controller
     public function applyCoupon(ApplyCouponRequest $request)
     {
         if (isset($request->coupon_code) && $request->old_coupon_name == null) {
-
             $coupon = $this->cartService->checkCouponUnusedUserAndStillExpiryDate($request->coupon_code);
 
             if ($coupon instanceof Coupon) {
@@ -98,10 +97,16 @@ class CartController extends Controller
             }
         } //Click x to delete coupon from cart 
         else if (isset($request->old_coupon_name) && $request->coupon_code == null && isset($request->checkDelete) && $request->checkDelete) {
+
             $coupon = $this->cartService->getCouponByName($request->old_coupon_name);
 
             if ($coupon instanceof Coupon) {
                 $this->cartService->deleteCouponFromCart($request->old_coupon_name);
+                Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+
+                return redirect()->route('frontend.carts.index')
+                    ->withFlashSuccess(__('Successfully deleted coupon code.'));
+            } else {
                 Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
 
                 return redirect()->route('frontend.carts.index')
@@ -132,7 +137,7 @@ class CartController extends Controller
         else if (isset($request->old_coupon_name) && isset($request->coupon_code) && $request->coupon_code == $request->old_coupon_name) {
             return redirect()->route('frontend.carts.index')->withFlashWarning(__('The coupon is being used.'));
         } else {
-            return redirect()->route('frontend.carts.index');
+            return redirect()->route('frontend.carts.index')->withFlashWarning(__('Please try again.'));
         }
     }
 }

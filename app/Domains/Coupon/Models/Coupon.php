@@ -20,8 +20,7 @@ class Coupon extends Model
         HasSlug,
         CouponScope,
         CouponAttribute,
-        CouponRelationship,
-        SoftDeletes;
+        CouponRelationship;
 
     protected $table = "coupons";
 
@@ -36,9 +35,6 @@ class Coupon extends Model
         'description',
         'is_active'
     ];
-
-    protected $dates = ['deleted_at'];
-
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()

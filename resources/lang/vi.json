@@ -608,5 +608,7 @@
   "There was a problem delete coupon from cart. Please try again.": "Đã có lỗi xảy ra khi xoá mã giảm giá khỏi giỏ hàng. Vui lòng thử lại",
   "There was a problem updating coupon active. Please try again.": "Đã có lỗi xảy ra khi thay đổi trạng thái mã giảm giá. Vui lòng thử lại",
   "There was a problem updating customer. Please try again.": "Đã có lỗi xảy ra khi thay đổi thông tin khách hàng. Vui lòng thử lại",
-  "There was a problem deleting customer. Please try again.": "Đã có lỗi xảy ra khi xoá thông tin khách hàng. Vui lòng thử lại"
+  "There was a problem deleting customer. Please try again.": "Đã có lỗi xảy ra khi xoá thông tin khách hàng. Vui lòng thử lại",
+  "Please try again.": "Vui lòng thử lại",
+  "The coupon is being used.": "Mã giảm giá này đang được sử dụng"
 }
