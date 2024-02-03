@@ -90,11 +90,12 @@ class OrderController extends Controller
     {
         if (session()->has('data')) {
             $this->processCheckoutWhenPayingInCash(session('data'));
+
             Session::forget(['data']);
-            return view('frontend.pages.orders.sub-page.thanks-vnpay');
-        } else {
-            throw new GeneralException(__('There was a problem placing an order. Please try again.'));
         }
+
+        return view('frontend.pages.orders.sub-page.thanks-vnpay');
+
     }
 
     public function getWaitPayment(Request $request)
@@ -189,35 +190,26 @@ class OrderController extends Controller
 
     public function processCheckoutWhenPayingInCash($data = [])
     {
-        DB::beginTransaction();
-        try {
-            $addressOrder = $this->orderService->createAddressOrder($data);
+        $addressOrder = $this->orderService->createAddressOrder($data);
 
-            $couponOrderId = null;
+        $couponOrderId = null;
 
-            if (isset($data['couponId'])) {
-                $couponOrder = $this->orderService->createCouponOrder($data);
-                $couponOrderId = $couponOrder->id;
-            }
-
-            $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
-
-            $this->orderService->createProductOrder($data, $order->id);
-
-            //Delete cart
-            $this->orderService->deleteProductOrderSuccessInCart($data);
-
-            if (isset($data['couponId'])) {
-                $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
-                Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
-            }
-
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem process checkout. Please try again.'));
+        if (isset($data['couponId'])) {
+            $couponOrder = $this->orderService->createCouponOrder($data);
+            $couponOrderId = $couponOrder->id;
         }
+
+        $order = $this->orderService->createOrder($data, $addressOrder->id, $couponOrderId);
+        $this->orderService->createProductOrder($data, $order->id);
+
+        //Delete cart
+        $this->orderService->deleteProductOrderSuccessInCart($data);
+        if (isset($data['couponId'])) {
+            $this->orderService->updateUseCouponWhenOrderSuccessfully($data['couponId'], $order->id);
+            Session::forget(['coupon_id', 'coupon_name', 'coupon_type', 'coupon_value']);
+        }
+
+        return $order;
     }
 
     public function processCheckoutWhenPayingWithVnpay(Request $request)
