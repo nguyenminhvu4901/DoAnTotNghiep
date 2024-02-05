@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\Cart\Models\Cart;
+use App\Domains\Favourite\Models\Favourite;
 use Illuminate\Support\Collection;
 use Illuminate\Container\Container;
 use Illuminate\Pagination\Paginator;
@@ -372,7 +373,7 @@ if (!function_exists('countOrderExist')) {
      */
     function countOrderExist()
     {
-        if(auth()->user()->isAdmin())
+        if(auth()->user()->isAdmin() || auth()->user()->isRoleStaff())
         {
             return Order::where('status', '!=', '0')
                 ->where('status', '!=', '5')
@@ -418,5 +419,15 @@ if (!function_exists('formatDateYMD')) {
     {
         $format = $isDateType ? 'Y-m-d' : 'Y-m-d H:i:s';
         return $time ? date($format, strtotime($time)) : null;
+    }
+}
+
+if (!function_exists('countFavouriteProduct')) {
+    /**
+     * @return array
+     */
+    function countFavouriteProduct()
+    {
+        return Favourite::where('user_id', auth()->user()->id)->count();
     }
 }

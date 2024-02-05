@@ -611,5 +611,11 @@
   "There was a problem deleting customer. Please try again.": "Đã có lỗi xảy ra khi xoá thông tin khách hàng. Vui lòng thử lại",
   "Please try again.": "Vui lòng thử lại",
   "The coupon is being used.": "Mã giảm giá này đang được sử dụng",
-  "There was a problem placing an order. Please try again.": "Đã xảy ra sự cố khi đặt hàng. Vui lòng thử lại."
+  "There was a problem placing an order. Please try again.": "Đã xảy ra sự cố khi đặt hàng. Vui lòng thử lại.",
+  "There was a problem add product to favourite. Please try again.": "Đã xảy ra sự cố khi thêm sản phẩm vào mục yêu thích. Vui lòng thử lại.",
+  "Added product to favorites successfully": "Đã thêm sản phẩm vào mục yêu thích",
+  "The product already exists in favorites.": "Sản phẩm đã tồn tại trong mục yêu thích.",
+  "Delete products into favorites successfully": "Xoá sản phẩm yêu thích thành công",
+  "FAVOURITE": "SẢN PHẨM YÊU THÍCH",
+  "An error occurred while deleting a favorite product": "Đã xảy ra lỗi khi xóa sản phẩm yêu thích"
 }
