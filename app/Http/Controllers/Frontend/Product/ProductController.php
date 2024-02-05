@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Product;
 
 use App\Domains\Cart\Services\CartService;
+use App\Domains\Favourite\Services\FavouriteService;
 use App\Domains\ProductDetail\Models\ProductDetail;
 use App\Exceptions\GeneralException;
 use Exception;
@@ -22,16 +23,19 @@ class ProductController extends Controller
     protected ProductService $productService;
     protected CategoryService $categoryService;
     protected CartService $cartService;
+    protected FavouriteService $favouriteService;
 
     public function __construct(
-        ProductService  $productService,
-        CategoryService $categoryService,
-        CartService     $cartService
+        ProductService   $productService,
+        CategoryService  $categoryService,
+        CartService      $cartService,
+        FavouriteService $favouriteService
     )
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
         $this->cartService = $cartService;
+        $this->favouriteService = $favouriteService;
     }
 
     public function index(Request $request)
@@ -105,30 +109,31 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        DB::beginTransaction();
-        try {
-            $product = $this->productService->getById($id);
+        $product = $this->productService->getById($id);
 
-            if (!$product->productDetail->isEmpty()) {
+        if (!$product->productDetail->isEmpty()) {
+            foreach ($product->productDetail as $productDetail) {
+                $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
 
-                foreach ($product->productDetail as $productDetail) {
-                    $productInCart = $this->cartService->getProductInCartByProductDetailId($productDetail->id);
-
-                    if (!$productInCart->isEmpty()) {
-                        $this->cartService->deleteProductFromCart($productDetail->id);
-                    }
+                if (!$productInCart->isEmpty()) {
+                    $this->cartService->deleteProductFromCart($productDetail->id);
                 }
             }
-
-            $this->productService->delete($product);
-
-            DB::commit();
-            return redirect(route('frontend.products.index'))->withFlashSuccess(__('Successfully deleted.'));
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            throw new GeneralException(__('There was a problem deleting product. Please try again.'));
         }
+
+        if (!$product->favourite->isEmpty()) {
+            foreach ($product->favourite as $productFavourite) {
+                $productInFavourite = $this->favouriteService->getProductInFavouriteByProductId($productFavourite->product_id);
+
+                if (!$productInFavourite->isEmpty()) {
+                    $this->favouriteService->deleteProductIntoFavourite($id);
+                }
+            }
+        }
+
+        $this->productService->delete($product);
+
+        return redirect()->route('frontend.products.index')->withFlashSuccess(__('Successfully deleted.'));
     }
 
     public function getAllProductInTrash(Request $request)

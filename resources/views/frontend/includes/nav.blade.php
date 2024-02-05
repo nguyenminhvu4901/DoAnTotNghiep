@@ -14,9 +14,33 @@
                 @if (config('boilerplate.locale.status') && count(config('boilerplate.locale.languages')) > 1)
                     @if(auth()->user()->isRoleCustomer())
                         <li class="nav-item">
+                            <a href="{{ route('frontend.favourites.index') }}" class="nav-link" style="height: 100%;">
+                                <i class="fas fa-heart align-middle"
+                                   @if(isCurrentRouteInRoutes('frontend.favourites.index'))
+                                       style="color: #E4774BFF;"
+                                        @endif
+                                >
+                                </i>
+                                <span class="align-middle"> {{ countFavouriteProduct() ?? 0 }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('frontend.carts.index') }}" class="nav-link" style="height: 100%;">
-                                <i class="fas fa-shopping-cart align-middle"></i>
+                                <i class="fas fa-shopping-cart align-middle"
+                                   @if(isCurrentRouteInRoutes('frontend.carts.index'))
+                                       style="color: #E4774BFF;"
+                                        @endif></i>
                                 <span class="align-middle"> {{ countProductInCart() ?? 0 }}</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.orders.index') }}" class="nav-link" style="height: 100%;">
+                                <i class="fas fa-shipping-fast align-middle"
+                                   @if(isCurrentRouteInRoutes('frontend.orders.index'))
+                                       style="color: #E4774BFF;"
+                                        @endif></i>
+                                <span class="align-middle"> {{ countOrderExist() ?? 0 }}</span>
                             </a>
                         </li>
                     @endif

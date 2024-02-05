@@ -6,7 +6,11 @@
     <div class="fade-in">
         @include('includes.partials.messages')
     </div><!--fade-in-->
-
+    <input type="hidden" class="sub-js" data-sub="{{ json_encode([
+        'success' => __('Status update successful.'),
+        'unsuccess' => __('An error occurred, please try again.'),
+        'done5' => __('The order has been successfully delivered, so you cannot update')
+    ]) }}">
     <!-- Hero Section Begin -->
     <section>
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: initial">
@@ -18,16 +22,20 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner1.jpg') }}" alt="First slide">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner1.jpg') }}"
+                         alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src=" {{ asset('storage/images/dashboard/banner/banner2.jpg') }}" alt="Second slide">
+                    <img class="d-block w-100" src=" {{ asset('storage/images/dashboard/banner/banner2.jpg') }}"
+                         alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner3.jpg') }}" alt="Third slide">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner3.jpg') }}"
+                         alt="Third slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner4.jpg') }}" alt="Third slide">
+                    <img class="d-block w-100" src="{{ asset('storage/images/dashboard/banner/banner4.jpg') }}"
+                         alt="Third slide">
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -77,9 +85,35 @@
                                                 ? $product->productImages->first()->getImageUrlAttribute()
                                                 : asset('storage/images/products/default/ProductImageDefault.jpg') }}">
                                         <ul class="featured__item__pic__hover">
+                                            @auth
+                                                @if($product->favourite->isEmpty())
+                                                    <li>
+                                                        <form action="{{ route('frontend.favourites.addToFavourite', ['product_id' => $product->id]) }}"
+                                                              method="POST">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <button type="submit">
+                                                                <i class="fa fa-heart"></i>
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <form action="{{ route('frontend.favourites.deleteFavourite', ['product_id' => $product->id]) }}"
+                                                              method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit">
+                                                                <i class="fas fa-heart-broken"></i>
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                @endif
+                                            @endauth
                                             <li>
                                                 <a href="{{ route('frontend.dashboard.products.detail', ['id' => $product->id]) }}"><i
-                                                            class="fa fa-shopping-cart"></i></a></li>
+                                                            class="fa fa-shopping-cart"></i></a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">
@@ -212,7 +246,7 @@
                                     <div class="featured__item__pic set-bg"
                                          data-setbg="{{ asset('storage/images/coupons/default/voucher.png') }}">
                                         <ul class="featured__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">

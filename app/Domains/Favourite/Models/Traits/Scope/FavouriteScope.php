@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Domains\Product\Models\Traits\Scope;
+namespace App\Domains\Favourite\Models\Traits\Scope;
 
-use App\Domains\Product\Models\Product;
-use Illuminate\Support\Facades\Log;
-
-trait ProductScope
+trait FavouriteScope
 {
     /**
      * @param $query
@@ -14,7 +11,9 @@ trait ProductScope
      */
     public function scopeSearch($query, $term): mixed
     {
-        return $query->where(fn($query) => $query->where('name', 'like', '%' . $term . '%'));
+        return $query->whereHas('product', function ($query) use ($term) {
+            $query->where('name', 'like', '%' . $term . '%');
+        });
     }
 
     /**
@@ -25,7 +24,7 @@ trait ProductScope
      */
     public function scopeFilterByCategories($query, $categories, $operator = null)
     {
-        return $query->whereHas('categories', function ($query) use ($categories) {
+        return $query->whereHas('product.categories', function ($query) use ($categories) {
             $query->whereIn('categories.slug', $categories);
         });
     }
@@ -38,7 +37,7 @@ trait ProductScope
      */
     public function scopeFilterByColors($query, $colorName, $operator = null)
     {
-        return $query->whereHas('productDetail', function ($query) use ($colorName) {
+        return $query->whereHas('product.productDetail', function ($query) use ($colorName) {
             $query->whereIn('product_detail.color', $colorName);
         });
     }
@@ -51,7 +50,7 @@ trait ProductScope
      */
     public function scopeFilterBySizes($query, $sizeName, $operator = null)
     {
-        return $query->whereHas('productDetail', function ($query) use ($sizeName) {
+        return $query->whereHas('product.productDetail', function ($query) use ($sizeName) {
             $query->whereIn('product_detail.size', $sizeName);
         });
     }
@@ -65,7 +64,7 @@ trait ProductScope
     public function scopeFilterProductDashboardByCategories($query, string $category, $operator = null)
     {
         return $category == "all" ? $query :
-            $query->whereHas('categories', function ($query) use ($category) {
+            $query->whereHas('product.categories', function ($query) use ($category) {
                 $query->where('categories.slug', $category);
             });
     }
@@ -99,7 +98,7 @@ trait ProductScope
 
     public function scopeFilterByRangePrice($query, $minPrice = 0, $maxPrice = 9999999999)
     {
-        return $query->whereHas('productDetail', function ($query) use ($minPrice, $maxPrice) {
+        return $query->whereHas('product.productDetail', function ($query) use ($minPrice, $maxPrice) {
             $query->whereBetween('price', [$minPrice, $maxPrice]);
         });
     }

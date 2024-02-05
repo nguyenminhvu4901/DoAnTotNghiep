@@ -2,6 +2,7 @@
 
 namespace App\Domains\Product\Models\Traits\Relationship;
 
+use App\Domains\Favourite\Models\Favourite;
 use App\Domains\ProductOrder\Models\ProductOrder;
 use Carbon\Carbon;
 use App\Domains\Auth\Models\User;
@@ -23,6 +24,12 @@ trait ProductRelationship
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id', 'id');
+    }
+
+    public function favourite(): HasMany
+    {
+        return $this->hasMany(Favourite::class, 'product_id', 'id')
+            ->where('user_id', auth()->user()->id);
     }
 
     public function categories(): BelongsToMany
