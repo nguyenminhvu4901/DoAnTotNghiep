@@ -40,6 +40,7 @@ class FavouriteService extends BaseService
     public function search(array $data = [])
     {
         return $this->model->search($this->escapeSpecialCharacter($data['search'] ?? ''))
+            ->where('user_id', auth()->user()->id)
             ->when(isset($data['categories']), function ($query) use ($data) {
                 $query->filterByCategories($data['categories']);
             })

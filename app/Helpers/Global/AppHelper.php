@@ -383,7 +383,6 @@ if (!function_exists('countOrderExist')) {
                     ->where('status', '!=', '0')
                     ->where('status', '!=', '5')->count();
         }
-
     }
 }
 
